@@ -11,7 +11,7 @@
              userid="${postgresql.user}"
              password="${postgresql.password}"
              autocommit="True"
-             src="db/create-db.sql">
+             src="${db.dir}/create-db.sql">
         </sql>
 
     </target>
@@ -24,7 +24,7 @@
              userid="${postgresql.user}"
              password="${postgresql.password}"
              autocommit="True"
-             src="db/init-db.sql">
+             src="${db.dir}/init-db.sql">
         </sql>
 
     </target>
@@ -37,7 +37,7 @@
              userid="${postgresql.user}"
              password="${postgresql.password}"
              autocommit="True"
-             src="db/populate-db.sql">
+             src="${db.dir}/populate-db.sql">
         </sql>
 
     </target>

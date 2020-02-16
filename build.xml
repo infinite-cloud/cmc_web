@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project basedir="." default="init-db" name="bookstore">
 
-	<property name="db.dir" value="db"/>
+	<property file="build.properties"/>
 
 	<target name="init-db">
 
