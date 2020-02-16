@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project basedir="." default="init-db" name="bookstore">
+
+	<property name="db.dir" value="db"/>
+
+	<target name="init-db">
+
+		<ant antfile="${db.dir}/build.xml"/>
+
+	</target>
+
+</project>
