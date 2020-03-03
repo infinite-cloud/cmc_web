@@ -13,8 +13,12 @@
     </facet>
     <facet type="hibernate" name="Hibernate">
       <configuration>
-        <datasource-map />
-        <naming-strategy-map />
+        <datasource-map>
+          <unit-entry name="hibernate.cfg.xml" value="21b227d3-0058-4d65-9579-030f8f4e599c" />
+        </datasource-map>
+        <naming-strategy-map>
+          <unit-entry name="hibernate.cfg.xml" />
+        </naming-strategy-map>
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/hibernate.cfg.xml" />
       </configuration>
     </facet>
