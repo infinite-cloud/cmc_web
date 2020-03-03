@@ -26,6 +26,7 @@
 
         <!-- Mapping files -->
         <mapping resource="entity/mapping/Author.hbm.xml"/>
+        <mapping resource="entity/mapping/Account.hbm.xml"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
