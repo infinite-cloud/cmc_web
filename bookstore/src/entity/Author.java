@@ -1,7 +1,7 @@
 package entity;
 
 public class Author {
-    private int id;
+    private int authorID;
     private String authorName;
 
     public Author() {}
@@ -9,11 +9,11 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public int getId() {
-        return id;
+    public int getAuthorID() {
+        return authorID;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setAuthorID(int authorID) {
+        this.authorID = authorID;
     }
     public String getAuthorName() {
         return authorName;

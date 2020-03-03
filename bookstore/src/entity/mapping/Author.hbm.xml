@@ -10,7 +10,7 @@
             This class contains the author list.
         </meta>
 
-        <id name="id" type="int" column="author_id">
+        <id name="authorID" type="int" column="author_id">
             <generator class="native"/>
         </id>
 
