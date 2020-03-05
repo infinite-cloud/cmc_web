@@ -12,7 +12,7 @@ public class PurchaseEntity {
     private Timestamp orderDate;
     private String deliveryAddress;
     private Timestamp deliveryDate;
-    private BigInteger totalPrice;
+    private double totalPrice;
     private String orderStatus;
     private int userId;
 
@@ -58,11 +58,11 @@ public class PurchaseEntity {
 
     @Basic
     @Column(name = "total_price", nullable = false, precision = 0)
-    public BigInteger getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigInteger totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

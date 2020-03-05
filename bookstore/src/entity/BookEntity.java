@@ -12,7 +12,7 @@ public class BookEntity {
     private String bookName;
     private Date publicationDate;
     private int pageCount;
-    private BigInteger bookPrice;
+    private double bookPrice;
     private int availableCount;
     private String description;
     private int publisherId;
@@ -61,11 +61,11 @@ public class BookEntity {
 
     @Basic
     @Column(name = "book_price", nullable = false, precision = 0)
-    public BigInteger getBookPrice() {
+    public double getBookPrice() {
         return bookPrice;
     }
 
-    public void setBookPrice(BigInteger bookPrice) {
+    public void setBookPrice(double bookPrice) {
         this.bookPrice = bookPrice;
     }
 
