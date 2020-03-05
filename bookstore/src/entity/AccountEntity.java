@@ -6,16 +6,35 @@ import java.util.Objects;
 @Entity
 @Table(name = "account", schema = "public", catalog = "bookstore")
 public class AccountEntity {
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
     private int userId;
+
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 120)
     private String userName;
+
+    @Basic
+    @Column(name = "home_address", nullable = true, length = -1)
     private String homeAddress;
+
+    @Basic
+    @Column(name = "phone_number", nullable = true, length = 60)
     private String phoneNumber;
+
+    @Basic
+    @Column(name = "e_mail", nullable = false, length = 120)
     private String eMail;
+
+    @Basic
+    @Column(name = "password_hash", nullable = false, length = 44)
     private String passwordHash;
+
+    @Basic
+    @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
 
-    @Id
-    @Column(name = "user_id", nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -24,8 +43,6 @@ public class AccountEntity {
         this.userId = userId;
     }
 
-    @Basic
-    @Column(name = "user_name", nullable = false, length = 120)
     public String getUserName() {
         return userName;
     }
@@ -34,8 +51,6 @@ public class AccountEntity {
         this.userName = userName;
     }
 
-    @Basic
-    @Column(name = "home_address", nullable = true, length = -1)
     public String getHomeAddress() {
         return homeAddress;
     }
@@ -44,8 +59,6 @@ public class AccountEntity {
         this.homeAddress = homeAddress;
     }
 
-    @Basic
-    @Column(name = "phone_number", nullable = true, length = 60)
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -54,8 +67,6 @@ public class AccountEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    @Basic
-    @Column(name = "e_mail", nullable = false, length = 120)
     public String geteMail() {
         return eMail;
     }
@@ -64,8 +75,6 @@ public class AccountEntity {
         this.eMail = eMail;
     }
 
-    @Basic
-    @Column(name = "password_hash", nullable = false, length = 44)
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -74,8 +83,6 @@ public class AccountEntity {
         this.passwordHash = passwordHash;
     }
 
-    @Basic
-    @Column(name = "is_admin", nullable = false)
     public boolean isAdmin() {
         return isAdmin;
     }

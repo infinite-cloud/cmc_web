@@ -7,12 +7,20 @@ import java.util.Objects;
 @Entity
 @Table(name = "ordered_book", schema = "public", catalog = "bookstore")
 public class OrderedBookEntity implements Serializable {
-    private int bookCount;
-    private int orderId;
-    private int bookId;
-
     @Basic
     @Column(name = "book_count", nullable = false)
+    private int bookCount;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private PurchaseEntity orderId;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private BookEntity bookId;
+
     public int getBookCount() {
         return bookCount;
     }
@@ -34,23 +42,19 @@ public class OrderedBookEntity implements Serializable {
         return Objects.hash(bookCount);
     }
 
-    @Id
-    @Column(name = "order_id", nullable = false)
-    public int getOrderId() {
+    public PurchaseEntity getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(PurchaseEntity orderId) {
         this.orderId = orderId;
     }
 
-    @Id
-    @Column(name = "book_id", nullable = false)
-    public int getBookId() {
+    public BookEntity getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(BookEntity bookId) {
         this.bookId = bookId;
     }
 }

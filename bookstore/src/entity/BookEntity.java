@@ -1,26 +1,53 @@
 package entity;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "book", schema = "public", catalog = "bookstore")
 public class BookEntity {
-    private int bookId;
-    private String bookName;
-    private Date publicationDate;
-    private int pageCount;
-    private double bookPrice;
-    private int availableCount;
-    private String description;
-    private int publisherId;
-    private int genreId;
-    private int coverTypeId;
-
     @Id
-    @Column(name = "book_id", nullable = false)
+    @GeneratedValue
+    @Column(name = "book_id")
+    private int bookId;
+
+    @Basic
+    @Column(name = "book_name", nullable = false, length = 240)
+    private String bookName;
+
+    @Basic
+    @Column(name = "publication_date", nullable = false)
+    private Date publicationDate;
+
+    @Basic
+    @Column(name = "page_count", nullable = false)
+    private int pageCount;
+
+    @Basic
+    @Column(name = "book_price", nullable = false, precision = 0)
+    private double bookPrice;
+
+    @Basic
+    @Column(name = "available_count", nullable = false)
+    private int availableCount;
+
+    @Basic
+    @Column(name = "description", nullable = false, length = -1)
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "publisher_id", nullable = false)
+    private PublisherEntity publisherId;
+
+    @OneToOne
+    @JoinColumn(name = "genre_id", nullable = false)
+    private GenreEntity genreId;
+
+    @OneToOne
+    @JoinColumn(name = "cover_type_id", nullable = false)
+    private CoverTypeEntity coverTypeId;
+
     public int getBookId() {
         return bookId;
     }
@@ -29,8 +56,6 @@ public class BookEntity {
         this.bookId = bookId;
     }
 
-    @Basic
-    @Column(name = "book_name", nullable = false, length = 240)
     public String getBookName() {
         return bookName;
     }
@@ -39,8 +64,6 @@ public class BookEntity {
         this.bookName = bookName;
     }
 
-    @Basic
-    @Column(name = "publication_date", nullable = false)
     public Date getPublicationDate() {
         return publicationDate;
     }
@@ -49,8 +72,6 @@ public class BookEntity {
         this.publicationDate = publicationDate;
     }
 
-    @Basic
-    @Column(name = "page_count", nullable = false)
     public int getPageCount() {
         return pageCount;
     }
@@ -59,8 +80,6 @@ public class BookEntity {
         this.pageCount = pageCount;
     }
 
-    @Basic
-    @Column(name = "book_price", nullable = false, precision = 0)
     public double getBookPrice() {
         return bookPrice;
     }
@@ -69,8 +88,6 @@ public class BookEntity {
         this.bookPrice = bookPrice;
     }
 
-    @Basic
-    @Column(name = "available_count", nullable = false)
     public int getAvailableCount() {
         return availableCount;
     }
@@ -79,8 +96,6 @@ public class BookEntity {
         this.availableCount = availableCount;
     }
 
-    @Basic
-    @Column(name = "description", nullable = false, length = -1)
     public String getDescription() {
         return description;
     }
@@ -108,33 +123,27 @@ public class BookEntity {
         return Objects.hash(bookId, bookName, publicationDate, pageCount, bookPrice, availableCount, description);
     }
 
-    @Basic
-    @Column(name = "publisher_id", nullable = false)
-    public int getPublisherId() {
+    public PublisherEntity getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(int publisherId) {
+    public void setPublisherId(PublisherEntity publisherId) {
         this.publisherId = publisherId;
     }
 
-    @Basic
-    @Column(name = "genre_id", nullable = false)
-    public int getGenreId() {
+    public GenreEntity getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(int genreId) {
+    public void setGenreId(GenreEntity genreId) {
         this.genreId = genreId;
     }
 
-    @Basic
-    @Column(name = "cover_type_id", nullable = false)
-    public int getCoverTypeId() {
+    public CoverTypeEntity getCoverTypeId() {
         return coverTypeId;
     }
 
-    public void setCoverTypeId(int coverTypeId) {
+    public void setCoverTypeId(CoverTypeEntity coverTypeId) {
         this.coverTypeId = coverTypeId;
     }
 }

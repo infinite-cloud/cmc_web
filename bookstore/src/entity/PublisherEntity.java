@@ -6,11 +6,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "publisher", schema = "public", catalog = "bookstore")
 public class PublisherEntity {
+    @Id
+    @GeneratedValue
+    @Column(name = "publisher_id")
     private int publisherId;
+
+    @Basic
+    @Column(name = "publisher_name", nullable = false, length = 120)
     private String publisherName;
 
-    @Id
-    @Column(name = "publisher_id", nullable = false)
     public int getPublisherId() {
         return publisherId;
     }
@@ -19,8 +23,6 @@ public class PublisherEntity {
         this.publisherId = publisherId;
     }
 
-    @Basic
-    @Column(name = "publisher_name", nullable = false, length = 120)
     public String getPublisherName() {
         return publisherName;
     }

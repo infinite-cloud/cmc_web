@@ -1,23 +1,41 @@
 package entity;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "purchase", schema = "public", catalog = "bookstore")
 public class PurchaseEntity {
-    private int orderId;
-    private Timestamp orderDate;
-    private String deliveryAddress;
-    private Timestamp deliveryDate;
-    private double totalPrice;
-    private String orderStatus;
-    private int userId;
-
     @Id
-    @Column(name = "order_id", nullable = false)
+    @GeneratedValue
+    @Column(name = "order_id")
+    private int orderId;
+
+    @Basic
+    @Column(name = "order_date", nullable = false)
+    private Timestamp orderDate;
+
+    @Basic
+    @Column(name = "delivery_address", nullable = false, length = -1)
+    private String deliveryAddress;
+
+    @Basic
+    @Column(name = "delivery_date", nullable = false)
+    private Timestamp deliveryDate;
+
+    @Basic
+    @Column(name = "total_price", nullable = false, precision = 0)
+    private double totalPrice;
+
+    @Basic
+    @Column(name = "order_status", nullable = false)
+    private String orderStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private AccountEntity userId;
+
     public int getOrderId() {
         return orderId;
     }
@@ -26,8 +44,6 @@ public class PurchaseEntity {
         this.orderId = orderId;
     }
 
-    @Basic
-    @Column(name = "order_date", nullable = false)
     public Timestamp getOrderDate() {
         return orderDate;
     }
@@ -36,8 +52,6 @@ public class PurchaseEntity {
         this.orderDate = orderDate;
     }
 
-    @Basic
-    @Column(name = "delivery_address", nullable = false, length = -1)
     public String getDeliveryAddress() {
         return deliveryAddress;
     }
@@ -46,8 +60,6 @@ public class PurchaseEntity {
         this.deliveryAddress = deliveryAddress;
     }
 
-    @Basic
-    @Column(name = "delivery_date", nullable = false)
     public Timestamp getDeliveryDate() {
         return deliveryDate;
     }
@@ -56,8 +68,6 @@ public class PurchaseEntity {
         this.deliveryDate = deliveryDate;
     }
 
-    @Basic
-    @Column(name = "total_price", nullable = false, precision = 0)
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -66,8 +76,6 @@ public class PurchaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    @Basic
-    @Column(name = "order_status", nullable = false)
     public String getOrderStatus() {
         return orderStatus;
     }
@@ -94,13 +102,11 @@ public class PurchaseEntity {
         return Objects.hash(orderId, orderDate, deliveryAddress, deliveryDate, totalPrice, orderStatus);
     }
 
-    @Basic
-    @Column(name = "user_id", nullable = false)
-    public int getUserId() {
+    public AccountEntity getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(AccountEntity userId) {
         this.userId = userId;
     }
 }

@@ -7,26 +7,29 @@ import java.util.Objects;
 @Entity
 @Table(name = "book_author", schema = "public", catalog = "bookstore")
 public class BookAuthorEntity implements Serializable {
-    private int bookId;
-    private int authorId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private BookEntity bookId;
 
     @Id
-    @Column(name = "book_id", nullable = false)
-    public int getBookId() {
+    @OneToOne
+    @JoinColumn(name = "author_id")
+    private AuthorEntity authorId;
+
+    public BookEntity getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(BookEntity bookId) {
         this.bookId = bookId;
     }
 
-    @Id
-    @Column(name = "author_id", nullable = false)
-    public int getAuthorId() {
+    public AuthorEntity getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(AuthorEntity authorId) {
         this.authorId = authorId;
     }
 
