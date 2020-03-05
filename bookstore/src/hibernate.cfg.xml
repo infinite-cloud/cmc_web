@@ -8,26 +8,24 @@
             org.hibernate.dialect.PostgreSQL9Dialect
         </property>
 
-        <property name="connection.url">
-            jdbc:postgresql://localhost/bookstore
-        </property>
+        <property name="connection.url">jdbc:postgresql://localhost/bookstore</property>
 
-        <property name="connection.driver_class">
-            org.postgresql.Driver
-        </property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
 
-        <property name="connection.username">
-            user
-        </property>
+        <property name="connection.username">user</property>
 
-        <property name="connection.password">
-            password
-        </property>
+        <property name="connection.password">password</property>
 
-        <!-- Mapping files -->
-        <mapping resource="entity/mapping/Author.hbm.xml"/>
-        <mapping resource="entity/mapping/Account.hbm.xml"/>
-        <mapping resource="entity/mapping/Purchase.hbm.xml"/>
+        <!-- Mapping classes -->
+        <mapping class="entity.AccountEntity"/>
+        <mapping class="entity.AuthorEntity"/>
+        <mapping class="entity.BookEntity"/>
+        <mapping class="entity.CoverTypeEntity"/>
+        <mapping class="entity.GenreEntity"/>
+        <mapping class="entity.PublisherEntity"/>
+        <mapping class="entity.BookAuthorEntity"/>
+        <mapping class="entity.OrderedBookEntity"/>
+        <mapping class="entity.PurchaseEntity"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
