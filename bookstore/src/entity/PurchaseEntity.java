@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -35,6 +36,21 @@ public class PurchaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private AccountEntity userId;
+
+    public PurchaseEntity() {}
+
+    public PurchaseEntity(int orderId, Timestamp orderDate,
+                          String deliveryAddress, Timestamp deliveryDate,
+                          double totalPrice, String orderStatus,
+                          AccountEntity userId) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.deliveryAddress = deliveryAddress;
+        this.deliveryDate = deliveryDate;
+        this.totalPrice = totalPrice;
+        this.orderStatus = orderStatus;
+        this.userId = userId;
+    }
 
     public int getOrderId() {
         return orderId;

@@ -15,6 +15,13 @@ public class CoverTypeEntity {
     @Column(name = "cover_type_name", nullable = false, length = 240)
     private String coverTypeName;
 
+    public CoverTypeEntity() {}
+
+    public CoverTypeEntity(int coverTypeId, String coverTypeName) {
+        this.coverTypeId = coverTypeId;
+        this.coverTypeName = coverTypeName;
+    }
+
     public int getCoverTypeId() {
         return coverTypeId;
     }

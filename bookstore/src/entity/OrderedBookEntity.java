@@ -21,6 +21,15 @@ public class OrderedBookEntity implements Serializable {
     @JoinColumn(name = "book_id")
     private BookEntity bookId;
 
+    public OrderedBookEntity() {}
+
+    public OrderedBookEntity(int bookCount, PurchaseEntity orderId,
+                             BookEntity bookId) {
+        this.bookCount = bookCount;
+        this.orderId = orderId;
+        this.bookId = bookId;
+    }
+
     public int getBookCount() {
         return bookCount;
     }

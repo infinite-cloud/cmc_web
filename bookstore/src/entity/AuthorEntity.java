@@ -15,6 +15,13 @@ public class AuthorEntity {
     @Column(name = "author_name", nullable = false, length = 120)
     private String authorName;
 
+    public AuthorEntity() {}
+
+    public AuthorEntity(int authorId, String authorName) {
+        this.authorId = authorId;
+        this.authorName = authorName;
+    }
+
     public int getAuthorId() {
         return authorId;
     }

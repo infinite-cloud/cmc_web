@@ -48,6 +48,24 @@ public class BookEntity {
     @JoinColumn(name = "cover_type_id", nullable = false)
     private CoverTypeEntity coverTypeId;
 
+    public BookEntity() {}
+
+    public BookEntity(int bookId, String bookName, Date publicationDate,
+                      int pageCount, double bookPrice, int availableCount,
+                      String description, PublisherEntity publisherId,
+                      GenreEntity genreId, CoverTypeEntity coverTypeId) {
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.publicationDate = publicationDate;
+        this.pageCount = pageCount;
+        this.bookPrice = bookPrice;
+        this.availableCount = availableCount;
+        this.description = description;
+        this.publisherId = publisherId;
+        this.genreId = genreId;
+        this.coverTypeId = coverTypeId;
+    }
+
     public int getBookId() {
         return bookId;
     }

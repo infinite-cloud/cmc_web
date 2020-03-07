@@ -35,6 +35,20 @@ public class AccountEntity {
     @Column(name = "is_admin", nullable = false)
     private boolean isAdmin;
 
+    public AccountEntity() {}
+
+    public AccountEntity(int userId, String userName, String homeAddress,
+                         String phoneNumber, String eMail, String passwordHash,
+                         boolean isAdmin) {
+        this.userId = userId;
+        this.userName = userName;
+        this.homeAddress = homeAddress;
+        this.phoneNumber = phoneNumber;
+        this.eMail = eMail;
+        this.passwordHash = passwordHash;
+        this.isAdmin = isAdmin;
+    }
+
     public int getUserId() {
         return userId;
     }

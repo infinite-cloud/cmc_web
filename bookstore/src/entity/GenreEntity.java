@@ -15,6 +15,13 @@ public class GenreEntity {
     @Column(name = "genre_name", nullable = false, length = 240)
     private String genreName;
 
+    public GenreEntity() {}
+
+    public GenreEntity(int genreId, String genreName) {
+        this.genreId = genreId;
+        this.genreName = genreName;
+    }
+
     public int getGenreId() {
         return genreId;
     }

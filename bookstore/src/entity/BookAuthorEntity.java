@@ -17,6 +17,13 @@ public class BookAuthorEntity implements Serializable {
     @JoinColumn(name = "author_id")
     private AuthorEntity authorId;
 
+    public BookAuthorEntity() {}
+
+    public BookAuthorEntity(BookEntity bookId, AuthorEntity authorId) {
+        this.bookId = bookId;
+        this.authorId = authorId;
+    }
+
     public BookEntity getBookId() {
         return bookId;
     }

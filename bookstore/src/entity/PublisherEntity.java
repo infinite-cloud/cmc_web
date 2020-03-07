@@ -15,6 +15,13 @@ public class PublisherEntity {
     @Column(name = "publisher_name", nullable = false, length = 120)
     private String publisherName;
 
+    public PublisherEntity() {}
+
+    public PublisherEntity(int publisherId, String publisherName) {
+        this.publisherId = publisherId;
+        this.publisherName = publisherName;
+    }
+
     public int getPublisherId() {
         return publisherId;
     }
