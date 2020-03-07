@@ -18,6 +18,10 @@ public class GenericDAO<T, ID extends Serializable> {
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
+    public Class<T> getPersistentClass() {
+        return persistentClass;
+    }
+
     public void setSession(Session session) {
         this.session = session;
     }
