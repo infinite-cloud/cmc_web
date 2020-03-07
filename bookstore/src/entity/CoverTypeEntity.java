@@ -9,7 +9,7 @@ public class CoverTypeEntity {
     @Id
     @GeneratedValue
     @Column(name = "cover_type_id")
-    private int coverTypeId;
+    private Long coverTypeId;
 
     @Basic
     @Column(name = "cover_type_name", nullable = false, length = 240)
@@ -17,16 +17,16 @@ public class CoverTypeEntity {
 
     public CoverTypeEntity() {}
 
-    public CoverTypeEntity(int coverTypeId, String coverTypeName) {
+    public CoverTypeEntity(Long coverTypeId, String coverTypeName) {
         this.coverTypeId = coverTypeId;
         this.coverTypeName = coverTypeName;
     }
 
-    public int getCoverTypeId() {
+    public Long getCoverTypeId() {
         return coverTypeId;
     }
 
-    public void setCoverTypeId(int coverTypeId) {
+    public void setCoverTypeId(Long coverTypeId) {
         this.coverTypeId = coverTypeId;
     }
 
@@ -43,7 +43,7 @@ public class CoverTypeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CoverTypeEntity that = (CoverTypeEntity) o;
-        return coverTypeId == that.coverTypeId &&
+        return Objects.equals(coverTypeId, that.coverTypeId) &&
                 Objects.equals(coverTypeName, that.coverTypeName);
     }
 

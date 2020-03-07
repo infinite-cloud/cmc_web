@@ -11,7 +11,7 @@ public class PurchaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "order_id")
-    private int orderId;
+    private Long orderId;
 
     @Basic
     @Column(name = "order_date", nullable = false)
@@ -27,7 +27,7 @@ public class PurchaseEntity {
 
     @Basic
     @Column(name = "total_price", nullable = false, precision = 0)
-    private double totalPrice;
+    private Double totalPrice;
 
     @Basic
     @Column(name = "order_status", nullable = false)
@@ -39,9 +39,9 @@ public class PurchaseEntity {
 
     public PurchaseEntity() {}
 
-    public PurchaseEntity(int orderId, Timestamp orderDate,
+    public PurchaseEntity(Long orderId, Timestamp orderDate,
                           String deliveryAddress, Timestamp deliveryDate,
-                          double totalPrice, String orderStatus,
+                          Double totalPrice, String orderStatus,
                           AccountEntity userId) {
         this.orderId = orderId;
         this.orderDate = orderDate;
@@ -52,11 +52,11 @@ public class PurchaseEntity {
         this.userId = userId;
     }
 
-    public int getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -84,11 +84,11 @@ public class PurchaseEntity {
         this.deliveryDate = deliveryDate;
     }
 
-    public double getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

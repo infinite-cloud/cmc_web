@@ -9,7 +9,7 @@ public class PublisherEntity {
     @Id
     @GeneratedValue
     @Column(name = "publisher_id")
-    private int publisherId;
+    private Long publisherId;
 
     @Basic
     @Column(name = "publisher_name", nullable = false, length = 120)
@@ -17,16 +17,16 @@ public class PublisherEntity {
 
     public PublisherEntity() {}
 
-    public PublisherEntity(int publisherId, String publisherName) {
+    public PublisherEntity(Long publisherId, String publisherName) {
         this.publisherId = publisherId;
         this.publisherName = publisherName;
     }
 
-    public int getPublisherId() {
+    public Long getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(int publisherId) {
+    public void setPublisherId(Long publisherId) {
         this.publisherId = publisherId;
     }
 
@@ -43,7 +43,7 @@ public class PublisherEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PublisherEntity that = (PublisherEntity) o;
-        return publisherId == that.publisherId &&
+        return Objects.equals(publisherId, that.publisherId) &&
                 Objects.equals(publisherName, that.publisherName);
     }
 

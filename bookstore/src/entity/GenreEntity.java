@@ -9,7 +9,7 @@ public class GenreEntity {
     @Id
     @GeneratedValue
     @Column(name = "genre_id")
-    private int genreId;
+    private Long genreId;
 
     @Basic
     @Column(name = "genre_name", nullable = false, length = 240)
@@ -17,16 +17,16 @@ public class GenreEntity {
 
     public GenreEntity() {}
 
-    public GenreEntity(int genreId, String genreName) {
+    public GenreEntity(Long genreId, String genreName) {
         this.genreId = genreId;
         this.genreName = genreName;
     }
 
-    public int getGenreId() {
+    public Long getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(int genreId) {
+    public void setGenreId(Long genreId) {
         this.genreId = genreId;
     }
 
@@ -43,7 +43,7 @@ public class GenreEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GenreEntity that = (GenreEntity) o;
-        return genreId == that.genreId &&
+        return Objects.equals(genreId, that.genreId) &&
                 Objects.equals(genreName, that.genreName);
     }
 

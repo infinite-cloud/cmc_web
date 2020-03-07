@@ -9,32 +9,41 @@ import java.util.Objects;
 public class OrderedBookEntity implements Serializable {
     @Basic
     @Column(name = "book_count", nullable = false)
-    private int bookCount;
+    private Integer bookCount;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private PurchaseEntity orderId;
+    @EmbeddedId
+    private OrderedBookId id;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "book_id")
-    private BookEntity bookId;
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    private PurchaseEntity order;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    private BookEntity book;
 
     public OrderedBookEntity() {}
 
-    public OrderedBookEntity(int bookCount, PurchaseEntity orderId,
-                             BookEntity bookId) {
+    public OrderedBookEntity(Integer bookCount, PurchaseEntity order,
+                             BookEntity book) {
         this.bookCount = bookCount;
-        this.orderId = orderId;
-        this.bookId = bookId;
+        this.order = order;
+        this.book = book;
     }
 
-    public int getBookCount() {
+    public OrderedBookId getId() {
+        return id;
+    }
+
+    public void setId(OrderedBookId id) {
+        this.id = id;
+    }
+
+    public Integer getBookCount() {
         return bookCount;
     }
 
-    public void setBookCount(int bookCount) {
+    public void setBookCount(Integer bookCount) {
         this.bookCount = bookCount;
     }
 
@@ -51,19 +60,19 @@ public class OrderedBookEntity implements Serializable {
         return Objects.hash(bookCount);
     }
 
-    public PurchaseEntity getOrderId() {
-        return orderId;
+    public PurchaseEntity getOrder() {
+        return order;
     }
 
-    public void setOrderId(PurchaseEntity orderId) {
-        this.orderId = orderId;
+    public void setOrder(PurchaseEntity order) {
+        this.order = order;
     }
 
     public BookEntity getBookId() {
-        return bookId;
+        return book;
     }
 
     public void setBookId(BookEntity bookId) {
-        this.bookId = bookId;
+        this.book = book;
     }
 }

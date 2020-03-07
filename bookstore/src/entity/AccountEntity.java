@@ -9,7 +9,7 @@ public class AccountEntity {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
 
     @Basic
     @Column(name = "user_name", nullable = false, length = 120)
@@ -33,13 +33,13 @@ public class AccountEntity {
 
     @Basic
     @Column(name = "is_admin", nullable = false)
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
     public AccountEntity() {}
 
-    public AccountEntity(int userId, String userName, String homeAddress,
+    public AccountEntity(Long userId, String userName, String homeAddress,
                          String phoneNumber, String eMail, String passwordHash,
-                         boolean isAdmin) {
+                         Boolean isAdmin) {
         this.userId = userId;
         this.userName = userName;
         this.homeAddress = homeAddress;
@@ -49,11 +49,11 @@ public class AccountEntity {
         this.isAdmin = isAdmin;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -97,11 +97,11 @@ public class AccountEntity {
         this.passwordHash = passwordHash;
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
 
@@ -110,8 +110,8 @@ public class AccountEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountEntity that = (AccountEntity) o;
-        return userId == that.userId &&
-                isAdmin == that.isAdmin &&
+        return Objects.equals(userId, that.userId) &&
+                Objects.equals(isAdmin, that.isAdmin) &&
                 Objects.equals(userName, that.userName) &&
                 Objects.equals(homeAddress, that.homeAddress) &&
                 Objects.equals(phoneNumber, that.phoneNumber) &&

@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class BookEntity {
     @Id
     @GeneratedValue
     @Column(name = "book_id")
-    private int bookId;
+    private Long bookId;
 
     @Basic
     @Column(name = "book_name", nullable = false, length = 240)
@@ -22,15 +23,15 @@ public class BookEntity {
 
     @Basic
     @Column(name = "page_count", nullable = false)
-    private int pageCount;
+    private Integer pageCount;
 
     @Basic
     @Column(name = "book_price", nullable = false, precision = 0)
-    private double bookPrice;
+    private Double bookPrice;
 
     @Basic
     @Column(name = "available_count", nullable = false)
-    private int availableCount;
+    private Integer availableCount;
 
     @Basic
     @Column(name = "description", nullable = false, length = -1)
@@ -50,10 +51,11 @@ public class BookEntity {
 
     public BookEntity() {}
 
-    public BookEntity(int bookId, String bookName, Date publicationDate,
-                      int pageCount, double bookPrice, int availableCount,
-                      String description, PublisherEntity publisherId,
-                      GenreEntity genreId, CoverTypeEntity coverTypeId) {
+    public BookEntity(Long bookId, String bookName, Date publicationDate,
+                      Integer pageCount, Double bookPrice,
+                      Integer availableCount, String description,
+                      PublisherEntity publisherId, GenreEntity genreId,
+                      CoverTypeEntity coverTypeId) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.publicationDate = publicationDate;
@@ -66,11 +68,11 @@ public class BookEntity {
         this.coverTypeId = coverTypeId;
     }
 
-    public int getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
@@ -90,27 +92,27 @@ public class BookEntity {
         this.publicationDate = publicationDate;
     }
 
-    public int getPageCount() {
+    public Integer getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(int pageCount) {
+    public void setPageCount(Integer pageCount) {
         this.pageCount = pageCount;
     }
 
-    public double getBookPrice() {
+    public Double getBookPrice() {
         return bookPrice;
     }
 
-    public void setBookPrice(double bookPrice) {
+    public void setBookPrice(Double bookPrice) {
         this.bookPrice = bookPrice;
     }
 
-    public int getAvailableCount() {
+    public Integer getAvailableCount() {
         return availableCount;
     }
 
-    public void setAvailableCount(int availableCount) {
+    public void setAvailableCount(Integer availableCount) {
         this.availableCount = availableCount;
     }
 
@@ -127,9 +129,9 @@ public class BookEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookEntity that = (BookEntity) o;
-        return bookId == that.bookId &&
-                pageCount == that.pageCount &&
-                availableCount == that.availableCount &&
+        return Objects.equals(bookId, that.bookId) &&
+                Objects.equals(pageCount, that.pageCount) &&
+                Objects.equals(availableCount, that.availableCount) &&
                 Objects.equals(bookName, that.bookName) &&
                 Objects.equals(publicationDate, that.publicationDate) &&
                 Objects.equals(bookPrice, that.bookPrice) &&

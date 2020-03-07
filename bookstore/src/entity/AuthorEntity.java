@@ -9,7 +9,7 @@ public class AuthorEntity {
     @Id
     @GeneratedValue
     @Column(name = "author_id")
-    private int authorId;
+    private Long authorId;
 
     @Basic
     @Column(name = "author_name", nullable = false, length = 120)
@@ -17,16 +17,16 @@ public class AuthorEntity {
 
     public AuthorEntity() {}
 
-    public AuthorEntity(int authorId, String authorName) {
+    public AuthorEntity(Long authorId, String authorName) {
         this.authorId = authorId;
         this.authorName = authorName;
     }
 
-    public int getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 
@@ -43,7 +43,7 @@ public class AuthorEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuthorEntity that = (AuthorEntity) o;
-        return authorId == that.authorId &&
+        return Objects.equals(authorId, that.authorId) &&
                 Objects.equals(authorName, that.authorName);
     }
 

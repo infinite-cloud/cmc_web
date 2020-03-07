@@ -7,14 +7,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "book_author", schema = "public", catalog = "bookstore")
 public class BookAuthorEntity implements Serializable {
-    @Id
+    @EmbeddedId
+    BookAuthorId id;
+
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private BookEntity bookId;
 
-    @Id
     @OneToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", insertable = false, updatable = false)
     private AuthorEntity authorId;
 
     public BookAuthorEntity() {}
@@ -22,6 +23,14 @@ public class BookAuthorEntity implements Serializable {
     public BookAuthorEntity(BookEntity bookId, AuthorEntity authorId) {
         this.bookId = bookId;
         this.authorId = authorId;
+    }
+
+    public BookAuthorId getId() {
+        return id;
+    }
+
+    public void setId(BookAuthorId id) {
+        this.id = id;
     }
 
     public BookEntity getBookId() {
@@ -45,8 +54,8 @@ public class BookAuthorEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookAuthorEntity that = (BookAuthorEntity) o;
-        return bookId == that.bookId &&
-                authorId == that.authorId;
+        return Objects.equals(bookId, that.bookId) &&
+                Objects.equals(authorId, that.authorId);
     }
 
     @Override
