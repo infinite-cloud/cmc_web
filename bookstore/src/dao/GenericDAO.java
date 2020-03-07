@@ -31,10 +31,10 @@ public class GenericDAO<T, ID extends Serializable> {
     }
 
     public List<T> getAll() {
-        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<T> criteria = builder.createQuery(persistentClass);
         criteria.from(persistentClass);
-        List<T> data = session.createQuery(criteria).getResultList();
+        List<T> data = getSession().createQuery(criteria).getResultList();
         return data;
     }
 
