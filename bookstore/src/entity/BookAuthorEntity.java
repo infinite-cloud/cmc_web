@@ -20,7 +20,9 @@ public class BookAuthorEntity implements Serializable {
 
     public BookAuthorEntity() {}
 
-    public BookAuthorEntity(BookEntity bookId, AuthorEntity authorId) {
+    public BookAuthorEntity(BookAuthorId id, BookEntity bookId,
+                            AuthorEntity authorId) {
+        this.id = id;
         this.bookId = bookId;
         this.authorId = authorId;
     }
