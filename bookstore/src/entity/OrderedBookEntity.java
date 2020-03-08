@@ -26,6 +26,7 @@ public class OrderedBookEntity implements Serializable {
 
     public OrderedBookEntity(Integer bookCount, PurchaseEntity order,
                              BookEntity book) {
+        this.id = new OrderedBookId(order.getOrderId(), book.getBookId());
         this.bookCount = bookCount;
         this.order = order;
         this.book = book;
