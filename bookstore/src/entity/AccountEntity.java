@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "account", schema = "public", catalog = "bookstore")
 public class AccountEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -37,10 +37,9 @@ public class AccountEntity {
 
     public AccountEntity() {}
 
-    public AccountEntity(Long userId, String userName, String homeAddress,
+    public AccountEntity(String userName, String homeAddress,
                          String phoneNumber, String eMail, String passwordHash,
                          Boolean isAdmin) {
-        this.userId = userId;
         this.userName = userName;
         this.homeAddress = homeAddress;
         this.phoneNumber = phoneNumber;

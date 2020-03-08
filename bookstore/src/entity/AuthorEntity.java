@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "author", schema = "public", catalog = "bookstore")
 public class AuthorEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
     private Long authorId;
 
@@ -17,8 +17,7 @@ public class AuthorEntity {
 
     public AuthorEntity() {}
 
-    public AuthorEntity(Long authorId, String authorName) {
-        this.authorId = authorId;
+    public AuthorEntity(String authorName) {
         this.authorName = authorName;
     }
 

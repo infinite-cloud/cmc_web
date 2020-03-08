@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "book", schema = "public", catalog = "bookstore")
 public class BookEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long bookId;
 
@@ -51,12 +51,11 @@ public class BookEntity {
 
     public BookEntity() {}
 
-    public BookEntity(Long bookId, String bookName, Date publicationDate,
+    public BookEntity(String bookName, Date publicationDate,
                       Integer pageCount, Double bookPrice,
                       Integer availableCount, String description,
                       PublisherEntity publisherId, GenreEntity genreId,
                       CoverTypeEntity coverTypeId) {
-        this.bookId = bookId;
         this.bookName = bookName;
         this.publicationDate = publicationDate;
         this.pageCount = pageCount;
