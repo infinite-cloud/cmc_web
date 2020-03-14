@@ -1,13 +1,13 @@
 package daoimpl;
 
 import dao.GenericDAO;
-import entity.BookEntity;
-import entity.CoverTypeEntity;
-import entity.GenreEntity;
-import entity.PublisherEntity;
+import entity.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+import java.awt.print.Book;
 import java.sql.Date;
 import java.util.List;
 
@@ -89,5 +89,37 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
                         "AND e.coverTypeId.coverTypeId = :coverTypeId")
                 .setParameter("coverTypeId", coverTypeId);
         return query.getResultList();
+    }
+
+    public void save(BookEntity book, List<String> authorNames) {
+        if (authorNames.isEmpty()) {
+            return;
+        }
+
+        Session session = getSession();
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
+        authorDAO.setSession(session);
+        BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
+        bookAuthorDAO.setSession(session);
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        bookDAO.setSession(session);
+
+        Transaction tx = session.beginTransaction();
+        bookDAO.save(book);
+
+        for (String name : authorNames) {
+            AuthorEntity author;
+
+            if ((author = authorDAO.getByExactName(name)) == null) {
+                author = new AuthorEntity(name);
+                authorDAO.save(author);
+            }
+
+            if (!bookAuthorDAO.getBooksByAuthor(author).contains(book)) {
+                bookAuthorDAO.save(new BookAuthorEntity(book, author));
+            }
+        }
+
+        tx.commit();
     }
 }
