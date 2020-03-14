@@ -14,7 +14,7 @@ public class BookAuthorEntity implements Serializable {
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     private BookEntity bookId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "author_id", insertable = false, updatable = false)
     private AuthorEntity authorId;
 
