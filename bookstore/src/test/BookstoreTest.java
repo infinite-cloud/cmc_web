@@ -72,6 +72,7 @@ public class BookstoreTest {
         Transaction tx = testSession.beginTransaction();
 
         String eMail = "test@test.test";
+        Assert.assertNull(accountDAO.getByEMail(eMail));
         AccountEntity account = new AccountEntity();
         account.setUserName("Test");
         account.setHomeAddress("Test");
@@ -95,6 +96,7 @@ public class BookstoreTest {
 
         String eMail = "test@test.test";
         AccountEntity account = accountDAO.getByEMail(eMail);
+        Assert.assertNotNull(account);
         Long accountId = account.getUserId();
         account.setUserName("Update Test");
         accountDAO.update(account);
@@ -120,7 +122,9 @@ public class BookstoreTest {
         Transaction tx = testSession.beginTransaction();
 
         String eMail = "test@test.test";
-        accountDAO.delete(accountDAO.getByEMail(eMail));
+        AccountEntity account = accountDAO.getByEMail(eMail);
+        Assert.assertNotNull(account);
+        accountDAO.delete(account);
 
         tx.commit();
 
