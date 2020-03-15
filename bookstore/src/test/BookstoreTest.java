@@ -3,6 +3,7 @@ package test;
 import daoimpl.*;
 import entity.AccountEntity;
 import entity.AuthorEntity;
+import entity.BookAuthorId;
 import entity.BookEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -184,14 +185,12 @@ public class BookstoreTest {
     public void addBook() {
         BookDAOImpl bookDAO = new BookDAOImpl();
         bookDAO.setSession(testSession);
-        PublisherDAOImpl publisherDAO = new PublisherDAOImpl();
-        publisherDAO.setSession(testSession);
-        GenreDAOImpl genreDAO = new GenreDAOImpl();
-        genreDAO.setSession(testSession);
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
+        authorDAO.setSession(testSession);
 
         Transaction tx = testSession.beginTransaction();
 
-        List<String> authors = Arrays.asList("Test One", "Test Two");
+        List<String> authors = Arrays.asList("Пушкин Александр Сергеевич", "Test");
         BookEntity book = new BookEntity();
         book.setBookName("Test");
         book.setPublicationDate(Date.valueOf("2020-01-01"));
@@ -204,12 +203,30 @@ public class BookstoreTest {
 
         tx.commit();
 
-        BookEntity testBook = bookDAO.getById((long) 6);
-        Assert.assertEquals(testBook, book);
+        List<BookEntity> testBooks = bookDAO.getByName("Test");
+        Assert.assertEquals(testBooks.size(), 1);
+        Long bookId = testBooks.iterator().next().getBookId();
+        Assert.assertEquals(testBooks.iterator().next(), book);
 
         tx = testSession.beginTransaction();
 
         bookDAO.delete(book);
+
+        tx.commit();
+
+        BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
+        bookAuthorDAO.setSession(testSession);
+
+        Long authorId = authorDAO.getByExactName("Test").getAuthorId();
+
+        Assert.assertEquals(bookDAO.getByName("Test").size(), 0);
+        Assert.assertNull(bookAuthorDAO.getByCompositeId(bookId, authorId));
+        Assert.assertNull(bookAuthorDAO.getByCompositeId(bookId, (long) 1));
+
+        tx = testSession.beginTransaction();
+
+
+        authorDAO.delete(authorDAO.getByExactName("Test"));
 
         tx.commit();
     }
