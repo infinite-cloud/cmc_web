@@ -115,7 +115,6 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
         book.setGenreId(genreDAO.getById(genreId));
         book.setCoverTypeId(coverTypeDAO.getById(coverTypeId));
 
-        Transaction tx = session.beginTransaction();
         bookDAO.save(book);
 
         for (String name : authorNames) {
@@ -130,7 +129,19 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
                 bookAuthorDAO.save(new BookAuthorEntity(book, author));
             }
         }
+    }
 
-        tx.commit();
+    @Override
+    public void delete(BookEntity book) {
+        BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
+        bookAuthorDAO.setSession(getSession());
+
+        List<AuthorEntity> authors = bookAuthorDAO.getAuthorsByBook(book);
+
+        for (AuthorEntity a : authors) {
+            bookAuthorDAO.delete(bookAuthorDAO.getByCompositeId(book.getBookId(), a.getAuthorId()));
+        }
+
+        super.delete(book);
     }
 }

@@ -23,4 +23,14 @@ public class BookAuthorDAOImpl
                 .setParameter("authorId", author.getAuthorId());
         return query.getResultList();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<AuthorEntity> getAuthorsByBook(BookEntity book) {
+        TypedQuery<AuthorEntity> query = getSession().createQuery(
+                "SELECT e.authorId FROM BookAuthorEntity e " +
+                        "WHERE e.bookId = :book")
+                .setParameter("book", book);
+        return query.getResultList();
+
+    }
 }

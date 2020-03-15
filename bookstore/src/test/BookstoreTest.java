@@ -1,7 +1,9 @@
 package test;
 
-import daoimpl.AccountDAOImpl;
+import daoimpl.*;
 import entity.AccountEntity;
+import entity.AuthorEntity;
+import entity.BookEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.util.Arrays;
+import java.sql.Date;
 import java.util.List;
 
 public class BookstoreTest {
@@ -29,7 +32,7 @@ public class BookstoreTest {
         }
     }
 
-    @Test(priority = 0)
+    @Test(priority = 0, groups = "account")
     public void getAccount() {
         AccountDAOImpl accountDAO = new AccountDAOImpl();
         accountDAO.setSession(testSession);
@@ -64,7 +67,7 @@ public class BookstoreTest {
         Assert.assertNull(accountDAO.getByEMail("test@test.test"));
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, dependsOnMethods = "getAccount", groups = "account")
     public void addAccount() {
         AccountDAOImpl accountDAO = new AccountDAOImpl();
         accountDAO.setSession(testSession);
@@ -87,7 +90,7 @@ public class BookstoreTest {
         Assert.assertNotNull(accountDAO.getByEMail(eMail));
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, dependsOnMethods = "addAccount", groups = "account")
     public void updateAccount() {
         AccountDAOImpl accountDAO = new AccountDAOImpl();
         accountDAO.setSession(testSession);
@@ -114,7 +117,7 @@ public class BookstoreTest {
         Assert.assertFalse(account.isAdmin());
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods = "updateAccount", groups = "account")
     public void deleteAccount() {
         AccountDAOImpl accountDAO = new AccountDAOImpl();
         accountDAO.setSession(testSession);
@@ -129,6 +132,100 @@ public class BookstoreTest {
         tx.commit();
 
         Assert.assertNull(accountDAO.getByEMail(eMail));
+    }
+
+    @Test(priority = 0, groups = "book")
+    public void getBook() {
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        bookDAO.setSession(testSession);
+
+        List<BookEntity> books = bookDAO.getByPublicationDate(
+                Date.valueOf("2018-12-01"), Date.valueOf("2019-02-01"));
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 1));
+        books = bookDAO.getByPublicationDate(
+                Date.valueOf("2019-02-01"), Date.valueOf("2018-12-01"));
+        Assert.assertTrue(books.isEmpty());
+
+        Assert.assertTrue(bookDAO.getByName("Test").isEmpty());
+        books = bookDAO.getByName("Идиот");
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 2));
+
+        Assert.assertTrue(bookDAO.getByPageCount(0, -1).isEmpty());
+        books = bookDAO.getByPageCount(700, 800);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 4));
+
+        Assert.assertTrue(bookDAO.getByPrice(0., -1.).isEmpty());
+        books = bookDAO.getByPrice(100., 200.);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 5));
+
+        Assert.assertEquals(bookDAO.getByAvailability(false).size(), 0);
+
+        Assert.assertTrue(bookDAO.getByPublisherId((long) 12).isEmpty());
+        books = bookDAO.getByPublisherId((long) 1);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 5));
+
+        Assert.assertTrue(bookDAO.getByGenreId((long) 12).isEmpty());
+        books = bookDAO.getByGenreId((long) 1);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 3));
+
+        Assert.assertTrue(bookDAO.getByCoverTypeId((long) 12).isEmpty());
+        books = bookDAO.getByCoverTypeId((long) 1);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 4));
+    }
+
+    @Test(priority = 1, groups = "book", dependsOnGroups = "account")
+    public void addBook() {
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        bookDAO.setSession(testSession);
+        PublisherDAOImpl publisherDAO = new PublisherDAOImpl();
+        publisherDAO.setSession(testSession);
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
+        genreDAO.setSession(testSession);
+
+        Transaction tx = testSession.beginTransaction();
+
+        List<String> authors = Arrays.asList("Test One", "Test Two");
+        BookEntity book = new BookEntity();
+        book.setBookName("Test");
+        book.setPublicationDate(Date.valueOf("2020-01-01"));
+        book.setPageCount(100);
+        book.setBookPrice(100.);
+        book.setAvailableCount(1);
+        book.setDescription("TEST");
+
+        bookDAO.save(book, authors, (long) 1, (long) 1, (long) 1);
+
+        tx.commit();
+
+        BookEntity testBook = bookDAO.getById((long) 6);
+        Assert.assertEquals(testBook, book);
+
+        tx = testSession.beginTransaction();
+
+        bookDAO.delete(book);
+
+        tx.commit();
+    }
+
+    @Test(priority = 0, groups = "author")
+    public void getAuthor() {
+        AuthorDAOImpl authorDAO = new AuthorDAOImpl();
+        authorDAO.setSession(testSession);
+
+        Assert.assertTrue(authorDAO.getByName("Test").isEmpty());
+        Assert.assertEquals(authorDAO.getByName("").size(), 6);
+        List<AuthorEntity> authors = authorDAO.getByName("Пушкин");
+        Assert.assertEquals(authors.size(), 1);
+        Assert.assertEquals(authors.iterator().next(), authorDAO.getById((long) 1));
+        Assert.assertEquals(authors.iterator().next(), authorDAO.getByExactName("Пушкин Александр Сергеевич"));
+        Assert.assertNull(authorDAO.getByExactName("Толстой Лев Николаевич"));
     }
 
     @AfterSuite
