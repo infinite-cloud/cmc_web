@@ -5,14 +5,13 @@ import entity.BookEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class BookstoreTest {
     private SessionFactory testSessionFactory;
     private Session testSession;
 
-    @BeforeTest
+    @BeforeSuite
     public void setUpSession() {
         try {
             Configuration configuration = new Configuration();
@@ -23,5 +22,11 @@ public class BookstoreTest {
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError();
         }
+    }
+
+    @AfterSuite
+    public void shutDownSession() {
+        testSession.close();
+        testSessionFactory.close();
     }
 }
