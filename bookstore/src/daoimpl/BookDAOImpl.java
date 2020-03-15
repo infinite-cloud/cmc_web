@@ -91,18 +91,29 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
         return query.getResultList();
     }
 
-    public void save(BookEntity book, List<String> authorNames) {
+    public void save(BookEntity book, List<String> authorNames,
+                     Long publisherId, Long genreId, Long coverTypeId) {
         if (authorNames.isEmpty()) {
             return;
         }
 
         Session session = getSession();
         AuthorDAOImpl authorDAO = new AuthorDAOImpl();
-        authorDAO.setSession(session);
         BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
-        bookAuthorDAO.setSession(session);
         BookDAOImpl bookDAO = new BookDAOImpl();
+        PublisherDAOImpl publisherDAO = new PublisherDAOImpl();
+        GenreDAOImpl genreDAO = new GenreDAOImpl();
+        CoverTypeDAOImpl coverTypeDAO = new CoverTypeDAOImpl();
+        authorDAO.setSession(session);
+        bookAuthorDAO.setSession(session);
         bookDAO.setSession(session);
+        publisherDAO.setSession(session);
+        genreDAO.setSession(session);
+        coverTypeDAO.setSession(session);
+
+        book.setPublisherId(publisherDAO.getById(publisherId));
+        book.setGenreId(genreDAO.getById(genreId));
+        book.setCoverTypeId(coverTypeDAO.getById(coverTypeId));
 
         Transaction tx = session.beginTransaction();
         bookDAO.save(book);
