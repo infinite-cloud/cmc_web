@@ -151,13 +151,13 @@ INSERT INTO book_author (book_id, author_id) VALUES
 INSERT INTO purchase (user_id, order_date, delivery_address, delivery_date,
 		total_price, order_status) VALUES
 	(2, '02.02.2020', 'г. Москва, ул. Некоторая, д. 1', '30.06.2020',
-		1792.00, 'Собран'),
+		1792.00, 'READY'),
 	(3, '05.01.2020', 'г. Москва, ул. Неизвестная, д. 1, кв. 1', '10.01.2020',
-		1487.00, 'Поставлен'),
+		1487.00, 'DELIVERED'),
 	(3, NOW(), 'г. Москва, ул. Неизвестная, д. 1, кв. 1', '07.05.2020',
-		169.00, 'В обработке'),
+		169.00, 'IN_PROCESSING'),
 	(4, '01.02.2020', 'г. Москва, ул. Никакая, д. 1, кв. 1', '02.02.2020',
-		2132.00, 'Отменён');
+		2132.00, 'CANCELED');
 
 ------ ORDERED_BOOK ------
 INSERT INTO ordered_book (order_id, book_id, book_count) VALUES

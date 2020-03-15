@@ -2,10 +2,10 @@
 
 ---- Create types ----
 CREATE TYPE STATUS AS ENUM (
-	'В обработке',
-	'Собран',
-	'Поставлен',
-	'Отменён'
+	'IN_PROCESSING',
+	'READY',
+	'DELIVERED',
+	'CANCELED'
 );
 
 ---- Create tables ----

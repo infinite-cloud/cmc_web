@@ -1,5 +1,8 @@
 package entity;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -7,7 +10,15 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "purchase", schema = "public", catalog = "bookstore")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class PurchaseEntity {
+    public enum OrderStatus {
+        IN_PROCESSING,
+        READY,
+        DELIVERED,
+        CANCELED
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -29,9 +40,10 @@ public class PurchaseEntity {
     @Column(name = "total_price", nullable = false, precision = 0)
     private Double totalPrice;
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
-    private String orderStatus;
+    @Type(type = "pgsql_enum")
+    private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -41,7 +53,7 @@ public class PurchaseEntity {
 
     public PurchaseEntity(Timestamp orderDate,
                           String deliveryAddress, Timestamp deliveryDate,
-                          Double totalPrice, String orderStatus,
+                          Double totalPrice, OrderStatus orderStatus,
                           AccountEntity userId) {
         this.orderDate = orderDate;
         this.deliveryAddress = deliveryAddress;
@@ -91,11 +103,11 @@ public class PurchaseEntity {
         this.totalPrice = totalPrice;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -104,7 +116,7 @@ public class PurchaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PurchaseEntity that = (PurchaseEntity) o;
-        return orderId == that.orderId &&
+        return Objects.equals(orderId, that.orderId) &&
                 Objects.equals(orderDate, that.orderDate) &&
                 Objects.equals(deliveryAddress, that.deliveryAddress) &&
                 Objects.equals(deliveryDate, that.deliveryDate) &&
