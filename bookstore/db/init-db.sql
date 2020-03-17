@@ -88,28 +88,44 @@ CREATE TABLE cover_type (
 ------ PURCHASE ------
 ALTER TABLE purchase
 	ADD FOREIGN KEY (user_id)
-		REFERENCES account (user_id);
+		REFERENCES account (user_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
 
 ------ ORDERED_BOOK ------
 ALTER TABLE ordered_book
 	ADD FOREIGN KEY (order_id)
-		REFERENCES purchase (order_id),
-	ADD FOREIGN KEY (book_id)
-		REFERENCES book (book_id);
+		REFERENCES purchase (order_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    ADD FOREIGN KEY (book_id)
+		REFERENCES book (book_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
 
 ------ BOOK_AUTHOR ------
 ALTER TABLE book_author
 	ADD FOREIGN KEY (book_id)
-		REFERENCES book (book_id),
-	ADD FOREIGN KEY (author_id)
-		REFERENCES author (author_id);
+		REFERENCES book (book_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    ADD FOREIGN KEY (author_id)
+		REFERENCES author (author_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
 
 ------ BOOK ------
 ALTER TABLE book
 	ADD FOREIGN KEY (publisher_id)
-		REFERENCES publisher (publisher_id),
-	ADD FOREIGN KEY (genre_id)
-		REFERENCES genre (genre_id),
-	ADD FOREIGN KEY (cover_type_id)
-		REFERENCES cover_type (cover_type_id);
+		REFERENCES publisher (publisher_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    ADD FOREIGN KEY (genre_id)
+		REFERENCES genre (genre_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    ADD FOREIGN KEY (cover_type_id)
+		REFERENCES cover_type (cover_type_id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
 
