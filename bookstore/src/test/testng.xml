@@ -1,15 +1,15 @@
-<?xml version = "1.0" encoding = "UTF-8" ?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name = "BookstoreSuite">
-    <test name = "BookstoreTest" >
+    <test name = "BookstoreTest">
         <classes>
-            <class name = "test.AccountTest" />
-            <class name = "test.AuthorTest" />
-            <class name = "test.BookTest" />
-            <class name = "test.OrderedBookTest" />
-            <class name = "test.PurchaseTest" />
-            <class name = "test.PublisherTest" />
+            <class name = "test.AccountTest"/>
+            <class name = "test.AuthorTest"/>
+            <class name = "test.BookTest"/>
+            <class name = "test.OrderedBookTest"/>
+            <class name = "test.PurchaseTest"/>
+            <class name = "test.PublisherTest"/>
         </classes>
     </test>
 </suite>
