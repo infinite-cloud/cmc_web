@@ -4,7 +4,12 @@
 <suite name = "BookstoreSuite">
     <test name = "BookstoreTest" >
         <classes>
-            <class name = "test.BookstoreTest" />
+            <class name = "test.AccountTest" />
+            <class name = "test.AuthorTest" />
+            <class name = "test.BookTest" />
+            <class name = "test.OrderedBookTest" />
+            <class name = "test.PurchaseTest" />
+            <class name = "test.PublisherTest" />
         </classes>
     </test>
 </suite>
