@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project basedir="." default="all" name="setup-db">
 
-    <property file="build.properties"/>
+    <property file="../build.properties"/>
 
     <target name="create-db">
 
