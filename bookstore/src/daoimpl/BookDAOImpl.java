@@ -89,6 +89,116 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
         return query.getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<BookEntity> getByParameters(String bookName,
+                                            Date minPublicationDate, Date maxPublicationDate,
+                                            Integer minPages, Integer maxPages,
+                                            Double minPrice, Double maxPrice,
+                                            Boolean isAvailable,
+                                            Long publisherId,
+                                            Long genreId,
+                                            Long coverTypeId) {
+        String q = "SELECT e FROM BookEntity e INNER JOIN PublisherEntity p " +
+                "ON e.publisherId = p INNER JOIN GenreEntity g " +
+                "ON e.genreId = g INNER JOIN CoverTypeEntity c " +
+                "ON e.coverTypeId = c AND ";
+
+        if (bookName != null) {
+            q += "LOWER(e.bookName) LIKE LOWER(:bookName) AND ";
+        }
+
+        if (minPublicationDate != null) {
+            q += "e.publicationDate >= :minPublicationDate AND ";
+        }
+
+        if (maxPublicationDate != null) {
+            q += "e.publicationDate <= :maxPublicationDate AND ";
+        }
+
+        if (minPages != null) {
+            q += "e.pageCount >= :minPages AND ";
+        }
+
+        if (maxPages != null) {
+            q += "e.pageCount <= :maxPages AND ";
+        }
+
+        if (minPrice != null) {
+            q += "e.bookPrice >= :minPrice AND ";
+        }
+
+        if (maxPrice != null) {
+            q += "e.bookPrice <= :maxPrice AND ";
+        }
+
+        if (publisherId != null) {
+            q += "e.publisherId.publisherId = :publisherId AND ";
+        }
+
+        if (genreId != null) {
+            q += "e.genreId.genreId = :genreId AND ";
+        }
+
+        if (coverTypeId != null) {
+            q += "e.coverTypeId.coverTypeId = :coverTypeId AND ";
+        }
+
+        if (isAvailable != null) {
+            q += "(e.availableCount > 0 AND :isAvailable = TRUE OR " +
+                    "e.availableCount = 0 AND :isAvailable = FALSE) AND ";
+        }
+
+        q += "TRUE = TRUE";
+
+        TypedQuery<BookEntity> query = getSession().createQuery(q);
+
+        if (bookName != null) {
+            query.setParameter("bookName", '%' + bookName + '%');
+        }
+
+        if (minPublicationDate != null) {
+            query.setParameter("minPublicationDate", minPublicationDate);
+        }
+
+        if (maxPublicationDate != null) {
+            query.setParameter("maxPublicationDate", maxPublicationDate);
+        }
+
+        if (minPages != null) {
+            query.setParameter("minPages", minPages);
+        }
+
+        if (maxPages != null) {
+            query.setParameter("maxPages", maxPages);
+        }
+
+        if (minPrice != null) {
+            query.setParameter("minPrice", minPrice);
+        }
+
+        if (maxPrice != null) {
+            query.setParameter("maxPrice", maxPrice);
+        }
+
+        if (publisherId != null) {
+            query.setParameter("publisherId", publisherId);
+        }
+
+        if (genreId != null) {
+            query.setParameter("genreId", genreId);
+        }
+
+        if (coverTypeId != null) {
+            query.setParameter("coverTypeId", coverTypeId);
+        }
+
+        if (isAvailable != null) {
+            query.setParameter("isAvailable", isAvailable);
+        }
+
+        return query.getResultList();
+    }
+
     public void save(BookEntity book, List<String> authorNames,
                      Long publisherId, Long genreId, Long coverTypeId) {
         if (authorNames.isEmpty()) {

@@ -69,6 +69,68 @@ public class BookTest extends GenericTest {
         books = bookDAO.getByCoverTypeId((long) 1);
         Assert.assertEquals(books.size(), 1);
         Assert.assertEquals(books.get(0), bookDAO.getById((long) 4));
+
+        books = bookDAO.getByParameters("",
+                Date.valueOf("1980-05-05"), Date.valueOf("1990-06-06"),
+                -100, -200,
+                -10.1, -12.2,
+                true,
+                (long) -1,
+                (long) -1,
+                (long) -1);
+        Assert.assertTrue(books.isEmpty());
+
+        books = bookDAO.getByParameters("ИДИОТ",
+                Date.valueOf("2000-01-01"), Date.valueOf("2020-01-01"),
+                0, 1000,
+                0.0, 2000.0,
+                true,
+                (long) 4,
+                (long) 3,
+                (long) 3);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 2));
+
+        books = bookDAO.getByParameters("",
+                null, null,
+                null,null,
+                null,null,
+                null,
+                null,
+                null,
+                null);
+        Assert.assertEquals(books.size(), 5);
+
+        books = bookDAO.getByParameters("",
+                null, null,
+                null,null,
+                null,null,
+                false,
+                null,
+                null,
+                null);
+        Assert.assertTrue(books.isEmpty());
+
+        books = bookDAO.getByParameters("Онегин",
+                Date.valueOf("2010-01-01"), null,
+                null,null,
+                null,5000.0,
+                null,
+                null,
+                (long) 2,
+                null);
+        Assert.assertEquals(books.size(), 1);
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 1));
+
+        books = bookDAO.getByParameters(null,
+                null, null,
+                null,null,
+                null,null,
+                null,
+                null,
+                null,
+                null);
+        Assert.assertEquals(books.size(), 5);
     }
 
     @Test(priority = 1, groups = "book", dependsOnGroups = "account")
