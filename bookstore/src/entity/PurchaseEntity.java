@@ -45,7 +45,7 @@ public class PurchaseEntity {
     @Type(type = "pgsql_enum")
     private OrderStatus orderStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private AccountEntity userId;
 

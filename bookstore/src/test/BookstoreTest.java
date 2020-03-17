@@ -1,10 +1,8 @@
 package test;
 
 import daoimpl.*;
-import entity.AccountEntity;
-import entity.AuthorEntity;
-import entity.BookAuthorId;
-import entity.BookEntity;
+import entity.*;
+import javafx.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,9 +10,9 @@ import org.hibernate.cfg.Configuration;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.Arrays;
+import java.sql.Timestamp;
+import java.util.*;
 import java.sql.Date;
-import java.util.List;
 
 public class BookstoreTest {
     private SessionFactory testSessionFactory;
@@ -143,7 +141,7 @@ public class BookstoreTest {
         List<BookEntity> books = bookDAO.getByPublicationDate(
                 Date.valueOf("2018-12-01"), Date.valueOf("2019-02-01"));
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 1));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 1));
         books = bookDAO.getByPublicationDate(
                 Date.valueOf("2019-02-01"), Date.valueOf("2018-12-01"));
         Assert.assertTrue(books.isEmpty());
@@ -151,34 +149,34 @@ public class BookstoreTest {
         Assert.assertTrue(bookDAO.getByName("Test").isEmpty());
         books = bookDAO.getByName("Идиот");
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 2));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 2));
 
         Assert.assertTrue(bookDAO.getByPageCount(0, -1).isEmpty());
         books = bookDAO.getByPageCount(700, 800);
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 4));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 4));
 
         Assert.assertTrue(bookDAO.getByPrice(0., -1.).isEmpty());
         books = bookDAO.getByPrice(100., 200.);
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 5));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 5));
 
         Assert.assertEquals(bookDAO.getByAvailability(false).size(), 0);
 
         Assert.assertTrue(bookDAO.getByPublisherId((long) 12).isEmpty());
         books = bookDAO.getByPublisherId((long) 1);
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 5));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 5));
 
         Assert.assertTrue(bookDAO.getByGenreId((long) 12).isEmpty());
         books = bookDAO.getByGenreId((long) 1);
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 3));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 3));
 
         Assert.assertTrue(bookDAO.getByCoverTypeId((long) 12).isEmpty());
         books = bookDAO.getByCoverTypeId((long) 1);
         Assert.assertEquals(books.size(), 1);
-        Assert.assertEquals(books.iterator().next(), bookDAO.getById((long) 4));
+        Assert.assertEquals(books.get(0), bookDAO.getById((long) 4));
     }
 
     @Test(priority = 1, groups = "book", dependsOnGroups = "account")
@@ -205,8 +203,8 @@ public class BookstoreTest {
 
         List<BookEntity> testBooks = bookDAO.getByName("Test");
         Assert.assertEquals(testBooks.size(), 1);
-        Long bookId = testBooks.iterator().next().getBookId();
-        Assert.assertEquals(testBooks.iterator().next(), book);
+        Long bookId = testBooks.get(0).getBookId();
+        Assert.assertEquals(testBooks.get(0), book);
 
         tx = testSession.beginTransaction();
 
@@ -214,6 +212,7 @@ public class BookstoreTest {
 
         tx.commit();
 
+        testSession.clear();
         BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
         bookAuthorDAO.setSession(testSession);
 
@@ -224,7 +223,6 @@ public class BookstoreTest {
         Assert.assertNull(bookAuthorDAO.getByCompositeId(bookId, (long) 1));
 
         tx = testSession.beginTransaction();
-
 
         authorDAO.delete(authorDAO.getByExactName("Test"));
 
@@ -240,9 +238,124 @@ public class BookstoreTest {
         Assert.assertEquals(authorDAO.getByName("").size(), 6);
         List<AuthorEntity> authors = authorDAO.getByName("Пушкин");
         Assert.assertEquals(authors.size(), 1);
-        Assert.assertEquals(authors.iterator().next(), authorDAO.getById((long) 1));
-        Assert.assertEquals(authors.iterator().next(), authorDAO.getByExactName("Пушкин Александр Сергеевич"));
+        Assert.assertEquals(authors.get(0), authorDAO.getById((long) 1));
+        Assert.assertEquals(authors.get(0),
+                authorDAO.getByExactName("Пушкин Александр Сергеевич"));
         Assert.assertNull(authorDAO.getByExactName("Толстой Лев Николаевич"));
+
+        Assert.assertNull(authorDAO.getByExactName("Test"));
+        Assert.assertNull(authorDAO.getByExactName(""));
+        Assert.assertEquals(authorDAO.getByExactName("Пушкин Александр Сергеевич"),
+                authorDAO.getById((long) 1));
+    }
+
+    @Test(priority = 0, groups = "orderedBook")
+    public void getOrderedBook() {
+        OrderedBookDAOImpl orderedBookDAO = new OrderedBookDAOImpl();
+        orderedBookDAO.setSession(testSession);
+
+        Assert.assertNull(orderedBookDAO.getByCompositeId((long) -1, (long) 1));
+        OrderedBookEntity orderedBook = orderedBookDAO.getByCompositeId((long) 2, (long) 1);
+        Assert.assertNotNull(orderedBook);
+        Assert.assertEquals((int) orderedBook.getBookCount(), 1);
+        Assert.assertEquals((long) orderedBook.getBookId().getBookId(), 1);
+        Assert.assertEquals((long) orderedBook.getOrder().getOrderId(), 2);
+
+        List<OrderedBookEntity> orders = orderedBookDAO.getByOrderId((long) 2);
+        Assert.assertFalse(orders.isEmpty());
+        Assert.assertEquals(orders.get(0), orderedBook);
+    }
+
+    @Test(priority = 0, groups = "publisher")
+    public void getPublisher() {
+        PublisherDAOImpl publisherDAO = new PublisherDAOImpl();
+        publisherDAO.setSession(testSession);
+
+        Assert.assertEquals(publisherDAO.getByName("").size(), 4);
+        Assert.assertTrue(publisherDAO.getByName("Test").isEmpty());
+        List<PublisherEntity> publishers = publisherDAO.getByName("лабиринт");
+        Assert.assertEquals(publishers.size(), 1);
+        Assert.assertEquals((long) publishers.get(0).getPublisherId(), 3);
+    }
+
+    @Test(priority = 0, groups = "purchase")
+    public void getPurchase() {
+        PurchaseDAOImpl purchaseDAO = new PurchaseDAOImpl();
+        purchaseDAO.setSession(testSession);
+
+        List<PurchaseEntity> purchases = purchaseDAO.getRelevant();
+        Assert.assertEquals(purchases.size(), 3);
+
+        for (PurchaseEntity purchase : purchases) {
+            Assert.assertTrue(Arrays.asList((long) 1, (long) 3, (long) 4)
+                    .contains(purchase.getOrderId()));
+        }
+
+        Assert.assertTrue(purchaseDAO.getByUserId((long) -1).isEmpty());
+        purchases = purchaseDAO.getByUserId((long) 3);
+        Assert.assertEquals(purchases.size(), 2);
+        Assert.assertTrue(Arrays.asList((long) 2, (long) 3)
+                .contains(purchases.get(0).getOrderId()));
+        Assert.assertTrue(Arrays.asList((long) 2, (long) 3)
+                .contains(purchases.get(1).getOrderId()));
+    }
+
+    @Test(priority = 4, groups = "purchase", dependsOnGroups = "book")
+    public void addPurchase() {
+        PurchaseDAOImpl purchaseDAO = new PurchaseDAOImpl();
+        AccountDAOImpl accountDAO = new AccountDAOImpl();
+        BookDAOImpl bookDAO = new BookDAOImpl();
+        purchaseDAO.setSession(testSession);
+        accountDAO.setSession(testSession);
+        bookDAO.setSession(testSession);
+
+        Transaction tx = testSession.beginTransaction();
+
+        PurchaseEntity purchase = new PurchaseEntity();
+        purchase.setOrderDate(new Timestamp(System.currentTimeMillis()));
+        purchase.setDeliveryAddress("Test");
+        purchase.setDeliveryDate(new Timestamp(System.currentTimeMillis() + 100000));
+        purchase.setTotalPrice(100.);
+        purchase.setOrderStatus(PurchaseEntity.OrderStatus.IN_PROCESSING);
+        purchase.setUserId(accountDAO.getById((long) 1));
+
+        purchaseDAO.save(purchase, new ArrayList<>());
+
+        tx.commit();
+
+        List<PurchaseEntity> allPurchases = purchaseDAO.getAll();
+        Assert.assertEquals(allPurchases.size(), 4);
+
+        tx = testSession.beginTransaction();
+
+        List<Pair<BookEntity, Integer>> purchaseList =
+                Arrays.asList(new Pair(bookDAO.getById((long) 1), 20));
+
+        purchaseDAO.save(purchase, purchaseList);
+        Long id = purchase.getOrderId();
+
+        tx.commit();
+
+        Assert.assertEquals(purchaseDAO.getAll().size(), 5);
+        Assert.assertEquals(purchaseDAO.getById(id), purchase);
+
+        OrderedBookDAOImpl orderedBookDAO = new OrderedBookDAOImpl();
+        orderedBookDAO.setSession(testSession);
+        List<OrderedBookEntity> orderedBooks = orderedBookDAO.getByOrderId(id);
+
+        Assert.assertEquals(orderedBooks.size(), 1);
+        Assert.assertEquals(orderedBooks.get(0).getBookId(), bookDAO.getById((long) 1));
+
+        tx = testSession.beginTransaction();
+
+        purchaseDAO.delete(purchase);
+
+        tx.commit();
+
+        testSession.clear();
+        List<PurchaseEntity> newAllPurchases = purchaseDAO.getAll();
+        Assert.assertEquals(newAllPurchases.size(), 4);
+        Assert.assertEquals(newAllPurchases, allPurchases);
     }
 
     @AfterSuite

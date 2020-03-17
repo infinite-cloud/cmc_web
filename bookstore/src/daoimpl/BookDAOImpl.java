@@ -3,11 +3,9 @@ package daoimpl;
 import dao.GenericDAO;
 import entity.*;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
-import java.awt.print.Book;
 import java.sql.Date;
 import java.util.List;
 
@@ -129,19 +127,5 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
                 bookAuthorDAO.save(new BookAuthorEntity(book, author));
             }
         }
-    }
-
-    @Override
-    public void delete(BookEntity book) {
-        BookAuthorDAOImpl bookAuthorDAO = new BookAuthorDAOImpl();
-        bookAuthorDAO.setSession(getSession());
-
-        List<AuthorEntity> authors = bookAuthorDAO.getAuthorsByBook(book);
-
-        for (AuthorEntity a : authors) {
-            bookAuthorDAO.delete(bookAuthorDAO.getByCompositeId(book.getBookId(), a.getAuthorId()));
-        }
-
-        super.delete(book);
     }
 }

@@ -6,7 +6,6 @@ import entity.OrderedBookEntity;
 import entity.PurchaseEntity;
 import javafx.util.Pair;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -31,7 +30,6 @@ public class PurchaseDAOImpl extends GenericDAO<PurchaseEntity, Long> {
         return query.getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     public void save(PurchaseEntity purchase, List<Pair<BookEntity, Integer>> books) {
         if (books.isEmpty()) {
             return;
@@ -41,14 +39,10 @@ public class PurchaseDAOImpl extends GenericDAO<PurchaseEntity, Long> {
         OrderedBookDAOImpl orderedBookDAO = new OrderedBookDAOImpl();
         orderedBookDAO.setSession(session);
 
-        Transaction tx = session.beginTransaction();
-
         this.save(purchase);
 
         for (Pair<BookEntity, Integer> book : books) {
             orderedBookDAO.save(new OrderedBookEntity(book.getValue(), purchase, book.getKey()));
         }
-
-        tx.commit();
     }
 }
