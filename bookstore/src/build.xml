@@ -20,5 +20,10 @@
             <src path = "${src.dir}"/>
             <classpath refid = "classpath.master"/>
         </javac>
+        
+        <copy file = "${src.dir}/hibernate.cfg.xml"
+              tofile = "${build.dir}/hibernate.cfg.xml"/>
+        <copy file = "${test.dir}/testng.xml"
+              tofile = "${build.dir}/test/testng.xml"/>
     </target>
 </project>
