@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="bookstore" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Hibernate 5.4.10-5.4.10" />
+          <element id="library" level="module" name="testng" module-name="bookstore" />
+        </element>
       </element>
     </root>
   </artifact>
