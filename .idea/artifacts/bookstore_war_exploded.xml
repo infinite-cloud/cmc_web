@@ -10,6 +10,8 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="Hibernate 5.4.10-5.4.10" />
           <element id="library" level="module" name="testng" module-name="bookstore" />
+          <element id="library" level="project" name="Spring MVC-5.2.3.RELEASE" />
+          <element id="library" level="project" name="Spring-5.2.3.RELEASE" />
         </element>
       </element>
     </root>
