@@ -3,7 +3,7 @@
 <head>
     <meta charset = "UTF-8">
     <title>Книжный магазин</title>
-    <link rel = "stylesheet" type = "text/css" href = "resources/styles.css">
+    <link rel = "stylesheet" type = "text/css" href = "${pageContext.request.contextPath}/resources/css/styles.css">
 </head>
 <body>
 

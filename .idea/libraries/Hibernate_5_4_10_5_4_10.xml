@@ -22,6 +22,7 @@
       <root url="jar://$PROJECT_DIR$/bookstore/lib/stax-ex-1.8.jar!/" />
       <root url="jar://$PROJECT_DIR$/bookstore/lib/postgresql.jar!/" />
       <root url="jar://$PROJECT_DIR$/bookstore/lib/javafx.base.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bookstore/lib/javax.servlet-api-4.0.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
