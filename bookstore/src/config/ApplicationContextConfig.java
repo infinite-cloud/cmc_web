@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
@@ -50,10 +51,11 @@ public class ApplicationContextConfig {
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName(env.getProperty("postgresql.driver"));
-        dataSource.setUrl(env.getProperty("postgresql.localhost") + env.getProperty("postgresql.database"));
-        dataSource.setUsername(env.getProperty("postgresql.user"));
-        dataSource.setPassword(env.getProperty("postgresql.password"));
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("postgresql.driver")));
+        dataSource.setUrl(Objects.requireNonNull(env.getProperty("postgresql.localhost")) +
+                Objects.requireNonNull(env.getProperty("postgresql.database")));
+        dataSource.setUsername(Objects.requireNonNull(env.getProperty("postgresql.user")));
+        dataSource.setPassword(Objects.requireNonNull(env.getProperty("postgresql.password")));
 
         return dataSource;
     }
@@ -63,10 +65,14 @@ public class ApplicationContextConfig {
     public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
         Properties properties = new Properties();
 
-        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        properties.put("current_session_context_class", env.getProperty("current_session_context_class"));
-        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect",
+                Objects.requireNonNull(env.getProperty("hibernate.dialect")));
+        properties.put("hibernate.show_sql",
+                Objects.requireNonNull(env.getProperty("hibernate.show_sql")));
+        properties.put("current_session_context_class",
+                Objects.requireNonNull(env.getProperty("current_session_context_class")));
+        properties.put("hibernate.hbm2ddl.auto",
+                Objects.requireNonNull(env.getProperty("hibernate.hbm2ddl.auto")));
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
