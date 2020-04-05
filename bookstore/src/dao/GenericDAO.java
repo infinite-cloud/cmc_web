@@ -1,6 +1,8 @@
 package dao;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -9,6 +11,8 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 public class GenericDAO<T, ID extends Serializable> {
+    @Autowired
+    private SessionFactory sessionFactory;
     private Class<T> persistentClass;
     private Session session;
 
@@ -20,6 +24,10 @@ public class GenericDAO<T, ID extends Serializable> {
 
     public Class<T> getPersistentClass() {
         return persistentClass;
+    }
+
+    public void setSession() {
+        this.session = sessionFactory.getCurrentSession();
     }
 
     public void setSession(Session session) {
