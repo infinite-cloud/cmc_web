@@ -1,6 +1,10 @@
 package utility;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BookFilter {
     private String name;
@@ -14,6 +18,11 @@ public class BookFilter {
     private Integer maxPages;
     private Integer minYear;
     private Integer maxYear;
+    private Map<Integer, String> authors;
+
+    public BookFilter() {
+        authors = new HashMap<>();
+    }
 
     public String getName() {
         return name;
@@ -67,6 +76,10 @@ public class BookFilter {
         return (maxYear != null) ? Date.valueOf(maxYear + "-12-31") : null;
     }
 
+    public Map<Integer, String> getAuthors() {
+        return authors;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -109,5 +122,9 @@ public class BookFilter {
 
     public void setMaxYear(Integer year) {
         this.maxYear = year;
+    }
+
+    public void setAuthors(Map<Integer, String> authors) {
+        this.authors = authors;
     }
 }

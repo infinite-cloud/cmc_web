@@ -4,12 +4,12 @@ const selectors = {
     '#publisher' : 'selectedPublisher'
 };
 
-window.onload = function() {
+window.addEventListener("load", function() {
     for (const [key, value] of Object.entries(selectors)) {
         let selectedItem = sessionStorage.getItem(value);
         $(key).val(selectedItem);
     }
-};
+});
 
 for (const [key, value] of Object.entries(selectors)) {
     $(key).live('change', function() {

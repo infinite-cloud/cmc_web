@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookFilter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @Transactional
@@ -30,6 +33,8 @@ public class MainController {
     private CoverTypeDAOImpl coverTypeDAO;
     @Autowired
     private PublisherDAOImpl publisherDAO;
+    @Autowired
+    private AuthorDAOImpl authorDAO;
 
     private void setUpSelectors(ModelMap modelMap) {
         genreDAO.setSession();
@@ -73,6 +78,7 @@ public class MainController {
                                   @ModelAttribute("bookFilterForm") BookFilter filter) {
         bookDAO.setSession();
         bookAuthorDAO.setSession();
+        authorDAO.setSession();
 
         List<BookEntity> books;
         books = bookDAO.getByParameters(filter.getName(),
@@ -81,6 +87,21 @@ public class MainController {
                 filter.getMinPrice(), filter.getMaxPrice(),
                 filter.getAvailability(), filter.getPublisher(),
                 filter.getGenre(), filter.getCover());
+
+        List<AuthorEntity> authors = new ArrayList<>();
+
+        for (Map.Entry<Integer, String> author : filter.getAuthors().entrySet()) {
+            if (author == null || author.getValue().equals("")) {
+                continue;
+            }
+
+            authors = Stream.concat(authors.stream(), authorDAO.getByName(author.getValue()).stream())
+                    .collect(Collectors.toList());
+        }
+
+        for (AuthorEntity author : authors) {
+            books.removeIf(book -> !bookAuthorDAO.getAuthorsByBook(book).contains(author));
+        }
 
         Map<BookEntity, List<AuthorEntity>> result = new HashMap<>();
 

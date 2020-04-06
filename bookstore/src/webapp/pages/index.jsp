@@ -10,6 +10,7 @@
           href = "${pageContext.request.contextPath}/resources/css/styles.css">
     <script src = "${pageContext.request.contextPath}/resources/javascript/toggle.js"></script>
     <script src = "${pageContext.request.contextPath}/resources/javascript/select.js"></script>
+    <script src = "${pageContext.request.contextPath}/resources/javascript/new-field.js"></script>
 </head>
 <body>
 
@@ -66,6 +67,21 @@
                             </c:forEach>
                         </form:select>
                     </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Авторы</td>
+                <td>
+                    <div id = 'textBoxesGroup'>
+                        <div id = "textBoxDiv">
+                            <label>
+                                <input type = "text" name = "authors[0]" id = "textBox0"/>
+                            </label>
+                        </div>
+                    </div>
+                    <input type = "button" value = "+" id = "addButton">
+                    <input type = "button" value = "–" id = "removeButton">
                 </td>
             </tr>
 
