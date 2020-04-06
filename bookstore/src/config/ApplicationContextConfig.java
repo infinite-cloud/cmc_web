@@ -1,6 +1,6 @@
 package config;
 
-import daoimpl.BookDAOImpl;
+import daoimpl.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -93,5 +93,45 @@ public class ApplicationContextConfig {
     @Bean(name = "bookDAO")
     public BookDAOImpl getBookDAO() {
         return new BookDAOImpl();
+    }
+
+    @Bean(name = "bookAuthorDAO")
+    public BookAuthorDAOImpl bookAuthorDAO() {
+        return new BookAuthorDAOImpl();
+    }
+
+    @Bean(name = "genreDAO")
+    public GenreDAOImpl genreDAO() {
+        return new GenreDAOImpl();
+    }
+
+    @Bean(name = "accountDAO")
+    public AccountDAOImpl accountDAO() {
+        return new AccountDAOImpl();
+    }
+
+    @Bean(name = "authorDAO")
+    public AuthorDAOImpl authorDAO() {
+        return new AuthorDAOImpl();
+    }
+
+    @Bean(name = "coverTypeDAO")
+    public CoverTypeDAOImpl coverTypeDAO() {
+        return new CoverTypeDAOImpl();
+    }
+
+    @Bean(name = "orderedBookDAO")
+    public OrderedBookDAOImpl orderedBookDAO() {
+        return new OrderedBookDAOImpl();
+    }
+
+    @Bean(name = "publisherDAO")
+    public PublisherDAOImpl publisherDAO() {
+        return new PublisherDAOImpl();
+    }
+
+    @Bean(name = "purchaseDAO")
+    public PurchaseDAOImpl purchaseDAO() {
+        return new PurchaseDAOImpl();
     }
 }

@@ -1,4 +1,6 @@
-﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+﻿<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+<%@ taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
+<script type = "text/javascript" src = "http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,12 +8,106 @@
     <title>Книжный магазин</title>
     <link rel = "stylesheet" type = "text/css"
           href = "${pageContext.request.contextPath}/resources/css/styles.css">
+    <script src = "${pageContext.request.contextPath}/resources/javascript/toggle.js"></script>
+    <script src = "${pageContext.request.contextPath}/resources/javascript/select.js"></script>
 </head>
 <body>
 
 <jsp:include page = "header.jsp"/>
 
-<table border = "1" style = "width:100%">
+<a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>
+<div id = "toggleText" style = "display: none">
+    <form:form modelAttribute = "bookFilterForm" method = "POST" name = "filterForm">
+        <table style = "text-align: left" align = "center">
+            <tr>
+                <td>Название</td>
+                <td><form:input path = "name"/></td>
+            </tr>
+
+            <tr>
+                <td>Жанр</td>
+                <td>
+                    <label>
+                        <input type = "hidden" name = "selectedValue" value = ""/>
+                        <form:select path = "genre" id = "genre">
+                            <option value = ""></option>
+                            <c:forEach items = "${genres}" var = "genre">
+                                <option value = "${genre.genreId}">${genre.genreName}</option>
+                            </c:forEach>
+                        </form:select>
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Обложка</td>
+                <td>
+                    <label>
+                        <input type = "hidden" name = "selectedValue" value = ""/>
+                        <form:select path = "cover" id = "cover">
+                            <option value = ""></option>
+                            <c:forEach items = "${covers}" var = "cover">
+                                <option value = "${cover.coverTypeId}">${cover.coverTypeName}</option>
+                            </c:forEach>
+                        </form:select>
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Издатель</td>
+                <td>
+                    <label>
+                        <input type = "hidden" name = "selectedValue" value = ""/>
+                        <form:select path = "publisher" id = "publisher">
+                            <option value = ""></option>
+                            <c:forEach items = "${publishers}" var = "publisher">
+                                <option value = "${publisher.publisherId}">${publisher.publisherName}</option>
+                            </c:forEach>
+                        </form:select>
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Цена</td>
+                <td>
+                    от <form:input path = "minPrice"/> до <form:input path = "maxPrice"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Количество страниц</td>
+                <td>
+                    от <form:input path = "minPages"/> до <form:input path = "maxPages"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Год издания</td>
+                <td>
+                    от <form:input path = "minYear"/> до <form:input path = "maxYear"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Только в наличии</td>
+                <td>
+                    <form:checkbox path = "availability"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type = "submit" value = "Применить"/>
+                </td>
+            </tr>
+        </table>
+    </form:form>
+</div>
+
+<table border = "1" style = "width: 100%">
     <tr>
         <th>Название</th>
         <th>Авторы</th>

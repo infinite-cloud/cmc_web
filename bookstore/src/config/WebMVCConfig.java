@@ -1,10 +1,10 @@
 package config;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,6 +17,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
+@ComponentScan("utility")
 public class WebMVCConfig implements WebMvcConfigurer {
     private static final Charset UTF8 = StandardCharsets.UTF_8;
 
