@@ -68,7 +68,8 @@ CREATE TABLE book (
     cover_type_id INTEGER NOT NULL,
     book_price NUMERIC CHECK (book_price > 0.00) NOT NULL,
     available_count INTEGER CHECK (available_count >= 0) NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    image_name VARCHAR(240) NOT NULL
 );
 
 ------ GENRE ------

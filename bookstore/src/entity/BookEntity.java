@@ -49,6 +49,10 @@ public class BookEntity {
     @JoinColumn(name = "cover_type_id", nullable = false)
     private CoverTypeEntity coverTypeId;
 
+    @Basic
+    @Column(name = "image_name", nullable = false, length = 240)
+    private String imageName;
+
     public BookEntity() {}
 
     public BookEntity(String bookName, Date publicationDate,
@@ -121,6 +125,14 @@ public class BookEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     @Override

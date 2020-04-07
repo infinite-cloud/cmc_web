@@ -12,33 +12,33 @@
 
 <jsp:include page = "header.jsp"/>
 
-<div class = "page-title" style = "text-align: center;">${bookEntity.bookName}</div>
+<div class = "page-title" style = "text-align: center;"><b>${bookEntity.bookName}</b></div>
 
-Picture Placeholder
+<img src = "${pageContext.request.contextPath}/resources/images/${bookEntity.imageName}"/>
 
 <table style = "text-align: left" align = "center" border = "1">
     <tr>
-        <td>Описание</td>
+        <td><b>Описание</b></td>
         <td>${bookEntity.description}</td>
     </tr>
 
     <tr>
-        <td>Жанр</td>
+        <td><b>Жанр</b></td>
         <td>${bookEntity.genreId.genreName}</td>
     </tr>
 
     <tr>
-        <td>Обложка</td>
+        <td><b>Обложка</b></td>
         <td>${bookEntity.coverTypeId.coverTypeName}</td>
     </tr>
 
     <tr>
-        <td>Издательство</td>
+        <td><b>Издательство</b></td>
         <td>${bookEntity.publisherId.publisherName}</td>
     </tr>
 
     <tr>
-        <td>Авторы</td>
+        <td><b>Авторы</b></td>
         <td>
             <c:forEach items = "${bookAuthors}" var = "author">
                 ${author.authorName}<br/>
@@ -47,12 +47,12 @@ Picture Placeholder
     </tr>
 
     <tr>
-        <td>Количество страниц</td>
+        <td><b>Количество страниц</b></td>
         <td>${bookEntity.pageCount}</td>
     </tr>
 
     <tr>
-        <td>Год издания</td>
+        <td><b>Год издания</b></td>
         <td>
             <c:set var = "publicationDate" value = "${bookEntity.publicationDate}"/>
             <c:set var = "publicationYear" value = "${fn:substring(publicationDate, 0, 4)}"/>
@@ -61,7 +61,7 @@ Picture Placeholder
     </tr>
 
     <tr>
-        <td>Цена</td>
+        <td><b>Цена</b></td>
         <td>${bookEntity.bookPrice} руб.</td>
     </tr>
 </table>
