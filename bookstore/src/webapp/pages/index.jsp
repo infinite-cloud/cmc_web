@@ -56,7 +56,7 @@
             </tr>
 
             <tr>
-                <td>Издатель</td>
+                <td>Издательство</td>
                 <td>
                     <label>
                         <input type = "hidden" name = "selectedValue" value = ""/>
@@ -132,7 +132,11 @@
     </tr>
     <c:forEach items = "${bookList}" var = "book">
         <tr>
-            <td>${book.key.bookName}</td>
+            <td>
+                <a href = "${pageContext.request.contextPath}/book?id=${book.key.bookId}">
+                    ${book.key.bookName}
+                </a>
+            </td>
             <td>
                 <c:forEach items = "${book.value}" var = "author">
                     ${author.authorName}<br/>

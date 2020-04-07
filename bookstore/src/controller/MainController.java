@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookFilter;
 
@@ -114,5 +115,23 @@ public class MainController {
         setUpSelectors(modelMap);
 
         return "index";
+    }
+
+    @RequestMapping(value = {"/book"}, method = RequestMethod.GET)
+    public String book(ModelMap modelMap,
+                       @RequestParam(value = "id", defaultValue = "") Long id) {
+        bookDAO.setSession();
+        bookAuthorDAO.setSession();
+
+        BookEntity bookEntity;
+
+        if (id == null || (bookEntity = bookDAO.getById(id)) == null) {
+            return "404";
+        }
+
+        modelMap.addAttribute("bookEntity", bookEntity);
+        modelMap.addAttribute("bookAuthors", bookAuthorDAO.getAuthorsByBook(bookEntity));
+
+        return "book";
     }
 }
