@@ -17,7 +17,7 @@ CREATE TABLE account (
     home_address TEXT,
     phone_number VARCHAR(60),
     e_mail VARCHAR(120) UNIQUE CHECK (e_mail LIKE '_%@_%._%') NOT NULL,
-    password_hash CHAR(44) NOT NULL, -- PBKDF2 hash
+    password_hash CHAR(60) NOT NULL,
     is_admin BOOLEAN NOT NULL
 );
 

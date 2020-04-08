@@ -22,6 +22,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("config")
 @ComponentScan("controller")
+@ComponentScan("authentication")
 @EnableTransactionManagement
 @PropertySource("classpath:/webapp/WEB-INF/database.properties")
 public class ApplicationContextConfig {

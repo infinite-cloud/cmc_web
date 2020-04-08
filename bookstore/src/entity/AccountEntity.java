@@ -28,7 +28,7 @@ public class AccountEntity {
     private String eMail;
 
     @Basic
-    @Column(name = "password_hash", nullable = false, length = 44)
+    @Column(name = "password_hash", nullable = false, length = 60)
     private String passwordHash;
 
     @Basic

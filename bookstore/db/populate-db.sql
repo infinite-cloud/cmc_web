@@ -3,28 +3,23 @@
 SET DATESTYLE TO "DMY";
 
 ------ ACCOUNT ------
--- The password hashes have been generated using the following:
-    -- Message: passwordi, where i is from 0 to 4;
-    -- Salt: 4E854A6144D245C86E29D0845355B427;
-    -- Iterations: 1000;
-    -- Key length: 32 Bytes;
 INSERT INTO account (user_name, home_address, phone_number, e_mail,
         password_hash, is_admin) VALUES
     ('Иванов Иван Иванович', NULL, NULL,
         'admin@namelessbookstore.com',
-        't7z6kgTsq+VdcsxNGWb4o0M2e/IwpOc3oczibsS6+Aw=', TRUE), -- i == 0
+        '$2y$10$TwOmYsac5nUCW1040f0.BeJwOOCARmzXlQQuPJUSZIBYEOu2gB1Nm', TRUE), -- password0
     ('Владимир Петров', NULL, '+74951234567',
         'vpetrov@firemailer.com',
-        'N3shvtPsW4RRBz+KnWe62mej+Zk3k7X2xaWiZsE2M/A=', FALSE), -- i == 1
+        '$2a$10$Ya0cGyZl44ezCtL6p2OpvOGPZi6iTPoyreti/LLEsk/wtyjMUMYBS', FALSE), -- password1
     ('Александра', 'г. Москва, ул. Неизвестная, д. 1', '+74952345678',
         'alexandra@themailplace.org',
-        'yAqiS1rTOkL1uP99F0UbbI/HcyyjTg6X/rbzUo22JYc=', FALSE), -- i == 2
+        '$2a$10$SjySaRNRUwLapihlC7AwS.9ZlDpNXhY5g36hYWkyy.MBc2OwRYylG', FALSE), -- password2
     ('Валерий', 'г. Москва, ул. Никакая, д. 1, кв. 1', '+74953456789',
         'valery@emailtestings.net',
-        'JcD8PwCpJJiebV7NUWiP6nz660BDYjXb3sRha8gqBgg=', FALSE), -- i == 3
+        '$2a$10$i7R4od.UsSJkspHOzE2QautimwSiUPWPfQfL3ERb8cw7p67iY6.j6', FALSE), -- password3
     ('Попов Игорь', 'г. Москва, ул. Неопознанная, д. 1, корп. 1, кв. 1', NULL,
         'igor@themailalert.net',
-        'oUsK9qUEI9JVVJ7jZMvwMF0sWk0FPhzlu++SrGnaG3A=', FALSE); -- i == 4
+        '$2a$10$IaPwl/zG1tMy0FvhLC9lmOPwzE7qxoxOdWOuERb93fw/7C3Y6g85u', FALSE); -- password4
 
 ------ COVER_TYPE ------
 INSERT INTO cover_type (cover_type_name) VALUES
