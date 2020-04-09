@@ -20,6 +20,12 @@
     </div>
 </c:if>
 
+<c:if test = "${param.registered == 'true'}">
+    <div style = "color: green; margin: 10px 0px;">
+        Регистрация успешна
+    </div>
+</c:if>
+
 <form method = "POST"
       action = "${pageContext.request.contextPath}/j_spring_security_check">
     <table align = "center">

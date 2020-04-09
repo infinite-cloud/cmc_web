@@ -90,6 +90,6 @@ public class UserController {
         accountDAO.setSession();
         accountDAO.save(accountEntity);
 
-        return "redirect:/login";
+        return "redirect:/login?registered=true";
     }
 }
