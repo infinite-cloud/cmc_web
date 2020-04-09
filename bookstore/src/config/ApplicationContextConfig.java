@@ -13,9 +13,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -23,17 +26,29 @@ import java.util.Properties;
 @ComponentScan("config")
 @ComponentScan("controller")
 @ComponentScan("authentication")
+@ComponentScan("validator")
 @EnableTransactionManagement
 @PropertySource("classpath:/webapp/WEB-INF/database.properties")
 public class ApplicationContextConfig {
     @Autowired
     private Environment env;
 
-    @Bean
+    @Bean(name = "localeResolver")
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+
+        sessionLocaleResolver.setDefaultLocale(new Locale("ru_RU"));
+
+        return sessionLocaleResolver;
+    }
+
+    @Bean(name = "messageSource")
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 
-        resourceBundleMessageSource.setBasenames("/resources/messages/validator");
+        resourceBundleMessageSource.setBasename("/webapp/resources/messages/validator");
+        resourceBundleMessageSource.setDefaultEncoding("UTF-8");
+        resourceBundleMessageSource.setCacheSeconds(0);
 
         return resourceBundleMessageSource;
     }

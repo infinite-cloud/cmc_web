@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DBAuthenticationService dbAuthenticationService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
@@ -34,8 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
+        httpSecurity.authorizeRequests().antMatchers("/", "/login", "/logout", "/register", "/book")
+                .permitAll();
         httpSecurity.authorizeRequests().antMatchers("/account")
-                .access("hasAnyRole('ROLE_USER')");
+                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
         httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         httpSecurity.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
