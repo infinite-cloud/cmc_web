@@ -29,7 +29,7 @@ public class UserFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors, "repeatedPassword", "NotEmpty.userForm");
 
-        if (!emailValidator.isValid(userForm.geteMail())) {
+        if (!userForm.geteMail().equals("") && !emailValidator.isValid(userForm.geteMail())) {
             errors.rejectValue("eMail", "Pattern.userForm.eMail");
         }
 
