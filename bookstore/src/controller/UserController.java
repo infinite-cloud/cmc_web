@@ -2,7 +2,13 @@ package controller;
 
 import config.security.WebSecurityConfig;
 import daoimpl.AccountDAOImpl;
+import daoimpl.BookDAOImpl;
+import daoimpl.OrderedBookDAOImpl;
+import daoimpl.PurchaseDAOImpl;
 import entity.AccountEntity;
+import entity.OrderedBookEntity;
+import entity.PurchaseEntity;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +20,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utility.UserForm;
+import utility.UserOrder;
 import validator.UserFormValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Transactional
@@ -24,6 +33,15 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private AccountDAOImpl accountDAO;
+
+    @Autowired
+    private OrderedBookDAOImpl orderedBookDAO;
+
+    @Autowired
+    private PurchaseDAOImpl purchaseDAO;
+
+    @Autowired
+    private BookDAOImpl bookDAO;
 
     @Autowired
     private UserFormValidator userFormValidator;
@@ -89,6 +107,9 @@ public class UserController {
     @RequestMapping(value = {"account"}, method = RequestMethod.GET)
     public String account(HttpServletRequest request, ModelMap modelMap) {
         accountDAO.setSession();
+        orderedBookDAO.setSession();
+        purchaseDAO.setSession();
+        bookDAO.setSession();
 
         AccountEntity accountEntity = accountDAO.getByEMail(request.getUserPrincipal().getName());
         modelMap.addAttribute("user", accountEntity);
@@ -97,6 +118,47 @@ public class UserController {
             UserForm userForm = new UserForm();
             modelMap.addAttribute("userAccountForm", userForm);
         }
+
+        List<UserOrder> userOrders = new ArrayList<>();
+
+        for (PurchaseEntity purchase : purchaseDAO.getByUserId(accountEntity.getUserId())) {
+            UserOrder order = new UserOrder();
+
+            order.setId(purchase.getOrderId());
+            order.setPrice(purchase.getTotalPrice());
+
+            switch (purchase.getOrderStatus()) {
+                case IN_PROCESSING:
+                    order.setStatus("В обработке");
+                    break;
+                case READY:
+                    order.setStatus("Собран");
+                    break;
+                case CANCELED:
+                    order.setStatus("Отменён");
+                    break;
+                case DELIVERED:
+                    order.setStatus("Доставлен");
+                    break;
+                default:
+                    order.setStatus("");
+                    break;
+            }
+
+            order.setOrderDate(purchase.getOrderDate().toString().substring(0, 10));
+            order.setDeliveryDate(purchase.getDeliveryDate().toString().substring(0, 10));
+
+            for (OrderedBookEntity orderedBook : orderedBookDAO.getByOrderId(order.getId())) {
+                Pair<String, Integer> book = new Pair<>(
+                        bookDAO.getById(orderedBook.getBookId().getBookId()).getBookName(),
+                        orderedBook.getBookCount());
+                order.getBooks().add(book);
+            }
+
+            userOrders.add(order);
+        }
+
+        modelMap.addAttribute("userOrders", userOrders);
 
         return "account";
     }
@@ -128,5 +190,13 @@ public class UserController {
         accountDAO.save(accountEntity);
 
         return "redirect:/account";
+    }
+
+    @RequestMapping(value = {"/cancelOrder/{id}"}, method = RequestMethod.GET)
+    public String cancelOrder(@PathVariable("id") Long id, ModelMap modelMap) {
+        purchaseDAO.setSession();
+        purchaseDAO.getById(id).setOrderStatus(PurchaseEntity.OrderStatus.CANCELED);
+
+        return "redirect:/account#ordersInfo";
     }
 }

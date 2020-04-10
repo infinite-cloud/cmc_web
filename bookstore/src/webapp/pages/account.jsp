@@ -149,7 +149,35 @@
         </c:choose>
     </div>
     <div id = "ordersInfo">
-        Test2
+        <table border = "1" align = "center">
+            <tr>
+                <th>Номер заказа</th>
+                <th>Стоимость</th>
+                <th>Статус</th>
+                <th>Дата заказа</th>
+                <th>Дата доставки</th>
+                <th>Содержимое</th>
+            </tr>
+            <c:forEach items = "${userOrders}" var = "order">
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.price} руб.</td>
+                    <td>${order.status}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.deliveryDate}</td>
+                    <td>
+                        <c:forEach items = "${order.books}" var = "book">
+                            ${book.key} (${book.value} шт.)<br/>
+                        </c:forEach>
+                    </td>
+                    <c:if test = "${order.status == 'В обработке' || order.status == 'Собран'}">
+                        <td>
+                            <a href = "<c:url value = '/cancelOrder/${order.id}'/>">Отменить</a>
+                        </td>
+                    </c:if>
+                </tr>
+            </c:forEach>
+        </table>
     </div>
 </div>
 
