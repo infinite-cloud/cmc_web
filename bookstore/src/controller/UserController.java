@@ -4,18 +4,13 @@ import config.security.WebSecurityConfig;
 import daoimpl.AccountDAOImpl;
 import entity.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utility.UserForm;
@@ -73,11 +68,9 @@ public class UserController {
                                       BindingResult result,
                                       final RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            userForm.setValid(false);
             return "register";
         }
 
-        userForm.setValid(true);
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setUserName(userForm.getUserName());
         accountEntity.seteMail(userForm.geteMail());
@@ -91,5 +84,49 @@ public class UserController {
         accountDAO.save(accountEntity);
 
         return "redirect:/login?registered=true";
+    }
+
+    @RequestMapping(value = {"account"}, method = RequestMethod.GET)
+    public String account(HttpServletRequest request, ModelMap modelMap) {
+        accountDAO.setSession();
+
+        AccountEntity accountEntity = accountDAO.getByEMail(request.getUserPrincipal().getName());
+        modelMap.addAttribute("user", accountEntity);
+
+        if (!modelMap.containsAttribute("userAccountForm")) {
+            UserForm userForm = new UserForm();
+            modelMap.addAttribute("userAccountForm", userForm);
+        }
+
+        return "account";
+    }
+
+    @RequestMapping(value = {"/account"}, method = RequestMethod.POST)
+    public String confirmUserEdit(HttpServletRequest request, ModelMap modelMap,
+                                      @ModelAttribute("userForm") @Validated UserForm userForm,
+                                      BindingResult result,
+                                      RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.userAccountForm", result);
+            redirectAttributes.addFlashAttribute("userAccountForm", userForm);
+            return "redirect:/account?edit=true";
+        }
+
+        accountDAO.setSession();
+
+        AccountEntity accountEntity = accountDAO.getByEMail(userForm.geteMail());
+        accountEntity.setUserName(userForm.getUserName());
+        accountEntity.setPhoneNumber(userForm.getPhoneNumber());
+        accountEntity.setHomeAddress(userForm.getHomeAddress());
+
+        if (!userForm.getPassword().equals("")) {
+            accountEntity.setPasswordHash(WebSecurityConfig
+                    .passwordEncoder().encode(userForm.getPassword()));
+        }
+
+        accountDAO.save(accountEntity);
+
+        return "redirect:/account";
     }
 }

@@ -7,7 +7,12 @@ public class UserForm {
     private String userName;
     private String homeAddress;
     private String phoneNumber;
-    private Boolean isValid;
+    private Boolean needsInitialValidation;
+
+    public UserForm() {
+        this.password = "";
+        this.repeatedPassword = "";
+    }
 
     public String geteMail() {
         return eMail;
@@ -33,8 +38,8 @@ public class UserForm {
         return phoneNumber;
     }
 
-    public Boolean getValid() {
-        return isValid;
+    public Boolean getNeedsInitialValidation() {
+        return needsInitialValidation;
     }
 
     public void seteMail(String eMail) {
@@ -61,7 +66,7 @@ public class UserForm {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setValid(Boolean valid) {
-        isValid = valid;
+    public void setNeedsInitialValidation(Boolean needsInitialValidation) {
+        this.needsInitialValidation = needsInitialValidation;
     }
 }
