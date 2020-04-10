@@ -205,6 +205,15 @@ public class UserController {
         return "redirect:/account";
     }
 
+    @RequestMapping(value = {"/deleteAccount"}, method = RequestMethod.GET)
+    public String deleteAccount(ModelMap modelMap, HttpServletRequest request) {
+        accountDAO.setSession();
+
+        accountDAO.delete(accountDAO.getByEMail(request.getUserPrincipal().getName()));
+
+        return "redirect:/logout";
+    }
+
     @RequestMapping(value = {"/cart"}, method = RequestMethod.GET)
     public String cart(ModelMap modelMap, HttpServletRequest request) {
         modelMap.addAttribute("cartForm", getSessionCart(request));

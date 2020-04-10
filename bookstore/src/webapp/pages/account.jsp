@@ -145,6 +145,7 @@
                         </tr>
                     </table>
                 </form:form>
+                <a href = "<c:url value = '/deleteAccount'/>">Удалить учётную запись</a>
             </c:otherwise>
         </c:choose>
     </div>
