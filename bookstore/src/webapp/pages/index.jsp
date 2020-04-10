@@ -88,21 +88,24 @@
             <tr>
                 <td>Цена</td>
                 <td>
-                    от <form:input path = "minPrice"/> до <form:input path = "maxPrice"/>
+                    от <form:input path = "minPrice" type = "number" step = "0.01"/>
+                    до <form:input path = "maxPrice" type = "number" step = "0.01"/>
                 </td>
             </tr>
 
             <tr>
                 <td>Количество страниц</td>
                 <td>
-                    от <form:input path = "minPages"/> до <form:input path = "maxPages"/>
+                    от <form:input path = "minPages" type = "number"/>
+                    до <form:input path = "maxPages" type = "number"/>
                 </td>
             </tr>
 
             <tr>
                 <td>Год издания</td>
                 <td>
-                    от <form:input path = "minYear"/> до <form:input path = "maxYear"/>
+                    от <form:input path = "minYear" type = "number"/>
+                    до <form:input path = "maxYear" type = "number"/>
                 </td>
             </tr>
 
