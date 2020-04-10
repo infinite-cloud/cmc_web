@@ -11,6 +11,7 @@ public class UserOrder {
     private String status;
     private String orderDate;
     private String deliveryDate;
+    private String deliveryAddress;
     private List<Pair<String, Integer>> books;
 
     public UserOrder() {
@@ -29,12 +30,16 @@ public class UserOrder {
         return status;
     }
 
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
+    public String getOrderDate() {
+        return orderDate;
     }
 
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
     public List<Pair<String, Integer>> getBooks() {
@@ -53,12 +58,16 @@ public class UserOrder {
         this.status = status;
     }
 
-    public String getOrderDate() {
-        return orderDate;
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public String getDeliveryDate() {
-        return deliveryDate;
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public void setBooks(List<Pair<String, Integer>> books) {

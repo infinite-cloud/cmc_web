@@ -147,6 +147,7 @@ public class UserController {
 
             order.setOrderDate(purchase.getOrderDate().toString().substring(0, 10));
             order.setDeliveryDate(purchase.getDeliveryDate().toString().substring(0, 10));
+            order.setDeliveryAddress(purchase.getDeliveryAddress());
 
             for (OrderedBookEntity orderedBook : orderedBookDAO.getByOrderId(order.getId())) {
                 Pair<String, Integer> book = new Pair<>(

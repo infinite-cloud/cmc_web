@@ -156,6 +156,7 @@
                 <th>Статус</th>
                 <th>Дата заказа</th>
                 <th>Дата доставки</th>
+                <th>Адрес доставки</th>
                 <th>Содержимое</th>
             </tr>
             <c:forEach items = "${userOrders}" var = "order">
@@ -165,6 +166,7 @@
                     <td>${order.status}</td>
                     <td>${order.orderDate}</td>
                     <td>${order.deliveryDate}</td>
+                    <td>${order.deliveryAddress}</td>
                     <td>
                         <c:forEach items = "${order.books}" var = "book">
                             ${book.key} (${book.value} шт.)<br/>
