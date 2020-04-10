@@ -19,6 +19,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import utility.CartInfo;
 import utility.UserForm;
 import utility.UserOrder;
 import validator.UserFormValidator;
@@ -45,6 +46,17 @@ public class UserController {
 
     @Autowired
     private UserFormValidator userFormValidator;
+
+    private CartInfo getSessionCart(HttpServletRequest request) {
+        CartInfo cartInfo = (CartInfo) request.getSession().getAttribute("cartInfo");
+
+        if (cartInfo == null) {
+            cartInfo = new CartInfo();
+            request.getSession().setAttribute("cartInfo", cartInfo);
+        }
+
+        return cartInfo;
+    }
 
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
@@ -104,7 +116,7 @@ public class UserController {
         return "redirect:/login?registered=true";
     }
 
-    @RequestMapping(value = {"account"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/account"}, method = RequestMethod.GET)
     public String account(HttpServletRequest request, ModelMap modelMap) {
         accountDAO.setSession();
         orderedBookDAO.setSession();
@@ -193,11 +205,55 @@ public class UserController {
         return "redirect:/account";
     }
 
+    @RequestMapping(value = {"/cart"}, method = RequestMethod.GET)
+    public String cart(ModelMap modelMap, HttpServletRequest request) {
+        modelMap.addAttribute("cartForm", getSessionCart(request));
+
+        return "cart";
+    }
+
     @RequestMapping(value = {"/cancelOrder/{id}"}, method = RequestMethod.GET)
     public String cancelOrder(@PathVariable("id") Long id, ModelMap modelMap) {
         purchaseDAO.setSession();
         purchaseDAO.getById(id).setOrderStatus(PurchaseEntity.OrderStatus.CANCELED);
 
         return "redirect:/account#ordersInfo";
+    }
+
+    @RequestMapping(value = {"/addToCart/{id}"}, method = RequestMethod.GET)
+    public String addToCart(@PathVariable("id") Long id, ModelMap modelMap,
+                            HttpServletRequest request) {
+        CartInfo cartInfo = getSessionCart(request);
+
+        bookDAO.setSession();
+        cartInfo.addItem(bookDAO.getById(id));
+
+        return "redirect:/book?id=" + id + "&addedToCart=true";
+    }
+
+    @RequestMapping(value = {"/cart"}, method = RequestMethod.POST)
+    public String cartUpdateQuantity(HttpServletRequest request, ModelMap modelMap,
+                                     @ModelAttribute("cartForm") CartInfo cartForm) {
+        CartInfo cartInfo = getSessionCart(request);
+        cartInfo.updateQuantity(cartForm);
+
+        return "redirect:/cart";
+    }
+
+    @RequestMapping(value = {"/deleteFromCart/{id}"}, method = RequestMethod.GET)
+    public String deleteFromCart(@PathVariable("id") Long id, ModelMap modelMap,
+                                 HttpServletRequest request) {
+        CartInfo cartInfo = getSessionCart(request);
+
+        cartInfo.removeItem(id);
+
+        return "redirect:/cart";
+    }
+
+    @RequestMapping(value = {"/clearCart"}, method = RequestMethod.GET)
+    public String clearCart(ModelMap modelMap, HttpServletRequest request) {
+        getSessionCart(request).clearCart();
+
+        return "redirect:/cart";
     }
 }

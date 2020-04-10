@@ -1,5 +1,6 @@
 ﻿<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,6 +66,16 @@
         <td>${bookEntity.bookPrice} руб.</td>
     </tr>
 </table>
+
+<div style = "text-align: center;">
+    <security:authorize access = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+        <a href = "<c:url value = '/addToCart/${bookEntity.bookId}'/>">В корзину</a>
+
+        <c:if test = "${param.addedToCart == true}">
+            Товар добавлен в корзину
+        </c:if>
+    </security:authorize>
+</div>
 
 <jsp:include page = "footer.jsp"/>
 
