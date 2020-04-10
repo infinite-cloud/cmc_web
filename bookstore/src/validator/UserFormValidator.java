@@ -41,7 +41,7 @@ public class UserFormValidator implements Validator {
 
         if (!userForm.geteMail().trim().isEmpty() && !emailValidator.isValid(userForm.geteMail())) {
             errors.rejectValue("eMail", "Pattern.userForm.eMail");
-        } else if (!userForm.geteMail().trim().isEmpty()) {
+        } else if (!userForm.geteMail().trim().isEmpty() && userForm.getNeedsInitialValidation()) {
             accountDAO.setSession();
 
             if (accountDAO.getByEMail(userForm.geteMail()) != null) {

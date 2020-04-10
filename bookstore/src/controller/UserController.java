@@ -103,7 +103,7 @@ public class UserController {
 
     @RequestMapping(value = {"/account"}, method = RequestMethod.POST)
     public String confirmUserEdit(HttpServletRequest request, ModelMap modelMap,
-                                      @ModelAttribute("userForm") @Validated UserForm userForm,
+                                      @ModelAttribute("userAccountForm") @Validated UserForm userForm,
                                       BindingResult result,
                                       RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
