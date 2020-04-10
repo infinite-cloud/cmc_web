@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utility.CartInfo;
 import utility.UserForm;
 import utility.UserOrder;
+import validator.CartInfoValidator;
 import validator.UserFormValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,9 @@ public class UserController {
     @Autowired
     private UserFormValidator userFormValidator;
 
+    @Autowired
+    private CartInfoValidator cartInfoValidator;
+
     private CartInfo getSessionCart(HttpServletRequest request) {
         CartInfo cartInfo = (CartInfo) request.getSession().getAttribute("cartInfo");
 
@@ -68,6 +72,8 @@ public class UserController {
 
         if (target.getClass() == UserForm.class) {
             dataBinder.setValidator(userFormValidator);
+        } else if (target.getClass() == CartInfo.class) {
+            dataBinder.setValidator(cartInfoValidator);
         }
     }
 
@@ -242,7 +248,12 @@ public class UserController {
 
     @RequestMapping(value = {"/cart"}, method = RequestMethod.POST)
     public String cartUpdateQuantity(HttpServletRequest request, ModelMap modelMap,
-                                     @ModelAttribute("cartForm") CartInfo cartForm) {
+                                     @ModelAttribute("cartForm") @Validated CartInfo cartForm,
+                                     BindingResult result) {
+        if (result.hasErrors()) {
+            return "cart";
+        }
+
         CartInfo cartInfo = getSessionCart(request);
         cartInfo.updateQuantity(cartForm);
 

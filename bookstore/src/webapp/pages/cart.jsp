@@ -35,10 +35,14 @@
                 </td>
                 <td>${item.book.bookPrice} руб.</td>
                 <td>
-                    <form:input path = "bookList[${loop.index}].quantity" value = "${item.quantity}"/>
+                    <form:input path = "bookList[${loop.index}].quantity" value = "${item.quantity}"
+                                type = "number"/>
                 </td>
                 <td>${item.quantity * item.book.bookPrice} руб.</td>
                 <td><a href = "<c:url value = '/deleteFromCart/${item.id}'/>">Удалить</a></td>
+                <td>
+                    <form:errors path = "bookList[${loop.index}].quantity" class = "error-message"/>
+                </td>
             </tr>
         </c:forEach>
         <tr>
