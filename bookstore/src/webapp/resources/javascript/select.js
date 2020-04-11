@@ -17,3 +17,9 @@ for (const [key, value] of Object.entries(selectors)) {
         sessionStorage.setItem(value, selectedValue);
     });
 }
+
+$('#reset').live('click', function() {
+    for (const value of Object.values(selectors)) {
+        sessionStorage.setItem(value, null);
+    }
+});

@@ -120,6 +120,7 @@
                 <td>&nbsp;</td>
                 <td>
                     <input type = "submit" value = "Применить"/>
+                    <input type = "reset" value = "Сбросить" id = "reset"/>
                 </td>
             </tr>
         </table>
