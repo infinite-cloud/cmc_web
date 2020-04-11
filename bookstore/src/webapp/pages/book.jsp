@@ -74,6 +74,9 @@
         <c:if test = "${param.addedToCart == true}">
             Товар добавлен в корзину
         </c:if>
+        <c:if test = "${param.addedToCart == false}">
+            Товара нет в наличии
+        </c:if>
     </security:authorize>
 </div>
 

@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import config.security.WebSecurityConfig;
 import daoimpl.AccountDAOImpl;
 import daoimpl.BookDAOImpl;
@@ -7,6 +8,7 @@ import daoimpl.OrderedBookDAOImpl;
 import daoimpl.PurchaseDAOImpl;
 import entity.AccountEntity;
 import entity.OrderedBookEntity;
+import entity.OrderedBookId;
 import entity.PurchaseEntity;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import utility.CartInfo;
-import utility.UserForm;
-import utility.UserOrder;
+import utility.*;
 import validator.CartInfoValidator;
 import validator.UserFormValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,7 +232,14 @@ public class UserController {
     @RequestMapping(value = {"/cancelOrder/{id}"}, method = RequestMethod.GET)
     public String cancelOrder(@PathVariable("id") Long id, ModelMap modelMap) {
         purchaseDAO.setSession();
+        orderedBookDAO.setSession();
+
         purchaseDAO.getById(id).setOrderStatus(PurchaseEntity.OrderStatus.CANCELED);
+
+        for (OrderedBookEntity orderedBook : orderedBookDAO.getByOrderId(id)) {
+            orderedBook.getBookId().setAvailableCount(
+                    orderedBook.getBookId().getAvailableCount() + orderedBook.getBookCount());
+        }
 
         return "redirect:/account#ordersInfo";
     }
@@ -241,9 +250,16 @@ public class UserController {
         CartInfo cartInfo = getSessionCart(request);
 
         bookDAO.setSession();
-        cartInfo.addItem(bookDAO.getById(id));
 
-        return "redirect:/book?id=" + id + "&addedToCart=true";
+        if (bookDAO.getById(id).getAvailableCount() > 0 &&
+                (cartInfo.getItem(id) == null ||
+                        bookDAO.getById(id).getAvailableCount() >=
+                        cartInfo.getItem(id).getQuantity() + 1)) {
+            cartInfo.addItem(bookDAO.getById(id));
+            return "redirect:/book?id=" + id + "&addedToCart=true";
+        } else {
+            return "redirect:/book?id=" + id + "&addedToCart=false";
+        }
     }
 
     @RequestMapping(value = {"/cart"}, method = RequestMethod.POST)
@@ -275,5 +291,62 @@ public class UserController {
         getSessionCart(request).clearCart();
 
         return "redirect:/cart";
+    }
+
+    @RequestMapping(value = {"/placeOrder"}, method = RequestMethod.GET)
+    public String placeOrder(ModelMap modelMap, HttpServletRequest request) {
+        if (getSessionCart(request).getBookList().isEmpty() &&
+                getSessionCart(request).getOrderId() == null) {
+            return "redirect:/cart?isEmpty=true";
+        }
+
+        OrderForm orderForm = new OrderForm();
+        modelMap.addAttribute("orderForm", orderForm);
+
+        return "placeOrder";
+    }
+
+    @RequestMapping(value = {"/placeOrder"}, method = RequestMethod.POST)
+    public String confirmOrder(ModelMap modelMap, HttpServletRequest request,
+                               @ModelAttribute("orderForm") @Validated OrderForm orderForm,
+                               BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/placeOrder";
+        }
+
+        accountDAO.setSession();
+        purchaseDAO.setSession();
+        orderedBookDAO.setSession();
+
+        PurchaseEntity purchaseEntity = new PurchaseEntity();
+        CartInfo cartInfo = getSessionCart(request);
+
+        purchaseEntity.setOrderStatus(PurchaseEntity.OrderStatus.IN_PROCESSING);
+        purchaseEntity.setUserId(accountDAO.getByEMail(request.getUserPrincipal().getName()));
+        purchaseEntity.setTotalPrice(cartInfo.getTotalPrice());
+        purchaseEntity.setDeliveryAddress(orderForm.getDeliveryAddress());
+        purchaseEntity.setDeliveryDate(Timestamp.valueOf(orderForm.getDeliveryYear() + "-" +
+                orderForm.getDeliveryMonth() + "-" +
+                orderForm.getDeliveryDay() +
+                " 00:00:00"));
+        purchaseEntity.setOrderDate(new Timestamp(System.currentTimeMillis()));
+
+        purchaseDAO.save(purchaseEntity);
+
+        for (CartItem item : cartInfo.getBookList()) {
+            OrderedBookEntity orderedBookEntity = new OrderedBookEntity();
+            orderedBookEntity.setBookId(item.getBook());
+            orderedBookEntity.setBookCount(item.getQuantity());
+            orderedBookEntity.setOrder(purchaseEntity);
+            orderedBookEntity.setId(new OrderedBookId(purchaseEntity.getOrderId(),
+                    item.getBook().getBookId()));
+            orderedBookDAO.save(orderedBookEntity);
+            item.getBook().setAvailableCount(item.getBook().getAvailableCount() - item.getQuantity());
+        }
+
+        cartInfo.clearCart();
+        cartInfo.setOrderId(purchaseEntity.getOrderId());
+
+        return "redirect:/placeOrder?success=true";
     }
 }

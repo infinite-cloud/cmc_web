@@ -7,9 +7,11 @@ import java.util.List;
 
 public class CartInfo {
     private List<CartItem> bookList;
+    private Long orderId;
 
     public CartInfo() {
         bookList = new ArrayList<>();
+        orderId = (long) -1;
     }
 
     public void addItem(BookEntity bookEntity) {
@@ -27,8 +29,16 @@ public class CartInfo {
         return bookList;
     }
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
     public void setBookList(List<CartItem> bookList) {
         this.bookList = bookList;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Double getTotalPrice() {
@@ -39,6 +49,16 @@ public class CartInfo {
         }
 
         return total;
+    }
+
+    public CartItem getItem(Long id) {
+        for (CartItem cartItem : bookList) {
+            if (cartItem.getBook().getBookId().equals(id)) {
+                return cartItem;
+            }
+        }
+
+        return null;
     }
 
     public void removeItem(Long id) {

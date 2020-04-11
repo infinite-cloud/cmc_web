@@ -14,6 +14,10 @@
 
 <div class = "page-title" style = "text-align: center;"><b>Корзина</b></div>
 
+<c:if test = "${param.isEmpty == true}">
+    Ваша корзина пуста
+</c:if>
+
 <table border = "1" align = "center">
     <tr>
         <th>№</th>
@@ -55,6 +59,8 @@
         </tr>
     </form:form>
 </table>
+
+<a href = "<c:url value = '/placeOrder'/>">Оформить заказ</a>
 
 <jsp:include page = "footer.jsp"/>
 
