@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
 
     window.addEventListener("beforeunload", function(event) {
-        for (let i = 0; i <= counter; ++i) {
+        for (let i = 0; i < counter; ++i) {
             sessionStorage.setItem("textBox" + i,
                 document.getElementById("textBox" + i).value);
         }
