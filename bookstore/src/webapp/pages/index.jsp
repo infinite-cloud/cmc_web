@@ -18,7 +18,8 @@
 
 <a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>
 <div id = "toggleText" style = "display: none">
-    <form:form modelAttribute = "bookFilterForm" method = "POST" name = "filterForm">
+    <form:form modelAttribute = "bookFilterForm" method = "POST"
+               name = "filterForm" id = "filterForm">
         <table style = "text-align: left" align = "center">
             <tr>
                 <td>Название</td>
@@ -120,7 +121,7 @@
                 <td>&nbsp;</td>
                 <td>
                     <input type = "submit" value = "Применить"/>
-                    <input type = "reset" value = "Сбросить" id = "reset"/>
+                    <a id = "reset" href = "<c:url value = '/'/>">Сбросить</a>
                 </td>
             </tr>
         </table>

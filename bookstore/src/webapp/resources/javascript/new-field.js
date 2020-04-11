@@ -11,7 +11,7 @@ $(document).ready(function() {
             document.getElementById("textBoxesGroup").innerHTML = tbg;
         }
 
-        for (let i = 0; i <= counter; ++i) {
+        for (let i = 0; i < counter; ++i) {
             let value = sessionStorage.getItem("textBox" + i);
 
             if (value) {

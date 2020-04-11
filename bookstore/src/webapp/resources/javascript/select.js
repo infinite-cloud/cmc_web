@@ -19,7 +19,6 @@ for (const [key, value] of Object.entries(selectors)) {
 }
 
 $('#reset').live('click', function() {
-    for (const value of Object.values(selectors)) {
-        sessionStorage.setItem(value, null);
-    }
+    sessionStorage.clear();
+    $('#textBox0').val('');
 });
