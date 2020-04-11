@@ -62,6 +62,11 @@
     </tr>
 
     <tr>
+        <td><b>Наличие</b></td>
+        <td>${bookEntity.availableCount} шт.</td>
+    </tr>
+
+    <tr>
         <td><b>Цена</b></td>
         <td>${bookEntity.bookPrice} руб.</td>
     </tr>
@@ -75,7 +80,7 @@
             Товар добавлен в корзину
         </c:if>
         <c:if test = "${param.addedToCart == false}">
-            Товара нет в наличии
+            На складе недостаточно экземпляров
         </c:if>
     </security:authorize>
 </div>
