@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests().antMatchers("/", "/login", "/logout", "/register", "/book")
                 .permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/account")
+        httpSecurity.authorizeRequests().antMatchers("/account", "/cart", "/placeOrder")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
         httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         httpSecurity.authorizeRequests().and().formLogin()

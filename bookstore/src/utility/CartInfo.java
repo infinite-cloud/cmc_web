@@ -11,7 +11,7 @@ public class CartInfo {
 
     public CartInfo() {
         bookList = new ArrayList<>();
-        orderId = (long) -1;
+        orderId = null;
     }
 
     public void addItem(BookEntity bookEntity) {
@@ -89,5 +89,6 @@ public class CartInfo {
 
     public void clearCart() {
         bookList.clear();
+        orderId = null;
     }
 }
