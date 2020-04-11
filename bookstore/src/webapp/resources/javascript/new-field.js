@@ -30,8 +30,8 @@ $(document).ready(function() {
     });
 
     $("#addButton").click(function() {
-        let newTextBox = "<div id = textBoxDiv" + counter +
-            "><label><input type = 'text' name = 'authors[" + counter +
+        let newTextBox = "<div id = 'textBoxDiv" + counter +
+            "'><label><input type = 'text' name = 'authors[" + counter +
             "]' id = 'textBox" + counter + "'/></label></div>";
 
         $(newTextBox).appendTo("#textBoxesGroup");
