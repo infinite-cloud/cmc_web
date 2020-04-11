@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookForm;
 import validator.BookFormValidator;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -40,6 +45,8 @@ public class AdminController {
     private BookAuthorDAOImpl bookAuthorDAO;
     @Autowired
     private BookFormValidator bookFormValidator;
+    @Autowired
+    private ServletContext servletContext;
 
     private void setUpSelectors(ModelMap modelMap) {
         genreDAO.setSession();
@@ -60,6 +67,30 @@ public class AdminController {
         modelMap.addAttribute("publishers", publishers);
     }
 
+    private void saveImage(byte[] image, String name) {
+        if (image == null || image.length == 0 || name == null) {
+            return;
+        }
+
+        File file = new File(name);
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(image);
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
         Object target = dataBinder.getTarget();
@@ -75,6 +106,8 @@ public class AdminController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
+        dataBinder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
     }
 
     @RequestMapping(value = {"/addBook"}, method = RequestMethod.GET)
@@ -87,7 +120,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/addBook"}, method = RequestMethod.POST)
-    public String confirmAddBook(ModelMap modelMap,
+    public String confirmAddBook(ModelMap modelMap, HttpServletRequest request,
                                  @ModelAttribute("bookForm") @Validated BookForm bookForm,
                                  BindingResult result) {
         if (result.hasErrors()) {
@@ -111,10 +144,12 @@ public class AdminController {
         bookEntity.setDescription(bookForm.getDescription());
         bookEntity.setPublicationDate(bookForm.getPublicationDate());
         bookEntity.setPageCount(bookForm.getPageCount());
-        bookEntity.setImageName(bookForm.getImageName());
+        bookEntity.setImageName(bookForm.getImage().getOriginalFilename());
         bookEntity.setBookPrice(bookForm.getBookPrice());
         bookDAO.save(bookEntity);
 
+        saveImage(bookForm.getImage().getBytes(),servletContext.getRealPath("/resources/images") +
+                "/" + bookForm.getImage().getOriginalFilename());
         bookForm.reduce();
 
         for (Long authorId : bookForm.getBookAuthors()) {

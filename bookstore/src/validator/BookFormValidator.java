@@ -50,9 +50,11 @@ public class BookFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors, "availableCount", "NotEmpty.bookForm");
         ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "imageName", "NotEmpty.bookForm");
-        ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors, "bookPrice", "NotEmpty.bookForm");
+
+        if (bookForm.getImage() == null || bookForm.getImage().getBytes().length == 0) {
+            errors.rejectValue("image", "NotEmpty.bookForm");
+        }
 
         if (bookForm.getPageCount() != null && bookForm.getPageCount() <= 0) {
             errors.rejectValue("pageCount", "Positive.bookForm");

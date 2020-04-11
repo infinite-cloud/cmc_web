@@ -17,7 +17,8 @@
 <div class = "page-title" style = "text-align: center;"><b>Добавить книгу</b></div>
 
 <form:form modelAttribute = "bookForm" method = "POST"
-           action = "${pageContext.request.contextPath}/addBook">
+           action = "${pageContext.request.contextPath}/addBook"
+           enctype = "multipart/form-data">
 <table style = "text-align: left" align = "center">
     <tr>
         <td><b>Название</b></td>
@@ -157,11 +158,11 @@
         <td><b>Изображение</b></td>
         <td>
             <label>
-                <form:input path = "imageName"/>
+                <form:input path = "image" type = "file"/>
             </label>
         </td>
         <td>
-            <form:errors path = "imageName" class = "error-message"/>
+            <form:errors path = "image" class = "error-message"/>
         </td>
     </tr>
 

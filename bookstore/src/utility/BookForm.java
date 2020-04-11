@@ -1,8 +1,9 @@
 package utility;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BookForm {
     private String bookName;
@@ -14,7 +15,7 @@ public class BookForm {
     private Long publisherId;
     private Long genreId;
     private Long coverTypeId;
-    private String imageName;
+    private CommonsMultipartFile image;
     private List<Long> bookAuthors;
 
     public BookForm() {
@@ -57,8 +58,8 @@ public class BookForm {
         return coverTypeId;
     }
 
-    public String getImageName() {
-        return imageName;
+    public CommonsMultipartFile getImage() {
+        return image;
     }
 
     public List<Long> getBookAuthors() {
@@ -101,11 +102,17 @@ public class BookForm {
         this.coverTypeId = coverTypeId;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setImage(CommonsMultipartFile image) {
+        this.image = image;
     }
 
     public void setBookAuthors(List<Long> bookAuthors) {
         this.bookAuthors = bookAuthors;
+    }
+
+    public void reduce() {
+        bookAuthors.removeIf(Objects::isNull);
+        LinkedHashSet<Long> hashSet = new LinkedHashSet<>(bookAuthors);
+        bookAuthors = new ArrayList<>(hashSet);
     }
 }

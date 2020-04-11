@@ -25,6 +25,8 @@
       <root url="jar://$PROJECT_DIR$/bookstore/lib/javax.servlet-api-4.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/bookstore/lib/jstl-1.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/bookstore/lib/commons-validator-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bookstore/lib/commons-fileupload-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bookstore/lib/commons-io-2.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
