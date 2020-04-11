@@ -3,17 +3,18 @@ package controller;
 import daoimpl.*;
 import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookFilter;
-import utility.CartInfo;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,13 @@ public class MainController {
     private PublisherDAOImpl publisherDAO;
     @Autowired
     private AuthorDAOImpl authorDAO;
+
+    @InitBinder
+    public void myInitBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
     private void setUpSelectors(ModelMap modelMap) {
         genreDAO.setSession();
@@ -77,7 +85,8 @@ public class MainController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String applyBookFilter(ModelMap modelMap,
-                                  @ModelAttribute("bookFilterForm") BookFilter filter) {
+                                  @ModelAttribute("bookFilterForm") BookFilter filter,
+                                  BindingResult bindingResult) {
         bookDAO.setSession();
         bookAuthorDAO.setSession();
         authorDAO.setSession();

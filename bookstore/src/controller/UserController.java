@@ -36,22 +36,16 @@ import java.util.List;
 public class UserController {
     @Autowired
     private AccountDAOImpl accountDAO;
-
     @Autowired
     private OrderedBookDAOImpl orderedBookDAO;
-
     @Autowired
     private PurchaseDAOImpl purchaseDAO;
-
     @Autowired
     private BookDAOImpl bookDAO;
-
     @Autowired
     private UserFormValidator userFormValidator;
-
     @Autowired
     private CartInfoValidator cartInfoValidator;
-
     @Autowired
     private OrderFormValidator orderFormValidator;
 
