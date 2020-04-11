@@ -91,6 +91,7 @@ public class AdminController {
                                  @ModelAttribute("bookForm") @Validated BookForm bookForm,
                                  BindingResult result) {
         if (result.hasErrors()) {
+            setUpSelectors(modelMap);
             return "addBook";
         }
 
