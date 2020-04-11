@@ -12,7 +12,7 @@
 
 <jsp:include page = "header.jsp"/>
 
-<div class = "page-title" style="text-align: center;"><b>Оформление заказа</b></div>
+<div class = "page-title" style = "text-align: center;"><b>Оформление заказа</b></div>
 
 <c:choose>
     <c:when test = "${param.success == null}">
@@ -35,35 +35,11 @@
                 <td>Дата доставки</td>
                 <td>
                     <label>
-                        Год <form:input path = "deliveryYear" type = "number"/>
+                        <form:input path = "deliveryDate" value = "YYYY-MM-DD"/>
                     </label>
                 </td>
                 <td>
-                    <form:errors path = "deliveryYear" class = "error-message"/>
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td>
-                    <label>
-                        Месяц <form:input path = "deliveryMonth" type = "number"/>
-                    </label>
-                </td>
-                <td>
-                    <form:errors path = "deliveryMonth" class = "error-message"/>
-                </td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td>
-                    <label>
-                        День <form:input path = "deliveryDay" type = "number"/>
-                    </label>
-                </td>
-                <td>
-                    <form:errors path = "deliveryDay" class = "error-message"/>
+                    <form:errors path = "deliveryDate" class = "error-message"/>
                 </td>
             </tr>
 

@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import config.security.WebSecurityConfig;
 import daoimpl.AccountDAOImpl;
 import daoimpl.BookDAOImpl;
@@ -23,10 +22,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utility.*;
 import validator.CartInfoValidator;
+import validator.OrderFormValidator;
 import validator.UserFormValidator;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +52,9 @@ public class UserController {
     @Autowired
     private CartInfoValidator cartInfoValidator;
 
+    @Autowired
+    private OrderFormValidator orderFormValidator;
+
     private CartInfo getSessionCart(HttpServletRequest request) {
         CartInfo cartInfo = (CartInfo) request.getSession().getAttribute("cartInfo");
 
@@ -76,6 +78,8 @@ public class UserController {
             dataBinder.setValidator(userFormValidator);
         } else if (target.getClass() == CartInfo.class) {
             dataBinder.setValidator(cartInfoValidator);
+        } else if (target.getClass() == OrderForm.class) {
+            dataBinder.setValidator(orderFormValidator);
         }
     }
 
@@ -311,7 +315,7 @@ public class UserController {
                                @ModelAttribute("orderForm") @Validated OrderForm orderForm,
                                BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/placeOrder";
+            return "placeOrder";
         }
 
         accountDAO.setSession();
@@ -325,9 +329,7 @@ public class UserController {
         purchaseEntity.setUserId(accountDAO.getByEMail(request.getUserPrincipal().getName()));
         purchaseEntity.setTotalPrice(cartInfo.getTotalPrice());
         purchaseEntity.setDeliveryAddress(orderForm.getDeliveryAddress());
-        purchaseEntity.setDeliveryDate(Timestamp.valueOf(orderForm.getDeliveryYear() + "-" +
-                orderForm.getDeliveryMonth() + "-" +
-                orderForm.getDeliveryDay() +
+        purchaseEntity.setDeliveryDate(Timestamp.valueOf(orderForm.getDeliveryDate() +
                 " 00:00:00"));
         purchaseEntity.setOrderDate(new Timestamp(System.currentTimeMillis()));
 
