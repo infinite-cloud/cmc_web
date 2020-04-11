@@ -10,6 +10,7 @@ import utility.OrderForm;
 
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -28,25 +29,26 @@ public class OrderFormValidator implements Validator {
         BeanWrapper wrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
 
         String deliveryDate = (String) wrapper.getPropertyValue("deliveryDate");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
+        Date date = null;
+
+        try {
+            date = new Date(format.parse(deliveryDate).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        assert date != null;
 
         if (deliveryDate == null) {
             errors.rejectValue("deliveryDate", "NotEmpty.orderForm");
         } else {
-            boolean valid = true;
-
-            try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                dateFormat.setLenient(false);
-                dateFormat.parse(deliveryDate);
-            } catch (Exception e) {
-                errors.rejectValue("deliveryDate", "Date.orderForm");
-                valid = false;
-            }
-
-            if (valid && Date.valueOf(deliveryDate).getTime() <
+            if (date.getTime() <
                     Calendar.getInstance().getTime().getTime()) {
                 errors.rejectValue("deliveryDate", "Date.orderForm");
             }
         }
+
+        wrapper.setPropertyValue("deliveryDate", date.toString());
     }
 }

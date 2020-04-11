@@ -35,7 +35,7 @@
                 <td>Дата доставки</td>
                 <td>
                     <label>
-                        <form:input path = "deliveryDate" value = "YYYY-MM-DD"/>
+                        <form:input path = "deliveryDate" value = "YYYY-MM-DD" type = "datetime-local"/>
                     </label>
                 </td>
                 <td>
