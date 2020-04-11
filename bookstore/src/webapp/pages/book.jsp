@@ -53,6 +53,7 @@
     </tr>
 
     <tr>
+        <!-- TODO: Change to date -->
         <td><b>Год издания</b></td>
         <td>
             <c:set var = "publicationDate" value = "${bookEntity.publicationDate}"/>
