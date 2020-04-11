@@ -102,10 +102,10 @@
             </tr>
 
             <tr>
-                <td>Год издания</td>
+                <td>Дата издания</td>
                 <td>
-                    от <form:input path = "minYear" type = "number"/>
-                    до <form:input path = "maxYear" type = "number"/>
+                    от <form:input path = "minDate" type = "date"/>
+                    до <form:input path = "maxDate" type = "date"/>
                 </td>
             </tr>
 

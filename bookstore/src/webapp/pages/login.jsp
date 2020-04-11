@@ -33,7 +33,7 @@
             <td>Электронная почта</td>
             <td>
                 <label>
-                    <input name = "eMail"/>
+                    <input name = "eMail" type = "email"/>
                 </label>
             </td>
         </tr>

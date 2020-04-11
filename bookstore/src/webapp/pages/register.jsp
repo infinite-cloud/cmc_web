@@ -22,7 +22,7 @@
             <td>Электронная почта (*)</td>
             <td>
                 <label>
-                    <form:input path = "eMail"/>
+                    <form:input path = "eMail" type = "email"/>
                 </label>
             </td>
             <td>
@@ -46,7 +46,7 @@
             <td>Домашний адрес</td>
             <td>
                 <label>
-                    <form:input path = "homeAddress"/>
+                    <form:input path = "homeAddress" type = "text"/>
                 </label>
             </td>
             <td>
@@ -58,7 +58,7 @@
             <td>Номер телефона</td>
             <td>
                 <label>
-                    <form:input path = "phoneNumber"/>
+                    <form:input path = "phoneNumber" type = "tel"/>
                 </label>
             </td>
             <td>

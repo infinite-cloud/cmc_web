@@ -16,8 +16,8 @@ public class BookFilter {
     private Double maxPrice;
     private Integer minPages;
     private Integer maxPages;
-    private Integer minYear;
-    private Integer maxYear;
+    private Date minDate;
+    private Date maxDate;
     private Map<Integer, String> authors;
 
     public BookFilter() {
@@ -60,20 +60,12 @@ public class BookFilter {
         return maxPages;
     }
 
-    public Integer getMinYear() {
-        return minYear;
-    }
-
-    public Integer getMaxYear() {
-        return maxYear;
-    }
-
     public Date getMinDate() {
-        return (minYear != null) ? Date.valueOf(minYear + "-01-01") : null;
+        return minDate;
     }
 
     public Date getMaxDate() {
-        return (maxYear != null) ? Date.valueOf(maxYear + "-12-31") : null;
+        return maxDate;
     }
 
     public Map<Integer, String> getAuthors() {
@@ -116,12 +108,12 @@ public class BookFilter {
         this.maxPages = maxPages;
     }
 
-    public void setMinYear(Integer year) {
-        this.minYear = year;
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
     }
 
-    public void setMaxYear(Integer year) {
-        this.maxYear = year;
+    public void setMaxDate(Date maxDate) {
+        this.maxDate = maxDate;
     }
 
     public void setAuthors(Map<Integer, String> authors) {
