@@ -115,6 +115,8 @@ public class AdminController {
         bookEntity.setBookPrice(bookForm.getBookPrice());
         bookDAO.save(bookEntity);
 
+        bookForm.reduce();
+
         for (Long authorId : bookForm.getBookAuthors()) {
             BookAuthorEntity bookAuthorEntity = new BookAuthorEntity();
             bookAuthorEntity.setBookId(bookEntity);
