@@ -53,7 +53,7 @@ public class BookTest extends GenericTest {
         Assert.assertEquals(books.size(), 1);
         Assert.assertEquals(books.get(0), bookDAO.getById((long) 5));
 
-        Assert.assertEquals(bookDAO.getByAvailability(false).size(), 0);
+        Assert.assertEquals(bookDAO.getByAvailability(false).size(), 1);
 
         Assert.assertTrue(bookDAO.getByPublisherId((long) 12).isEmpty());
         books = bookDAO.getByPublisherId((long) 1);
@@ -109,7 +109,7 @@ public class BookTest extends GenericTest {
                 null,
                 null,
                 null);
-        Assert.assertTrue(books.isEmpty());
+        Assert.assertEquals(books.size(), 1);
 
         books = bookDAO.getByParameters("Онегин",
                 Date.valueOf("2010-01-01"), null,
@@ -146,7 +146,7 @@ public class BookTest extends GenericTest {
         book.setAvailableCount(1);
         book.setDescription("TEST");
 
-        bookDAO.save(book, authors, (long) 1, (long) 1, (long) 1);
+        bookDAO.save(book, authors, (long) 1, (long) 1, (long) 1, "");
 
         tx.commit();
 

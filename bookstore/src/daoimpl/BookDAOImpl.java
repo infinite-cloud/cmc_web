@@ -200,7 +200,8 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
     }
 
     public void save(BookEntity book, List<String> authorNames,
-                     Long publisherId, Long genreId, Long coverTypeId) {
+                     Long publisherId, Long genreId, Long coverTypeId,
+                     String imageName) {
         if (authorNames.isEmpty()) {
             return;
         }
@@ -222,6 +223,7 @@ public class BookDAOImpl extends GenericDAO<BookEntity, Long> {
         book.setPublisherId(publisherDAO.getById(publisherId));
         book.setGenreId(genreDAO.getById(genreId));
         book.setCoverTypeId(coverTypeDAO.getById(coverTypeId));
+        book.setImageName(imageName);
 
         bookDAO.save(book);
 

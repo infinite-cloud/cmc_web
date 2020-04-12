@@ -28,7 +28,8 @@ public class AccountTest extends GenericTest {
         Assert.assertNull(account.getHomeAddress());
         Assert.assertNull(account.getPhoneNumber());
         Assert.assertEquals(account.geteMail(), "admin@namelessbookstore.com");
-        Assert.assertEquals(account.getPasswordHash(), "t7z6kgTsq+VdcsxNGWb4o0M2e/IwpOc3oczibsS6+Aw=");
+        Assert.assertEquals(account.getPasswordHash(),
+                "$2y$10$TwOmYsac5nUCW1040f0.BeJwOOCARmzXlQQuPJUSZIBYEOu2gB1Nm");
         Assert.assertTrue(account.isAdmin());
 
         Assert.assertNull(accountDAO.getById((long) 12));
