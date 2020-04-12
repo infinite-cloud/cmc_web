@@ -17,9 +17,13 @@ public class BookForm {
     private Long coverTypeId;
     private CommonsMultipartFile image;
     private List<Long> bookAuthors;
+    private Boolean needsImage;
+    private Long bookId;
 
     public BookForm() {
         this.bookAuthors = new ArrayList<>();
+        this.needsImage = true;
+        this.bookId = null;
     }
 
     public String getBookName() {
@@ -66,6 +70,14 @@ public class BookForm {
         return bookAuthors;
     }
 
+    public Boolean getNeedsImage() {
+        return needsImage;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
     public void setBookName(String bookName) {
         this.bookName = bookName;
     }
@@ -108,6 +120,14 @@ public class BookForm {
 
     public void setBookAuthors(List<Long> bookAuthors) {
         this.bookAuthors = bookAuthors;
+    }
+
+    public void setNeedsImage(Boolean needsImage) {
+        this.needsImage = needsImage;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
     }
 
     public void reduce() {

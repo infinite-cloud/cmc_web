@@ -105,6 +105,62 @@ public class AdminController {
         return parameter;
     }
 
+    private void saveBook(BookForm bookForm) {
+        bookDAO.setSession();
+        coverTypeDAO.setSession();
+        genreDAO.setSession();
+        publisherDAO.setSession();
+        bookAuthorDAO.setSession();
+        authorDAO.setSession();
+
+        BookEntity bookEntity = (bookForm.getBookId() == null) ?
+                new BookEntity() : bookDAO.getById(bookForm.getBookId());
+        bookEntity.setBookName(bookForm.getBookName());
+        bookEntity.setAvailableCount(bookForm.getAvailableCount());
+        bookEntity.setCoverTypeId(coverTypeDAO.getById(bookForm.getCoverTypeId()));
+        bookEntity.setGenreId(genreDAO.getById(bookForm.getGenreId()));
+        bookEntity.setPublisherId(publisherDAO.getById(bookForm.getPublisherId()));
+        bookEntity.setDescription(bookForm.getDescription());
+        bookEntity.setPublicationDate(bookForm.getPublicationDate());
+        bookEntity.setPageCount(bookForm.getPageCount());
+        bookEntity.setBookPrice(bookForm.getBookPrice());
+        bookDAO.save(bookEntity);
+
+        if (bookForm.getImage() != null) {
+            bookEntity.setImageName(bookForm.getImage().getOriginalFilename());
+            saveImage(bookForm.getImage().getBytes(),
+                    servletContext.getRealPath("/resources/images") +
+                            "/" + bookForm.getImage().getOriginalFilename());
+        }
+
+        bookForm.reduce();
+
+        List<AuthorEntity> authorList;
+        
+        if (bookForm.getBookId() != null) {
+            authorList = bookAuthorDAO.getAuthorsByBook(bookEntity);
+
+            for (AuthorEntity author : authorList) {
+                if (!bookForm.getBookAuthors().contains(author.getAuthorId())) {
+                    bookAuthorDAO.delete(bookAuthorDAO.getByCompositeId(
+                            bookForm.getBookId(), author.getAuthorId()));
+                }
+            }
+
+            for (AuthorEntity author : authorList) {
+                bookForm.getBookAuthors().removeIf(x -> x.equals(author.getAuthorId()));
+            }
+        }
+
+        for (Long authorId : bookForm.getBookAuthors()) {
+            BookAuthorEntity bookAuthorEntity = new BookAuthorEntity();
+            bookAuthorEntity.setBookId(bookEntity);
+            bookAuthorEntity.setAuthorId(authorDAO.getById(authorId));
+            bookAuthorEntity.setId(new BookAuthorId(authorId, bookEntity.getBookId()));
+            bookAuthorDAO.save(bookAuthorEntity);
+        }
+    }
+
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
         Object target = dataBinder.getTarget();
@@ -142,37 +198,7 @@ public class AdminController {
             return "addBook";
         }
 
-        bookDAO.setSession();
-        coverTypeDAO.setSession();
-        genreDAO.setSession();
-        publisherDAO.setSession();
-        bookAuthorDAO.setSession();
-        authorDAO.setSession();
-
-        BookEntity bookEntity = new BookEntity();
-        bookEntity.setBookName(bookForm.getBookName());
-        bookEntity.setAvailableCount(bookForm.getAvailableCount());
-        bookEntity.setCoverTypeId(coverTypeDAO.getById(bookForm.getCoverTypeId()));
-        bookEntity.setGenreId(genreDAO.getById(bookForm.getGenreId()));
-        bookEntity.setPublisherId(publisherDAO.getById(bookForm.getPublisherId()));
-        bookEntity.setDescription(bookForm.getDescription());
-        bookEntity.setPublicationDate(bookForm.getPublicationDate());
-        bookEntity.setPageCount(bookForm.getPageCount());
-        bookEntity.setImageName(bookForm.getImage().getOriginalFilename());
-        bookEntity.setBookPrice(bookForm.getBookPrice());
-        bookDAO.save(bookEntity);
-
-        saveImage(bookForm.getImage().getBytes(),servletContext.getRealPath("/resources/images") +
-                "/" + bookForm.getImage().getOriginalFilename());
-        bookForm.reduce();
-
-        for (Long authorId : bookForm.getBookAuthors()) {
-            BookAuthorEntity bookAuthorEntity = new BookAuthorEntity();
-            bookAuthorEntity.setBookId(bookEntity);
-            bookAuthorEntity.setAuthorId(authorDAO.getById(authorId));
-            bookAuthorEntity.setId(new BookAuthorId(authorId, bookEntity.getBookId()));
-            bookAuthorDAO.save(bookAuthorEntity);
-        }
+        saveBook(bookForm);
 
         return "redirect:/?bookAdded=true";
     }
@@ -301,9 +327,14 @@ public class AdminController {
 
     @RequestMapping(value = "/editBook", method = RequestMethod.POST)
     public String confirmEditBook(ModelMap modelMap,
-                                  @RequestParam(value = "id", defaultValue = "") Long id,
-                                  @ModelAttribute("bookForm") BookForm bookForm,
+                                  @ModelAttribute("bookForm") @Validated BookForm bookForm,
                                   BindingResult bindingResult) {
-        return "editBook";
+        if (bindingResult.hasErrors()) {
+            return "editBook";
+        }
+
+        saveBook(bookForm);
+
+        return "redirect:/?bookEdited=true";
     }
 }

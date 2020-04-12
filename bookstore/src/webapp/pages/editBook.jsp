@@ -33,6 +33,8 @@
 <form:form modelAttribute = "bookForm" method = "POST"
            action = "${pageContext.request.contextPath}/editBook"
            enctype = "multipart/form-data">
+    <form:input path = "needsImage" type = "hidden" value = "false"/>
+    <form:input path = "bookId" type = "hidden" value = "${editedBook.bookId}"/>
     <table style = "text-align: left" align = "center">
         <tr>
             <td><b>Название</b></td>
@@ -241,7 +243,7 @@
             <td>&nbsp;</td>
             <td>
                 <label>
-                    <input type = "submit" value = "Добавить"/>
+                    <input type = "submit" value = "Сохранить"/>
                     <a id = "reset" href = "<c:url value = '/'/>">Отмена</a>
                 </label>
             </td>

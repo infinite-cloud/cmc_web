@@ -52,7 +52,8 @@ public class BookFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors, "bookPrice", "NotEmpty.bookForm");
 
-        if (bookForm.getImage() == null || bookForm.getImage().getBytes().length == 0) {
+        if (bookForm.getNeedsImage() &&
+                (bookForm.getImage() == null || bookForm.getImage().getBytes().length == 0)) {
             errors.rejectValue("image", "NotEmpty.bookForm");
         }
 
