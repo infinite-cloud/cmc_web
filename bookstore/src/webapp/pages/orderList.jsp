@@ -1,5 +1,6 @@
 ﻿<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +25,16 @@
     <c:forEach items = "${orders}" var = "order">
         <tr>
             <td><a href = "<c:url value = '/order?id=${order.orderId}'/>">${order.orderId}</a></td>
-            <td>${order.orderDate}</td>
-            <td>${order.deliveryDate}</td>
+            <td>
+                <c:set var = "orderDate" value = "${order.orderDate}"/>
+                <c:set var = "orderDateFormatted" value = "${fn:substring(orderDate, 0, 16)}"/>
+                    ${orderDateFormatted}
+            </td>
+            <td>
+                <c:set var = "deliveryDate" value = "${order.deliveryDate}"/>
+                <c:set var = "deliveryDateFormatted" value = "${fn:substring(deliveryDate, 0, 16)}"/>
+                    ${deliveryDateFormatted}
+            </td>
             <form:form modelAttribute = "orderSelector" method = "POST">
                 <td>
                     <form:select path = "status">

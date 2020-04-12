@@ -1,5 +1,6 @@
 ﻿<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,12 +38,20 @@
 
     <tr>
         <td><b>Дата заказа</b></td>
-        <td>${orderData.orderDate}</td>
+        <td>
+            <c:set var = "orderDate" value = "${orderData.orderDate}"/>
+            <c:set var = "orderDateFormatted" value = "${fn:substring(orderDate, 0, 16)}"/>
+            ${orderDateFormatted}
+        </td>
     </tr>
 
     <tr>
         <td><b>Дата доставки</b></td>
-        <td>${orderData.orderDate}</td>
+        <td>
+            <c:set var = "deliveryDate" value = "${orderData.deliveryDate}"/>
+            <c:set var = "deliveryDateFormatted" value = "${fn:substring(deliveryDate, 0, 16)}"/>
+            ${deliveryDateFormatted}
+        </td>
     </tr>
 
     <tr>
