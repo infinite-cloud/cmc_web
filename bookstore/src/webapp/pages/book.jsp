@@ -15,7 +15,7 @@
 
 <div class = "page-title" style = "text-align: center;"><b>${bookEntity.bookName}</b></div>
 
-<img src = "${pageContext.request.contextPath}/resources/images/${bookEntity.imageName}"/>
+<img src = "${pageContext.request.contextPath}/resources/images/${bookEntity.imageName}" alt = ""/>
 
 <table style = "text-align: left" align = "center" border = "1">
     <tr>
@@ -53,12 +53,13 @@
     </tr>
 
     <tr>
-        <!-- TODO: Change to date -->
-        <td><b>Год издания</b></td>
+        <td><b>Дата издания</b></td>
         <td>
             <c:set var = "publicationDate" value = "${bookEntity.publicationDate}"/>
             <c:set var = "publicationYear" value = "${fn:substring(publicationDate, 0, 4)}"/>
-            ${publicationYear}
+            <c:set var = "publicationMonth" value = "${fn:substring(publicationDate, 5, 7)}"/>
+            <c:set var = "publicationDay" value = "${fn:substring(publicationDate, 8, 10)}"/>
+            ${publicationDay}.${publicationMonth}.${publicationYear}
         </td>
     </tr>
 
