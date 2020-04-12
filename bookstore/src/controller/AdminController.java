@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookForm;
+import utility.ItemForm;
 import validator.BookFormValidator;
 
 import javax.servlet.ServletContext;
@@ -166,5 +167,66 @@ public class AdminController {
         bookDAO.delete(bookDAO.getById(id));
 
         return "redirect:/?bookDeleted=true";
+    }
+
+    @RequestMapping(value = {"/addItem"}, method = RequestMethod.GET)
+    public String add(ModelMap modelMap) {
+        modelMap.addAttribute("itemForm", new ItemForm());
+
+        return "addItem";
+    }
+
+    @RequestMapping(value = {"/addItem"}, method = RequestMethod.POST)
+    public String confirmAdd(ModelMap modelMap, HttpServletRequest request,
+                             @ModelAttribute("item") ItemForm itemForm,
+                             BindingResult result) {
+        String parameter;
+
+        if (request.getParameter("author") != null) {
+            parameter = "author";
+        } else if (request.getParameter("publisher") != null) {
+            parameter = "publisher";
+        } else if (request.getParameter("coverType") != null) {
+            parameter = "coverType";
+        } else if (request.getParameter("genre") != null) {
+            parameter = "genre";
+        } else {
+            return "addItem";
+        }
+
+        if (result.hasErrors()) {
+            return "addItem" + "?" + parameter;
+        }
+
+        switch (parameter) {
+            case "author":
+                authorDAO.setSession();
+                AuthorEntity authorEntity = new AuthorEntity();
+                authorEntity.setAuthorName(itemForm.getValue());
+                authorDAO.save(authorEntity);
+                break;
+            case "publisher":
+                publisherDAO.setSession();
+                PublisherEntity publisherEntity = new PublisherEntity();
+                publisherEntity.setPublisherName(itemForm.getValue());
+                publisherDAO.save(publisherEntity);
+                break;
+            case "coverType":
+                coverTypeDAO.setSession();
+                CoverTypeEntity coverTypeEntity = new CoverTypeEntity();
+                coverTypeEntity.setCoverTypeName(itemForm.getValue());
+                coverTypeDAO.save(coverTypeEntity);
+                break;
+            case "genre":
+                genreDAO.setSession();
+                GenreEntity genreEntity = new GenreEntity();
+                genreEntity.setGenreName(itemForm.getValue());
+                genreDAO.save(genreEntity);
+                break;
+            default:
+                break;
+        }
+
+        return "redirect:/?itemAdded=" + parameter;
     }
 }
