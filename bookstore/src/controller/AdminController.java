@@ -89,6 +89,22 @@ public class AdminController {
         }
     }
 
+    private String getItemParameter(HttpServletRequest request) {
+        String parameter = "";
+
+        if (request.getParameter("author") != null) {
+            parameter = "author";
+        } else if (request.getParameter("publisher") != null) {
+            parameter = "publisher";
+        } else if (request.getParameter("coverType") != null) {
+            parameter = "coverType";
+        } else if (request.getParameter("genre") != null) {
+            parameter = "genre";
+        }
+
+        return parameter;
+    }
+
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
         Object target = dataBinder.getTarget();
@@ -170,32 +186,24 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/addItem"}, method = RequestMethod.GET)
-    public String add(ModelMap modelMap) {
+    public String addItem(ModelMap modelMap) {
         modelMap.addAttribute("itemForm", new ItemForm());
 
         return "addItem";
     }
 
     @RequestMapping(value = {"/addItem"}, method = RequestMethod.POST)
-    public String confirmAdd(ModelMap modelMap, HttpServletRequest request,
+    public String confirmAddItem(ModelMap modelMap, HttpServletRequest request,
                              @ModelAttribute("item") ItemForm itemForm,
                              BindingResult result) {
-        String parameter;
+        String parameter = getItemParameter(request);
 
-        if (request.getParameter("author") != null) {
-            parameter = "author";
-        } else if (request.getParameter("publisher") != null) {
-            parameter = "publisher";
-        } else if (request.getParameter("coverType") != null) {
-            parameter = "coverType";
-        } else if (request.getParameter("genre") != null) {
-            parameter = "genre";
-        } else {
+        if (parameter.equals("")) {
             return "addItem";
         }
 
         if (result.hasErrors()) {
-            return "addItem" + "?" + parameter;
+            return "addItem?" + parameter;
         }
 
         switch (parameter) {
@@ -227,6 +235,41 @@ public class AdminController {
                 break;
         }
 
-        return "redirect:/?itemAdded=" + parameter;
+        return "redirect:/?itemAdded=true";
+    }
+
+    @RequestMapping(value = {"/removeItem"}, method = RequestMethod.GET)
+    public String removeItem(ModelMap modelMap) {
+        setUpSelectors(modelMap);
+
+        return "removeItem";
+    }
+
+    @RequestMapping(value = {"/removeItem/{type}/{id}"}, method = RequestMethod.GET)
+    public String confirmRemoveItem(ModelMap modelMap, HttpServletRequest request,
+                                    @PathVariable("id") Long id,
+                                    @PathVariable("type") String type) {
+        switch (type) {
+            case "author":
+                authorDAO.setSession();
+                authorDAO.delete(authorDAO.getById(id));
+                break;
+            case "publisher":
+                publisherDAO.setSession();
+                publisherDAO.delete(publisherDAO.getById(id));
+                break;
+            case "coverType":
+                coverTypeDAO.setSession();
+                coverTypeDAO.delete(coverTypeDAO.getById(id));
+                break;
+            case "genre":
+                genreDAO.setSession();
+                genreDAO.delete(genreDAO.getById(id));
+                break;
+            default:
+                break;
+        }
+
+        return "redirect:/removeItem?" + type + "&itemRemoved=true";
     }
 }

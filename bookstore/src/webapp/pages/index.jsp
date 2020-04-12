@@ -27,15 +27,19 @@
     <script type = "text/javascript">
         sessionStorage.clear();
     </script>
-    <div style="text-align: center;">Книга добавлена в каталог</div>
+    <div style = "text-align: center;">Книга добавлена в каталог</div>
 </c:if>
 
 <c:if test = "${param.accountDeleted == true}">
-    <div style="text-align: center;">Учётная запись удалена</div>
+    <div style = "text-align: center;">Учётная запись удалена</div>
 </c:if>
 
 <c:if test = "${param.bookDeleted == true}">
-    <div style="text-align: center;">Книга удалена</div>
+    <div style = "text-align: center;">Книга удалена</div>
+</c:if>
+
+<c:if test = "${param.itemAdded == true}">
+    <div style = "text-align: center;">Элемент добавлен</div>
 </c:if>
 
 <a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>

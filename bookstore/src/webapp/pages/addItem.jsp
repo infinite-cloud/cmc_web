@@ -8,7 +8,7 @@
     <%String title = "";%>
     <c:choose>
         <c:when test = "${param.publisher != null}">
-            <%title = "Добавить издателя";%>
+            <%title = "Добавить издательство";%>
         </c:when>
         <c:when test = "${param.genre != null}">
             <%title = "Добавить жанр";%>
