@@ -17,8 +17,3 @@ for (const [key, value] of Object.entries(selectors)) {
         sessionStorage.setItem(value, selectedValue);
     });
 }
-
-$('#reset').live('click', function() {
-    sessionStorage.clear();
-    $('#textBox0').val('');
-});

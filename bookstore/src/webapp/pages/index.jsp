@@ -11,10 +11,24 @@
     <script src = "${pageContext.request.contextPath}/resources/javascript/toggle.js"></script>
     <script src = "${pageContext.request.contextPath}/resources/javascript/select.js"></script>
     <script src = "${pageContext.request.contextPath}/resources/javascript/new-field.js"></script>
+
+    <script type = "text/javascript">
+        $('#reset').live('click', function() {
+            sessionStorage.clear();
+            $('#textBox0').val('');
+        });
+    </script>
 </head>
 <body>
 
 <jsp:include page = "header.jsp"/>
+
+<c:if test = "${param.bookAdded == true}">
+    <script type = "text/javascript">
+        sessionStorage.clear();
+    </script>
+    <div style="text-align: center;">Книга добавлена в каталог</div>
+</c:if>
 
 <a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>
 <div id = "toggleText" style = "display: none">

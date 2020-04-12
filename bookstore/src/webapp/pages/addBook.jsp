@@ -9,6 +9,21 @@
     <link rel = "stylesheet" type = "text/css"
           href = "${pageContext.request.contextPath}/resources/css/styles.css">
     <script src = "${pageContext.request.contextPath}/resources/javascript/new-selector.js"></script>
+    <script src = "${pageContext.request.contextPath}/resources/javascript/select.js"></script>
+
+   <script type = "text/javascript">
+       $('#reset').live('click', function() {
+           sessionStorage.clear();
+           $('#selector0').val('');
+       });
+   </script>
+
+    <script type = "text/javascript">
+        $('#submit').live('click', function() {
+            sessionStorage.clear();
+            $('#selector0').val('');
+        });
+    </script>
 </head>
 <body>
 
@@ -48,7 +63,7 @@
         <td><b>Жанр</b></td>
         <td>
             <label>
-                <form:select path = "genreId">
+                <form:select path = "genreId" id = "genre">
                     <option value = ""></option>
                     <c:forEach items = "${genres}" var = "genre">
                         <option value = "${genre.genreId}">${genre.genreName}</option>
@@ -65,7 +80,7 @@
         <td><b>Обложка</b></td>
         <td>
             <label>
-                <form:select path = "coverTypeId">
+                <form:select path = "coverTypeId" id = "cover">
                     <option value = ""></option>
                     <c:forEach items = "${covers}" var = "cover">
                         <option value = "${cover.coverTypeId}">${cover.coverTypeName}</option>
@@ -82,7 +97,7 @@
         <td><b>Издательство</b></td>
         <td>
             <label>
-                <form:select path = "publisherId">
+                <form:select path = "publisherId" id = "publisher">
                     <option value = ""></option>
                     <c:forEach items = "${publishers}" var = "publisher">
                         <option value = "${publisher.publisherId}">${publisher.publisherName}</option>
@@ -183,7 +198,7 @@
         <td>
             <label>
                 <input type = "submit" value = "Добавить"/>
-                <a href = "<c:url value = '/'/>">Отмена</a>
+                <a id = "reset" href = "<c:url value = '/'/>">Отмена</a>
             </label>
         </td>
     </tr>
