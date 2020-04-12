@@ -41,6 +41,9 @@
             <tr>
                 <td><b>Наименование</b></td>
                 <td><label><form:input path = "value"/></label></td>
+                <td>
+                    <form:errors path = "value" class = "error-message"/>
+                </td>
             </tr>
 
             <tr>

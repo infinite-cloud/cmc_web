@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookForm;
 import utility.ItemForm;
 import validator.BookFormValidator;
+import validator.ItemFormValidator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,8 @@ public class AdminController {
     private BookAuthorDAOImpl bookAuthorDAO;
     @Autowired
     private BookFormValidator bookFormValidator;
+    @Autowired
+    private ItemFormValidator itemFormValidator;
     @Autowired
     private ServletContext servletContext;
 
@@ -171,6 +174,8 @@ public class AdminController {
 
         if (target.getClass() == BookForm.class) {
             dataBinder.setValidator(bookFormValidator);
+        } else if (target.getClass() == ItemForm.class) {
+            dataBinder.setValidator(itemFormValidator);
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -220,16 +225,12 @@ public class AdminController {
 
     @RequestMapping(value = {"/addItem"}, method = RequestMethod.POST)
     public String confirmAddItem(ModelMap modelMap, HttpServletRequest request,
-                             @ModelAttribute("item") ItemForm itemForm,
+                             @ModelAttribute("itemForm") @Validated ItemForm itemForm,
                              BindingResult result) {
         String parameter = getItemParameter(request);
 
-        if (parameter.equals("")) {
+        if (result.hasErrors() || parameter.equals("")) {
             return "addItem";
-        }
-
-        if (result.hasErrors()) {
-            return "addItem?" + parameter;
         }
 
         switch (parameter) {
