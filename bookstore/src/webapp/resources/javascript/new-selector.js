@@ -1,18 +1,20 @@
 $(document).ready(function() {
     let counter;
+    let id = window.location.href;
 
     window.addEventListener("load", function() {
-        let c = sessionStorage.getItem("selectorCounter");
-        counter = (c) ? c : 1;
+        let selectors = document.getElementsByClassName("selectors");
+        let c = sessionStorage.getItem("selectorCounter" + id);
+        counter = (c) ? c : selectors.length - 1;
 
-        let sg = sessionStorage.getItem("selectorGroup");
+        let sg = sessionStorage.getItem("selectorGroup" + id);
 
         if (sg) {
             document.getElementById("selectorGroup").innerHTML = sg;
         }
 
         for (let i = 0; i < counter; ++i) {
-            let value = sessionStorage.getItem("selector" + i);
+            let value = sessionStorage.getItem("selector" + i + id);
 
             if (value) {
                 document.getElementById("selector" + i).value = value;
@@ -22,7 +24,7 @@ $(document).ready(function() {
 
     window.addEventListener("beforeunload", function(event) {
         for (let i = 0; i < counter; ++i) {
-            sessionStorage.setItem("selector" + i,
+            sessionStorage.setItem("selector" + i + id,
                 document.getElementById("selector" + i).value);
         }
 
@@ -32,28 +34,27 @@ $(document).ready(function() {
     $("#addButton").click(function() {
         let newSelector = "<div id = 'selectorDiv" + counter +
             "'><label><select name = 'bookAuthors[" + counter +
-            "]' id = 'selector" + counter + "'>" +
-            document.getElementById("selector0").innerHTML +
+            "]' id = 'selector" + counter + "' class = 'selectors'>" +
+            document.getElementById("selector").innerHTML +
             "</select></label></div>";
 
         $(newSelector).appendTo("#selectorGroup");
         ++counter;
-        sessionStorage.setItem("selectorGroup",
+        sessionStorage.setItem("selectorGroup" + id,
             document.getElementById("selectorGroup").innerHTML);
-        sessionStorage.setItem("selectorCounter", counter);
+        sessionStorage.setItem("selectorCounter" + id, counter);
     });
 
     $("#removeButton").click(function() {
-        if(counter === 1) {
+        if(counter <= 1) {
             return false;
         }
 
         --counter;
         $("#selectorDiv" + counter).remove();
-        sessionStorage.setItem("selectorCounter", counter);
-        sessionStorage.setItem("selectorGroup",
+        sessionStorage.setItem("selectorCounter" + id, counter);
+        sessionStorage.setItem("selectorGroup" + id,
             document.getElementById("selectorGroup").innerHTML);
-        sessionStorage.setItem("selectorDiv" + counter, "");
+        sessionStorage.setItem("selectorDiv" + counter + id, "");
     });
 });
-

@@ -11,12 +11,12 @@
     <script src = "${pageContext.request.contextPath}/resources/javascript/new-selector.js"></script>
     <script src = "${pageContext.request.contextPath}/resources/javascript/select.js"></script>
 
-   <script type = "text/javascript">
-       $('#reset').live('click', function() {
-           sessionStorage.clear();
-           $('#selector0').val('');
-       });
-   </script>
+    <script type = "text/javascript">
+        $('#reset').live('click', function() {
+            sessionStorage.clear();
+            $('#selector0').val('');
+        });
+    </script>
 
     <script type = "text/javascript">
         $('#submit').live('click', function() {
@@ -114,9 +114,19 @@
         <td><b>Авторы</b></td>
         <td>
             <div id = 'selectorGroup'>
-                <div id = "selectorDiv">
+                <div style = "display: none;">
                     <label>
-                        <select name = "bookAuthors[0]" id = "selector0">
+                        <select id = "selector" class = "selectors">
+                            <option value = ""></option>
+                            <c:forEach items = "${authors}" var = "author">
+                                <option value = "${author.authorId}">${author.authorName}</option>
+                            </c:forEach>
+                        </select>
+                    </label>
+                </div>
+                <div id = "selectorDiv0">
+                    <label>
+                        <select name = "bookAuthors[0]" id = "selector0" class = "selectors">
                             <option value = ""></option>
                             <c:forEach items = "${authors}" var = "author">
                                 <option value = "${author.authorId}">${author.authorName}</option>

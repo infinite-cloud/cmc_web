@@ -272,4 +272,38 @@ public class AdminController {
 
         return "redirect:/removeItem?" + type + "&itemRemoved=true";
     }
+
+    @RequestMapping(value = "/editBook", method = RequestMethod.GET)
+    public String editBook(ModelMap modelMap,
+                           @RequestParam(value = "id", defaultValue = "") Long id) {
+        if (id == null) {
+            return "redirect:/";
+        }
+
+        BookForm bookForm = new BookForm();
+        modelMap.addAttribute("bookForm", bookForm);
+        setUpSelectors(modelMap);
+
+        bookDAO.setSession();
+        bookAuthorDAO.setSession();
+        BookEntity editedBook = bookDAO.getById(id);
+
+        if (editedBook == null) {
+            return "redirect:/";
+        }
+
+        modelMap.addAttribute("editedBook", editedBook);
+        modelMap.addAttribute("editedBookAuthors",
+                bookAuthorDAO.getAuthorsByBook(editedBook));
+
+        return "editBook";
+    }
+
+    @RequestMapping(value = "/editBook", method = RequestMethod.POST)
+    public String confirmEditBook(ModelMap modelMap,
+                                  @RequestParam(value = "id", defaultValue = "") Long id,
+                                  @ModelAttribute("bookForm") BookForm bookForm,
+                                  BindingResult bindingResult) {
+        return "editBook";
+    }
 }
