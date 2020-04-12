@@ -11,6 +11,7 @@ import entity.OrderedBookId;
 import entity.PurchaseEntity;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -25,7 +26,9 @@ import validator.CartInfoValidator;
 import validator.OrderFormValidator;
 import validator.UserFormValidator;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -216,8 +219,14 @@ public class UserController {
         accountDAO.setSession();
 
         accountDAO.delete(accountDAO.getByEMail(request.getUserPrincipal().getName()));
+        SecurityContextHolder.clearContext();
+        HttpSession session = request.getSession(false);
 
-        return "redirect:/logout";
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/?accountDeleted=true";
     }
 
     @RequestMapping(value = {"/cart"}, method = RequestMethod.GET)

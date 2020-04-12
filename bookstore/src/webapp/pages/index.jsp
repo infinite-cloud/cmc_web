@@ -30,6 +30,10 @@
     <div style="text-align: center;">Книга добавлена в каталог</div>
 </c:if>
 
+<c:if test = "${param.accountDeleted == true}">
+    <div style="text-align: center;">Учётная запись удалена</div>
+</c:if>
+
 <a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>
 <div id = "toggleText" style = "display: none">
     <form:form modelAttribute = "bookFilterForm" method = "POST"
