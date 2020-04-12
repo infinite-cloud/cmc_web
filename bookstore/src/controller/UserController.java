@@ -307,8 +307,10 @@ public class UserController {
             return "redirect:/cart?isEmpty=true";
         }
 
-        OrderForm orderForm = new OrderForm();
-        modelMap.addAttribute("orderForm", orderForm);
+        accountDAO.setSession();
+        modelMap.addAttribute("orderForm", new OrderForm());
+        modelMap.addAttribute("orderingUser",
+                accountDAO.getByEMail(request.getUserPrincipal().getName()));
 
         return "placeOrder";
     }

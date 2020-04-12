@@ -23,7 +23,7 @@
                 <td>Адрес доставки</td>
                 <td>
                     <label>
-                        <form:input path = "deliveryAddress"/>
+                        <textarea name = "deliveryAddress">${orderingUser.homeAddress}</textarea>
                     </label>
                 </td>
                 <td>
