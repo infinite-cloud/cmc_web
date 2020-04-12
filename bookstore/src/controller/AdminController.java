@@ -46,6 +46,8 @@ public class AdminController {
     @Autowired
     private PurchaseDAOImpl purchaseDAO;
     @Autowired
+    private OrderedBookDAOImpl orderedBookDAO;
+    @Autowired
     private BookFormValidator bookFormValidator;
     @Autowired
     private ItemFormValidator itemFormValidator;
@@ -363,5 +365,32 @@ public class AdminController {
         purchaseEntity.setOrderStatus(orderSelectorForm.getStatus());
 
         return "redirect:/orderList";
+    }
+
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
+    public String order(ModelMap modelMap,
+                        @RequestParam(value = "id", defaultValue = "") Long id) {
+        purchaseDAO.setSession();
+        orderedBookDAO.setSession();
+        modelMap.addAttribute("orderData", purchaseDAO.getById(id));
+        modelMap.addAttribute("orderedBooks", orderedBookDAO.getByOrderId(id));
+        modelMap.addAttribute("customerAccount", purchaseDAO.getById(id).getUserId());
+        modelMap.addAttribute("orderStatus", PurchaseEntity.OrderStatus.values());
+        modelMap.addAttribute("orderSelector", new OrderSelectorForm());
+        modelMap.addAttribute("statusStrings",
+                new String[] {"В обработке", "Собран", "Доставлен", "Отменён"});
+
+        return "order";
+    }
+
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    public String orderUpdate(ModelMap modelMap,
+                              @ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm,
+                              BindingResult result) {
+        purchaseDAO.setSession();
+        PurchaseEntity purchaseEntity = purchaseDAO.getById(orderSelectorForm.getOrderId());
+        purchaseEntity.setOrderStatus(orderSelectorForm.getStatus());
+
+        return "redirect:/order?id=" + orderSelectorForm.getOrderId();
     }
 }

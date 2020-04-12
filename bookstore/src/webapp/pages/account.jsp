@@ -158,7 +158,7 @@
                 <th>Дата заказа</th>
                 <th>Дата доставки</th>
                 <th>Адрес доставки</th>
-                <th>Содержимое</th>
+                <th>Содержание</th>
             </tr>
             <c:forEach items = "${userOrders}" var = "order">
                 <tr>
