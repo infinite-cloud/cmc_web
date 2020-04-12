@@ -15,6 +15,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookForm;
 import utility.ItemForm;
+import utility.OrderSelectorForm;
 import validator.BookFormValidator;
 import validator.ItemFormValidator;
 
@@ -42,6 +43,8 @@ public class AdminController {
     private AuthorDAOImpl authorDAO;
     @Autowired
     private BookAuthorDAOImpl bookAuthorDAO;
+    @Autowired
+    private PurchaseDAOImpl purchaseDAO;
     @Autowired
     private BookFormValidator bookFormValidator;
     @Autowired
@@ -337,5 +340,28 @@ public class AdminController {
         saveBook(bookForm);
 
         return "redirect:/?bookEdited=true";
+    }
+
+    @RequestMapping(value = "/orderList", method = RequestMethod.GET)
+    public String orderList(ModelMap modelMap) {
+        purchaseDAO.setSession();
+        modelMap.addAttribute("orders", purchaseDAO.getRelevant());
+        modelMap.addAttribute("orderStatus", PurchaseEntity.OrderStatus.values());
+        modelMap.addAttribute("orderSelector", new OrderSelectorForm());
+        modelMap.addAttribute("statusStrings",
+                new String[] {"В обработке", "Собран", "Доставлен", "Отменён"});
+
+        return "orderList";
+    }
+
+    @RequestMapping(value = "/orderList", method = RequestMethod.POST)
+    public String orderListUpdate(ModelMap modelMap,
+                                  @ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm,
+                                  BindingResult result) {
+        purchaseDAO.setSession();
+        PurchaseEntity purchaseEntity = purchaseDAO.getById(orderSelectorForm.getOrderId());
+        purchaseEntity.setOrderStatus(orderSelectorForm.getStatus());
+
+        return "redirect:/orderList";
     }
 }
