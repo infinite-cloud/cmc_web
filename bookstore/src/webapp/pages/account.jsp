@@ -90,7 +90,7 @@
                             <td><b>Домашний адрес</b></td>
                             <td>
                                 <label>
-                                    <form:input path = "homeAddress" value = "${user.homeAddress}"/>
+                                    <textarea name = "homeAddress">${user.homeAddress}</textarea>
                                 </label>
                             </td>
                             <td>

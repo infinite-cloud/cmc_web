@@ -46,7 +46,7 @@
             <td>Домашний адрес</td>
             <td>
                 <label>
-                    <form:input path = "homeAddress" type = "text"/>
+                    <textarea name = "homeAddress"></textarea>
                 </label>
             </td>
             <td>
