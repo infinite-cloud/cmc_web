@@ -63,7 +63,7 @@
         <td><b>Содержание заказа</b></td>
         <td>
             <c:forEach items = "${orderedBooks}" var = "book">
-                ${book.bookId.bookName} (${book.bookCount} шт.)
+                ${book.bookId.bookName} (${book.bookCount} шт.)<br/>
             </c:forEach>
         </td>
     </tr>
