@@ -10,10 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import utility.BookForm;
@@ -161,5 +158,13 @@ public class AdminController {
         }
 
         return "redirect:/?bookAdded=true";
+    }
+
+    @RequestMapping(value = {"/deleteBook/{id}"}, method = RequestMethod.GET)
+    public String deleteBook(@PathVariable("id") Long id, ModelMap modelMap) {
+        bookDAO.setSession();
+        bookDAO.delete(bookDAO.getById(id));
+
+        return "redirect:/?bookDeleted=true";
     }
 }

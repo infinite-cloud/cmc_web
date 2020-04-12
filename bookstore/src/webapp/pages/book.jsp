@@ -85,6 +85,9 @@
             На складе недостаточно экземпляров
         </c:if>
     </security:authorize>
+    <security:authorize access = "hasRole('ROLE_ADMIN')">
+        <a href = "<c:url value = '/deleteBook/${bookEntity.bookId}'/>">Удалить</a>
+    </security:authorize>
 </div>
 
 <jsp:include page = "footer.jsp"/>
