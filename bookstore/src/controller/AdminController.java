@@ -13,6 +13,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utility.BookForm;
 import utility.ItemForm;
 import utility.OrderSelectorForm;
@@ -312,8 +313,10 @@ public class AdminController {
             return "redirect:/";
         }
 
-        BookForm bookForm = new BookForm();
-        modelMap.addAttribute("bookForm", bookForm);
+        if (!modelMap.containsAttribute("bookForm")) {
+            modelMap.addAttribute("bookForm", new BookForm());
+        }
+
         setUpSelectors(modelMap);
 
         bookDAO.setSession();
@@ -334,9 +337,13 @@ public class AdminController {
     @RequestMapping(value = "/editBook", method = RequestMethod.POST)
     public String confirmEditBook(ModelMap modelMap,
                                   @ModelAttribute("bookForm") @Validated BookForm bookForm,
-                                  BindingResult bindingResult) {
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "editBook";
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.bookForm", bindingResult);
+            redirectAttributes.addFlashAttribute("bookForm", bookForm);
+            return "redirect:/editBook?id=" + bookForm.getBookId();
         }
 
         saveBook(bookForm);
