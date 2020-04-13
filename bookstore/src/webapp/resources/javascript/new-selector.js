@@ -15,6 +15,7 @@ $(document).ready(function() {
 
         for (let i = 0; i < counter; ++i) {
             let value = sessionStorage.getItem("selector" + i + id);
+            sessionStorage.removeItem("selector" + i + id);
 
             if (value) {
                 document.getElementById("selector" + i).value = value;
@@ -55,6 +56,6 @@ $(document).ready(function() {
         sessionStorage.setItem("selectorCounter" + id, counter);
         sessionStorage.setItem("selectorGroup" + id,
             document.getElementById("selectorGroup").innerHTML);
-        sessionStorage.setItem("selectorDiv" + counter + id, "");
+        sessionStorage.removeItem("selectorDiv" + counter + id);
     });
 });

@@ -13,6 +13,7 @@ $(document).ready(function() {
 
         for (let i = 0; i < counter; ++i) {
             let value = sessionStorage.getItem("textBox" + i);
+            sessionStorage.removeItem("textBox" + i);
 
             if (value) {
                 document.getElementById("textBox" + i).value = value;
@@ -51,7 +52,7 @@ $(document).ready(function() {
         sessionStorage.setItem("counter", counter);
         sessionStorage.setItem("textBoxesGroup",
             document.getElementById("textBoxesGroup").innerHTML);
-        sessionStorage.setItem("textBoxDiv" + counter, "");
+        sessionStorage.removeItem("textBoxDiv" + counter);
     });
 });
 
