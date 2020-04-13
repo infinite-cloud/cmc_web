@@ -134,7 +134,7 @@ public class AdminController {
         bookEntity.setBookPrice(bookForm.getBookPrice());
         bookDAO.save(bookEntity);
 
-        if (bookForm.getImage() != null) {
+        if (!bookForm.getImage().isEmpty()) {
             bookEntity.setImageName(bookForm.getImage().getOriginalFilename());
             saveImage(bookForm.getImage().getBytes(),
                     servletContext.getRealPath("/resources/images") +
