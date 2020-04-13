@@ -55,10 +55,14 @@
         </table>
         </form:form>
     </c:when>
-    <c:when test = "${param.success == true}">
+    <c:when test = "${param.success == true && param.orderNumber != null}">
         <b>Заказ оформлен</b><br/>
-        Номер вашего заказа: ${cartInfo.orderId}
+        Номер вашего заказа: ${param.orderNumber}
     </c:when>
+    <c:otherwise>
+        <b>Ошибка</b><br/>
+        Произошла ошибка
+    </c:otherwise>
 </c:choose>
 
 <jsp:include page = "footer.jsp"/>

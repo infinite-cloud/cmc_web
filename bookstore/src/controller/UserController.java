@@ -26,7 +26,6 @@ import validator.CartInfoValidator;
 import validator.OrderFormValidator;
 import validator.UserFormValidator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
@@ -303,7 +302,7 @@ public class UserController {
     @RequestMapping(value = {"/placeOrder"}, method = RequestMethod.GET)
     public String placeOrder(ModelMap modelMap, HttpServletRequest request) {
         if (getSessionCart(request).getBookList().isEmpty() &&
-                getSessionCart(request).getOrderId() == null) {
+                request.getParameter("orderNumber") == null) {
             return "redirect:/cart?isEmpty=true";
         }
 
@@ -352,8 +351,7 @@ public class UserController {
         }
 
         cartInfo.clearCart();
-        cartInfo.setOrderId(purchaseEntity.getOrderId());
 
-        return "redirect:/placeOrder?success=true";
+        return "redirect:/placeOrder?success=true&orderNumber=" + purchaseEntity.getOrderId();
     }
 }

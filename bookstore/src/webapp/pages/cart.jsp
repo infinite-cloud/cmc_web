@@ -16,7 +16,7 @@
 <div class = "page-title" style = "text-align: center;"><b>Корзина</b></div>
 
 <c:if test = "${param.isEmpty == true}">
-    Ваша корзина пуста
+    Ваша корзина пуста<br/><br/>
 </c:if>
 
 <table border = "1" align = "center">
