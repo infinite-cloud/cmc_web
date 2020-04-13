@@ -113,7 +113,7 @@ public class ApplicationContextConfig {
     }
 
     @Bean(name = "bookDAO")
-    public BookDAOImpl getBookDAO() {
+    public BookDAOImpl bookDAO() {
         return new BookDAOImpl();
     }
 
