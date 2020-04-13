@@ -10,6 +10,7 @@
     <target name = "build-war" depends = "init">
         <copy todir = "${webapp.dir}/WEB-INF/classes">
             <fileset dir = "${build.dir}" includes = "**/*.*"/>
+            <fileset dir = "${web.dir}" includes = "**/*.*"/>
         </copy>
 
         <copy todir = "${webapp.dir}/WEB-INF/lib" flatten = "true">

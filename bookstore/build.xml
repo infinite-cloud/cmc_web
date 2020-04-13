@@ -37,7 +37,7 @@
 		</delete>
 	</target>
 
-	<target name = "build-war" depends = "clean, clean-war, build">
+	<target name = "build-war">
 		<ant antfile = "${web.dir}/build.xml"/>
 	</target>
 
@@ -55,7 +55,7 @@
 		</asadmin>
 	</target>
 
-	<target name = "deploy" depends = "build-war, start-server">
+	<target name = "deploy">
 		<asadmin failonerror = "true">
 			<arg value = "deploy"/>
 			<arg value = "--force=true"/>
@@ -70,5 +70,6 @@
 		</asadmin>
 	</target>
 
-	<target name = "all" depends = "clean, clean-war, init-db, build, run-tests, build-war, deploy"/>
+	<target name = "all" depends = "clean, clean-war, init-db, build,
+		run-tests, build-war, start-server, deploy"/>
 </project>
