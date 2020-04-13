@@ -339,7 +339,7 @@ public class AdminController {
 
         saveBook(bookForm);
 
-        return "redirect:/?bookEdited=true";
+        return "redirect:/book?id=" + bookForm.getBookId();
     }
 
     @RequestMapping(value = "/orderList", method = RequestMethod.GET)

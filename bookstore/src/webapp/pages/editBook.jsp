@@ -238,7 +238,7 @@
             <td>
                 <label>
                     <input type = "submit" value = "Сохранить"/>
-                    <a id = "reset" href = "<c:url value = '/'/>">Отмена</a>
+                    <a id = "reset" href = "<c:url value = '/book?id=${editedBook.bookId}'/>">Отмена</a>
                 </label>
             </td>
         </tr>
