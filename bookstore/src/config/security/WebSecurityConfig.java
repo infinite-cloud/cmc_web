@@ -38,6 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
         httpSecurity.authorizeRequests().antMatchers("/account", "/cart", "/placeOrder")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        httpSecurity.authorizeRequests().antMatchers("/addBook", "/addItem", "/editBook",
+                "/orderList", "/order", "/removeItem")
+                .access("hasRole('ROLE_ADMIN')");
         httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         httpSecurity.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
