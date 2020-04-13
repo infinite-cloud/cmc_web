@@ -38,7 +38,7 @@
     <form:input path = "bookId" type = "hidden" value = "${editedBook.bookId}"/>
     <table style = "text-align: left" align = "center">
         <tr>
-            <td><b>Название</b></td>
+            <th>Название</th>
             <td>
                 <label>
                     <form:input path = "bookName" value = "${editedBook.bookName}"/>
@@ -50,7 +50,7 @@
         </tr>
 
         <tr>
-            <td><b>Описание</b></td>
+            <th>Описание</th>
             <td>
                 <label>
                     <textarea name = "description">${editedBook.description}</textarea>
@@ -62,7 +62,7 @@
         </tr>
 
         <tr>
-            <td><b>Жанр</b></td>
+            <th>Жанр</th>
             <td>
                 <label>
                     <form:select path = "genreId" id = "genre">
@@ -86,7 +86,7 @@
         </tr>
 
         <tr>
-            <td><b>Обложка</b></td>
+            <th>Обложка</th>
             <td>
                 <label>
                     <form:select path = "coverTypeId" id = "cover">
@@ -110,7 +110,7 @@
         </tr>
 
         <tr>
-            <td><b>Издательство</b></td>
+            <th>Издательство</th>
             <td>
                 <label>
                     <form:select path = "publisherId" id = "publisher">
@@ -136,7 +136,7 @@
         </tr>
 
         <tr>
-            <td><b>Авторы</b></td>
+            <th>Авторы</th>
             <td>
                 <div id = 'selectorGroup'>
                     <div style = "display: none;">
@@ -181,7 +181,7 @@
         </tr>
 
         <tr>
-            <td><b>Количество страниц</b></td>
+            <th>Количество страниц</th>
             <td>
                 <label>
                     <form:input path = "pageCount" type = "number" value = "${editedBook.pageCount}"/>
@@ -193,7 +193,7 @@
         </tr>
 
         <tr>
-            <td><b>Дата издания</b></td>
+            <th>Дата издания</th>
             <td>
                 <label>
                     <form:input path = "publicationDate" type = "date" value = "${editedBook.publicationDate}"/>
@@ -205,7 +205,7 @@
         </tr>
 
         <tr>
-            <td><b>Наличие (шт.)</b></td>
+            <th>Наличие (шт.)</th>
             <td>
                 <label>
                     <form:input path = "availableCount" type = "number" value = "${editedBook.availableCount}"/>
@@ -217,7 +217,7 @@
         </tr>
 
         <tr>
-            <td><b>Изображение</b></td>
+            <th>Изображение</th>
             <td>
                 <label>
                     <form:input path = "image" type = "file"/>
@@ -229,7 +229,7 @@
         </tr>
 
         <tr>
-            <td><b>Цена (руб.)</b></td>
+            <th>Цена (руб.)</th>
             <td>
                 <label>
                     <form:input path = "bookPrice" type = "number" step = "0.01" value = "${editedBook.bookPrice}"/>

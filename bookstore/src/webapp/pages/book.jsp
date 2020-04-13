@@ -20,27 +20,27 @@
 
 <table style = "text-align: left" align = "center" border = "1">
     <tr>
-        <td><b>Описание</b></td>
+        <th>Описание</th>
         <td>${bookEntity.description}</td>
     </tr>
 
     <tr>
-        <td><b>Жанр</b></td>
+        <th>Жанр</th>
         <td>${bookEntity.genreId.genreName}</td>
     </tr>
 
     <tr>
-        <td><b>Обложка</b></td>
+        <th>Обложка</th>
         <td>${bookEntity.coverTypeId.coverTypeName}</td>
     </tr>
 
     <tr>
-        <td><b>Издательство</b></td>
+        <th>Издательство</th>
         <td>${bookEntity.publisherId.publisherName}</td>
     </tr>
 
     <tr>
-        <td><b>Авторы</b></td>
+        <th>Авторы</th>
         <td>
             <c:forEach items = "${bookAuthors}" var = "author">
                 ${author.authorName}<br/>
@@ -49,12 +49,12 @@
     </tr>
 
     <tr>
-        <td><b>Количество страниц</b></td>
+        <th>Количество страниц</th>
         <td>${bookEntity.pageCount}</td>
     </tr>
 
     <tr>
-        <td><b>Дата издания</b></td>
+        <th>Дата издания</th>
         <td>
             <c:set var = "publicationDate" value = "${bookEntity.publicationDate}"/>
             <c:set var = "publicationYear" value = "${fn:substring(publicationDate, 0, 4)}"/>
@@ -65,12 +65,12 @@
     </tr>
 
     <tr>
-        <td><b>Наличие</b></td>
+        <th>Наличие</th>
         <td>${bookEntity.availableCount} шт.</td>
     </tr>
 
     <tr>
-        <td><b>Цена</b></td>
+        <th>Цена</th>
         <td>${bookEntity.bookPrice} руб.</td>
     </tr>
 </table>

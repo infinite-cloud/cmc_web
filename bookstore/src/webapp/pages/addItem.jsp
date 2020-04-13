@@ -40,7 +40,7 @@
     <form:form modelAttribute = "itemForm" method = "POST">
         <table align = "center">
             <tr>
-                <td><b>Наименование</b></td>
+                <th>Наименование</th>
                 <td><label><form:input path = "value"/></label></td>
                 <td>
                     <form:errors path = "value" class = "error-message"/>

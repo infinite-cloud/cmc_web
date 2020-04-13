@@ -38,22 +38,22 @@
             <c:when test = "${param.edit != true}">
                 <table align = "center">
                     <tr>
-                        <td><b>Электронная почта</b></td>
+                        <th>Электронная почта</th>
                         <td>${user.eMail}</td>
                     </tr>
 
                     <tr>
-                        <td><b>Имя пользователя</b></td>
+                        <th>Имя пользователя</th>
                         <td>${user.userName}</td>
                     </tr>
 
                     <tr>
-                        <td><b>Домашний адрес</b></td>
+                        <th>Домашний адрес</th>
                         <td>${user.homeAddress}</td>
                     </tr>
 
                     <tr>
-                        <td><b>Номер телефона</b></td>
+                        <th>Номер телефона</th>
                         <td>${user.phoneNumber}</td>
                     </tr>
 
@@ -71,12 +71,12 @@
                     <form:input path = "eMail" type = "hidden" value = "${user.eMail}"/>
                     <table align = "center">
                         <tr>
-                            <td><b>Электронная почта</b></td>
+                            <th>Электронная почта</th>
                             <td>${user.eMail}</td>
                         </tr>
 
                         <tr>
-                            <td><b>Имя пользователя</b></td>
+                            <th>Имя пользователя</th>
                             <td>
                                 <label>
                                     <form:input path = "userName" value = "${user.userName}"/>
@@ -88,7 +88,7 @@
                         </tr>
 
                         <tr>
-                            <td><b>Домашний адрес</b></td>
+                            <th>Домашний адрес</th>
                             <td>
                                 <label>
                                     <textarea name = "homeAddress">${user.homeAddress}</textarea>
@@ -100,7 +100,7 @@
                         </tr>
 
                         <tr>
-                            <td><b>Номер телефона</b></td>
+                            <th>Номер телефона</th>
                             <td>
                                 <label>
                                     <form:input path = "phoneNumber" value = "${user.phoneNumber}"/>
@@ -112,7 +112,7 @@
                         </tr>
 
                         <tr>
-                            <td><b>Пароль</b></td>
+                            <th>Пароль</th>
                             <td>
                                 <label>
                                     <form:input type = "password" path = "password"/>
@@ -124,7 +124,7 @@
                         </tr>
 
                         <tr>
-                            <td><b>Пароль (повторно)</b></td>
+                            <th>Пароль (повторно)</th>
                             <td>
                                 <label>
                                     <form:input type = "password" path = "repeatedPassword"/>

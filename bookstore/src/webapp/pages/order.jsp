@@ -18,27 +18,27 @@
 
 <table border = "1" align = "center">
     <tr>
-        <td><b>Имя заказчика</b></td>
+        <th>Имя заказчика</th>
         <td>${customerAccount.userName}</td>
     </tr>
 
     <tr>
-        <td><b>Электронная почта заказчика</b></td>
+        <th>Электронная почта заказчика</th>
         <td>${customerAccount.eMail}</td>
     </tr>
 
     <tr>
-        <td><b>Номер телефона заказчика</b></td>
+        <th>Номер телефона заказчика</th>
         <td>${customerAccount.phoneNumber}</td>
     </tr>
 
     <tr>
-        <td><b>Адрес доставки</b></td>
+        <th>Адрес доставки</th>
         <td>${orderData.deliveryAddress}</td>
     </tr>
 
     <tr>
-        <td><b>Дата заказа</b></td>
+        <th>Дата заказа</th>
         <td>
             <c:set var = "orderDate" value = "${orderData.orderDate}"/>
             <c:set var = "orderDateFormatted" value = "${fn:substring(orderDate, 0, 16)}"/>
@@ -47,7 +47,7 @@
     </tr>
 
     <tr>
-        <td><b>Дата доставки</b></td>
+        <th>Дата доставки</th>
         <td>
             <c:set var = "deliveryDate" value = "${orderData.deliveryDate}"/>
             <c:set var = "deliveryDateFormatted" value = "${fn:substring(deliveryDate, 0, 16)}"/>
@@ -56,12 +56,12 @@
     </tr>
 
     <tr>
-        <td><b>Стоимость заказа</b></td>
+        <th>Стоимость заказа</th>
         <td>${orderData.totalPrice} руб.</td>
     </tr>
 
     <tr>
-        <td><b>Содержание заказа</b></td>
+        <th>Содержание заказа</th>
         <td>
             <c:forEach items = "${orderedBooks}" var = "book">
                 ${book.bookId.bookName} (${book.bookCount} шт.)<br/>
@@ -70,7 +70,7 @@
     </tr>
 
     <tr>
-        <td><b>Статус заказа</b></td>
+        <th>Статус заказа</th>
         <form:form modelAttribute = "orderSelector" method = "POST">
             <td>
                 <form:select path = "status">

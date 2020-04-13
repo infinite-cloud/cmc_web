@@ -20,7 +20,7 @@
     <form:input path = "needsInitialValidation" type = "hidden" value = "true"/>
     <table align = "center">
         <tr>
-            <td>Электронная почта (*)</td>
+            <th>Электронная почта (*)</th>
             <td>
                 <label>
                     <form:input path = "eMail" type = "email"/>
@@ -32,7 +32,7 @@
         </tr>
 
         <tr>
-            <td>Имя пользователя (*)</td>
+            <th>Имя пользователя (*)</th>
             <td>
                 <label>
                     <form:input path = "userName"/>
@@ -44,7 +44,7 @@
         </tr>
 
         <tr>
-            <td>Домашний адрес</td>
+            <th>Домашний адрес</th>
             <td>
                 <label>
                     <textarea name = "homeAddress"></textarea>
@@ -56,7 +56,7 @@
         </tr>
 
         <tr>
-            <td>Номер телефона</td>
+            <th>Номер телефона</th>
             <td>
                 <label>
                     <form:input path = "phoneNumber" type = "tel"/>
@@ -68,7 +68,7 @@
         </tr>
 
         <tr>
-            <td>Пароль (*)</td>
+            <th>Пароль (*)</th>
             <td>
                 <label>
                     <form:input type = "password" path = "password"/>
@@ -80,7 +80,7 @@
         </tr>
 
         <tr>
-            <td>Пароль (повторно) (*)</td>
+            <th>Пароль (повторно) (*)</th>
             <td>
                 <label>
                     <form:input type = "password" path = "repeatedPassword"/>
