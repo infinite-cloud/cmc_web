@@ -15,10 +15,7 @@ import utility.BookFilter;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -100,18 +97,30 @@ public class MainController {
                 filter.getGenre(), filter.getCover());
 
         List<AuthorEntity> authors = new ArrayList<>();
+        boolean isFilterEmpty = true;
 
         for (Map.Entry<Integer, String> author : filter.getAuthors().entrySet()) {
             if (author == null || author.getValue().equals("")) {
                 continue;
             }
 
+            isFilterEmpty = false;
             authors = Stream.concat(authors.stream(), authorDAO.getByName(author.getValue()).stream())
                     .collect(Collectors.toList());
         }
 
-        for (AuthorEntity author : authors) {
-            books.removeIf(book -> !bookAuthorDAO.getAuthorsByBook(book).contains(author));
+        if (authors.isEmpty() && !isFilterEmpty) {
+            books.clear();
+        } else if (!isFilterEmpty) {
+            List<BookEntity> booksToRemove = new ArrayList<>();
+
+            for (BookEntity book : books) {
+                if (Collections.disjoint(bookAuthorDAO.getAuthorsByBook(book), authors)) {
+                    booksToRemove.add(book);
+                }
+            }
+
+            books.removeAll(booksToRemove);
         }
 
         Map<BookEntity, List<AuthorEntity>> result = new HashMap<>();
