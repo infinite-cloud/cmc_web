@@ -133,7 +133,6 @@ public class AdminController {
         bookEntity.setPublicationDate(bookForm.getPublicationDate());
         bookEntity.setPageCount(bookForm.getPageCount());
         bookEntity.setBookPrice(bookForm.getBookPrice());
-        bookDAO.save(bookEntity);
 
         if (!bookForm.getImage().isEmpty()) {
             bookEntity.setImageName(bookForm.getImage().getOriginalFilename());
@@ -142,6 +141,7 @@ public class AdminController {
                             "/" + bookForm.getImage().getOriginalFilename());
         }
 
+        bookDAO.save(bookEntity);
         bookForm.reduce();
 
         List<AuthorEntity> authorList;
