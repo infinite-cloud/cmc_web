@@ -48,14 +48,9 @@ public class MainController {
         coverTypeDAO.setSession();
         publisherDAO.setSession();
 
-        List<GenreEntity> genres = genreDAO.getAll();
-        modelMap.addAttribute("genres", genres);
-
-        List<CoverTypeEntity> covers = coverTypeDAO.getAll();
-        modelMap.addAttribute("covers", covers);
-
-        List<PublisherEntity> publishers = publisherDAO.getAll();
-        modelMap.addAttribute("publishers", publishers);
+        modelMap.addAttribute("genres", genreDAO.getAll());
+        modelMap.addAttribute("covers", coverTypeDAO.getAll());
+        modelMap.addAttribute("publishers", publisherDAO.getAll());
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

@@ -61,17 +61,10 @@ public class AdminController {
         publisherDAO.setSession();
         authorDAO.setSession();
 
-        List<AuthorEntity> authors = authorDAO.getAll();
-        modelMap.addAttribute("authors", authors);
-
-        List<GenreEntity> genres = genreDAO.getAll();
-        modelMap.addAttribute("genres", genres);
-
-        List<CoverTypeEntity> covers = coverTypeDAO.getAll();
-        modelMap.addAttribute("covers", covers);
-
-        List<PublisherEntity> publishers = publisherDAO.getAll();
-        modelMap.addAttribute("publishers", publishers);
+        modelMap.addAttribute("authors", authorDAO.getAll());
+        modelMap.addAttribute("genres", genreDAO.getAll());
+        modelMap.addAttribute("covers", coverTypeDAO.getAll());
+        modelMap.addAttribute("publishers", publisherDAO.getAll());
     }
 
     private void saveImage(byte[] image, String name) {
@@ -201,7 +194,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/addBook"}, method = RequestMethod.POST)
-    public String confirmAddBook(ModelMap modelMap, HttpServletRequest request,
+    public String confirmAddBook(ModelMap modelMap,
                                  @ModelAttribute("bookForm") @Validated BookForm bookForm,
                                  BindingResult result) {
         if (result.hasErrors()) {
@@ -215,7 +208,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/deleteBook/{id}"}, method = RequestMethod.GET)
-    public String deleteBook(@PathVariable("id") Long id, ModelMap modelMap) {
+    public String deleteBook(@PathVariable("id") Long id) {
         bookDAO.setSession();
         bookDAO.delete(bookDAO.getById(id));
 
@@ -230,7 +223,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/addItem"}, method = RequestMethod.POST)
-    public String confirmAddItem(ModelMap modelMap, HttpServletRequest request,
+    public String confirmAddItem(HttpServletRequest request,
                              @ModelAttribute("itemForm") @Validated ItemForm itemForm,
                              BindingResult result) {
         String parameter = getItemParameter(request);
@@ -279,8 +272,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = {"/removeItem/{type}/{id}"}, method = RequestMethod.GET)
-    public String confirmRemoveItem(ModelMap modelMap, HttpServletRequest request,
-                                    @PathVariable("id") Long id,
+    public String confirmRemoveItem(@PathVariable("id") Long id,
                                     @PathVariable("type") String type) {
         switch (type) {
             case "author":
@@ -335,8 +327,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/editBook", method = RequestMethod.POST)
-    public String confirmEditBook(ModelMap modelMap,
-                                  @ModelAttribute("bookForm") @Validated BookForm bookForm,
+    public String confirmEditBook(@ModelAttribute("bookForm") @Validated BookForm bookForm,
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -364,9 +355,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/orderList", method = RequestMethod.POST)
-    public String orderListUpdate(ModelMap modelMap,
-                                  @ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm,
-                                  BindingResult result) {
+    public String orderListUpdate(@ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm) {
         purchaseDAO.setSession();
         PurchaseEntity purchaseEntity = purchaseDAO.getById(orderSelectorForm.getOrderId());
         purchaseEntity.setOrderStatus(orderSelectorForm.getStatus());
@@ -391,9 +380,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.POST)
-    public String orderUpdate(ModelMap modelMap,
-                              @ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm,
-                              BindingResult result) {
+    public String orderUpdate(@ModelAttribute("OrderSelectorForm") OrderSelectorForm orderSelectorForm) {
         purchaseDAO.setSession();
         PurchaseEntity purchaseEntity = purchaseDAO.getById(orderSelectorForm.getOrderId());
         purchaseEntity.setOrderStatus(orderSelectorForm.getStatus());

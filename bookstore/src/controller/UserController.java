@@ -101,10 +101,8 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
-    public String confirmRegistration(HttpServletRequest request, ModelMap modelMap,
-                                      @ModelAttribute("userForm") @Validated UserForm userForm,
-                                      BindingResult result,
-                                      final RedirectAttributes redirectAttributes) {
+    public String confirmRegistration(@ModelAttribute("userForm") @Validated UserForm userForm,
+                                      BindingResult result) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -146,25 +144,9 @@ public class UserController {
 
             order.setId(purchase.getOrderId());
             order.setPrice(purchase.getTotalPrice());
+            final String[] orderStatusStrings = {"В обработке", "Собран", "Отменён", "Доставлен"};
 
-            switch (purchase.getOrderStatus()) {
-                case IN_PROCESSING:
-                    order.setStatus("В обработке");
-                    break;
-                case READY:
-                    order.setStatus("Собран");
-                    break;
-                case CANCELED:
-                    order.setStatus("Отменён");
-                    break;
-                case DELIVERED:
-                    order.setStatus("Доставлен");
-                    break;
-                default:
-                    order.setStatus("");
-                    break;
-            }
-
+            order.setStatus(orderStatusStrings[purchase.getOrderStatus().ordinal()]);
             order.setOrderDate(purchase.getOrderDate().toString().substring(0, 10));
             order.setDeliveryDate(purchase.getDeliveryDate().toString().substring(0, 10));
             order.setDeliveryAddress(purchase.getDeliveryAddress());
@@ -185,8 +167,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/account"}, method = RequestMethod.POST)
-    public String confirmUserEdit(HttpServletRequest request, ModelMap modelMap,
-                                      @ModelAttribute("userAccountForm") @Validated UserForm userForm,
+    public String confirmUserEdit(@ModelAttribute("userAccountForm") @Validated UserForm userForm,
                                       BindingResult result,
                                       RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
@@ -214,7 +195,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/deleteAccount"}, method = RequestMethod.GET)
-    public String deleteAccount(ModelMap modelMap, HttpServletRequest request) {
+    public String deleteAccount(HttpServletRequest request) {
         accountDAO.setSession();
 
         accountDAO.delete(accountDAO.getByEMail(request.getUserPrincipal().getName()));
@@ -236,7 +217,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/cancelOrder/{id}"}, method = RequestMethod.GET)
-    public String cancelOrder(@PathVariable("id") Long id, ModelMap modelMap) {
+    public String cancelOrder(@PathVariable("id") Long id) {
         purchaseDAO.setSession();
         orderedBookDAO.setSession();
 
@@ -251,8 +232,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/addToCart/{id}"}, method = RequestMethod.GET)
-    public String addToCart(@PathVariable("id") Long id, ModelMap modelMap,
-                            HttpServletRequest request) {
+    public String addToCart(@PathVariable("id") Long id, HttpServletRequest request) {
         CartInfo cartInfo = getSessionCart(request);
 
         bookDAO.setSession();
@@ -269,7 +249,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/cart"}, method = RequestMethod.POST)
-    public String cartUpdateQuantity(HttpServletRequest request, ModelMap modelMap,
+    public String cartUpdateQuantity(HttpServletRequest request,
                                      @ModelAttribute("cartForm") @Validated CartInfo cartForm,
                                      BindingResult result) {
         if (result.hasErrors()) {
@@ -283,8 +263,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/deleteFromCart/{id}"}, method = RequestMethod.GET)
-    public String deleteFromCart(@PathVariable("id") Long id, ModelMap modelMap,
-                                 HttpServletRequest request) {
+    public String deleteFromCart(@PathVariable("id") Long id, HttpServletRequest request) {
         CartInfo cartInfo = getSessionCart(request);
 
         cartInfo.removeItem(id);
@@ -293,7 +272,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/clearCart"}, method = RequestMethod.GET)
-    public String clearCart(ModelMap modelMap, HttpServletRequest request) {
+    public String clearCart(HttpServletRequest request) {
         getSessionCart(request).clearCart();
 
         return "redirect:/cart";
@@ -315,7 +294,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/placeOrder"}, method = RequestMethod.POST)
-    public String confirmOrder(ModelMap modelMap, HttpServletRequest request,
+    public String confirmOrder(HttpServletRequest request,
                                @ModelAttribute("orderForm") @Validated OrderForm orderForm,
                                BindingResult result) {
         if (result.hasErrors()) {
