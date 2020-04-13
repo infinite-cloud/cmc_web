@@ -149,8 +149,9 @@ public class UserController {
             order.setDeliveryAddress(purchase.getDeliveryAddress());
 
             for (OrderedBookEntity orderedBook : orderedBookDAO.getByOrderId(order.getId())) {
+                BookEntity bookEntity = bookDAO.getById(orderedBook.getBookId().getBookId());
                 Pair<String, Integer> book = new Pair<>(
-                        bookDAO.getById(orderedBook.getBookId().getBookId()).getBookName(),
+                        "ID-" + bookEntity.getBookId() + " " + bookEntity.getBookName(),
                         orderedBook.getBookCount());
                 order.getBooks().add(book);
             }
