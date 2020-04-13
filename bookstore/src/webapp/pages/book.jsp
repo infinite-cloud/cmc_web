@@ -12,6 +12,7 @@
 <body>
 
 <jsp:include page = "header.jsp"/>
+<jsp:include page = "menu.jsp"/>
 
 <div class = "page-title" style = "text-align: center;"><b>${bookEntity.bookName}</b></div>
 
@@ -86,7 +87,10 @@
         </c:if>
     </security:authorize>
     <security:authorize access = "hasRole('ROLE_ADMIN')">
+        &nbsp;
         <a href = "<c:url value = '/deleteBook/${bookEntity.bookId}'/>">Удалить</a>
+        &nbsp;
+        <a href = "<c:url value = '/editBook?id=${bookEntity.bookId}'/>">Редактировать</a>
     </security:authorize>
 </div>
 

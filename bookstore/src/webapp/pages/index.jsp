@@ -22,6 +22,7 @@
 <body>
 
 <jsp:include page = "header.jsp"/>
+<jsp:include page = "menu.jsp"/>
 
 <c:if test = "${param.bookAdded == true}">
     <script type = "text/javascript">

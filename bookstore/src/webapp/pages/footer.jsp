@@ -2,5 +2,5 @@
         pageEncoding = "UTF-8"%>
 
 <div class = "footer-container">
-    Testing footer
+    <a href = "https://github.com/infinite-cloud">&copy; infinite-cloud</a>
 </div>

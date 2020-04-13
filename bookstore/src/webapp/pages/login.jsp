@@ -10,6 +10,7 @@
 <body>
 
 <jsp:include page = "header.jsp"/>
+<jsp:include page = "menu.jsp"/>
 
 <div class = "page-title" style="text-align: center;"><b>Вход</b></div>
 
