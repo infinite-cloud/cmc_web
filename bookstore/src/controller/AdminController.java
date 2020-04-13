@@ -368,9 +368,16 @@ public class AdminController {
                         @RequestParam(value = "id", defaultValue = "") Long id) {
         purchaseDAO.setSession();
         orderedBookDAO.setSession();
-        modelMap.addAttribute("orderData", purchaseDAO.getById(id));
+
+        PurchaseEntity order;
+
+        if (id == null || (order = purchaseDAO.getById(id)) == null) {
+            return "redirect:/";
+        }
+
+        modelMap.addAttribute("orderData", order);
         modelMap.addAttribute("orderedBooks", orderedBookDAO.getByOrderId(id));
-        modelMap.addAttribute("customerAccount", purchaseDAO.getById(id).getUserId());
+        modelMap.addAttribute("customerAccount", order.getUserId());
         modelMap.addAttribute("orderStatus", PurchaseEntity.OrderStatus.values());
         modelMap.addAttribute("orderSelector", new OrderSelectorForm());
         modelMap.addAttribute("statusStrings",

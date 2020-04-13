@@ -5,10 +5,7 @@ import daoimpl.AccountDAOImpl;
 import daoimpl.BookDAOImpl;
 import daoimpl.OrderedBookDAOImpl;
 import daoimpl.PurchaseDAOImpl;
-import entity.AccountEntity;
-import entity.OrderedBookEntity;
-import entity.OrderedBookId;
-import entity.PurchaseEntity;
+import entity.*;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -221,7 +218,13 @@ public class UserController {
         purchaseDAO.setSession();
         orderedBookDAO.setSession();
 
-        purchaseDAO.getById(id).setOrderStatus(PurchaseEntity.OrderStatus.CANCELED);
+        PurchaseEntity order;
+
+        if (id == null || (order = purchaseDAO.getById(id)) == null) {
+            return "redirect:/";
+        }
+
+        order.setOrderStatus(PurchaseEntity.OrderStatus.CANCELED);
 
         for (OrderedBookEntity orderedBook : orderedBookDAO.getByOrderId(id)) {
             orderedBook.getBookId().setAvailableCount(
@@ -237,10 +240,14 @@ public class UserController {
 
         bookDAO.setSession();
 
-        if (bookDAO.getById(id).getAvailableCount() > 0 &&
-                (cartInfo.getItem(id) == null ||
-                        bookDAO.getById(id).getAvailableCount() >=
-                        cartInfo.getItem(id).getQuantity() + 1)) {
+        BookEntity book;
+
+        if (id == null || (book = bookDAO.getById(id)) == null) {
+            return "redirect:/";
+        }
+
+        if (book.getAvailableCount() > 0 && (cartInfo.getItem(id) == null ||
+                        book.getAvailableCount() >= cartInfo.getItem(id).getQuantity() + 1)) {
             cartInfo.addItem(bookDAO.getById(id));
             return "redirect:/book?id=" + id + "&addedToCart=true";
         } else {
@@ -266,7 +273,9 @@ public class UserController {
     public String deleteFromCart(@PathVariable("id") Long id, HttpServletRequest request) {
         CartInfo cartInfo = getSessionCart(request);
 
-        cartInfo.removeItem(id);
+        if (id != null) {
+            cartInfo.removeItem(id);
+        }
 
         return "redirect:/cart";
     }
