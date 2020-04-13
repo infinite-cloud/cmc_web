@@ -88,7 +88,10 @@
     </security:authorize>
     <security:authorize access = "hasRole('ROLE_ADMIN')">
         &nbsp;
-        <a href = "<c:url value = '/deleteBook/${bookEntity.bookId}'/>">Удалить</a>
+        <a href = "<c:url value = '/deleteBook/${bookEntity.bookId}'/>"
+           onclick = "return confirm('Вы уверены, что хотите удалить книгу?')">
+            Удалить
+        </a>
         &nbsp;
         <a href = "<c:url value = '/editBook?id=${bookEntity.bookId}'/>">Редактировать</a>
     </security:authorize>

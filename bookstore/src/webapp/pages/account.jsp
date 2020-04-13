@@ -146,7 +146,10 @@
                         </tr>
                     </table>
                 </form:form>
-                <a href = "<c:url value = '/deleteAccount'/>">Удалить учётную запись</a>
+                <a href = "<c:url value = '/deleteAccount'/>"
+                   onclick = "return confirm('Вы уверены, что хотите удалить свою учётную запись?')">
+                    Удалить учётную запись
+                </a>
             </c:otherwise>
         </c:choose>
     </div>
@@ -176,7 +179,10 @@
                     </td>
                     <c:if test = "${order.status == 'В обработке' || order.status == 'Собран'}">
                         <td>
-                            <a href = "<c:url value = '/cancelOrder/${order.id}'/>">Отменить</a>
+                            <a href = "<c:url value = '/cancelOrder/${order.id}'/>"
+                               onclick = "return confirm('Вы уверены, что хотите отменить заказ?')">
+                                Отменить
+                            </a>
                         </td>
                     </c:if>
                 </tr>

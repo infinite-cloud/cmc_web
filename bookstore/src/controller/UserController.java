@@ -144,7 +144,7 @@ public class UserController {
 
             order.setId(purchase.getOrderId());
             order.setPrice(purchase.getTotalPrice());
-            final String[] orderStatusStrings = {"В обработке", "Собран", "Отменён", "Доставлен"};
+            final String[] orderStatusStrings = {"В обработке", "Собран", "Доставлен", "Отменён"};
 
             order.setStatus(orderStatusStrings[purchase.getOrderStatus().ordinal()]);
             order.setOrderDate(purchase.getOrderDate().toString().substring(0, 10));

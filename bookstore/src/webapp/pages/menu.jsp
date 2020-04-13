@@ -18,9 +18,11 @@
             <option value = "">Редактировать каталог</option>
             <option value = "<c:url value = '/addBook'/>">Добавить книгу</option>
             <option value = "<c:url value = '/addItem?author'/>">Добавить автора</option>
+            <option value = "<c:url value = '/addItem?genre'/>">Добавить жанр</option>
             <option value = "<c:url value = '/addItem?publisher'/>">Добавить издательство</option>
             <option value = "<c:url value = '/addItem?coverType'/>">Добавить обложку</option>
             <option value = "<c:url value = '/removeItem?author'/>">Удалить автора</option>
+            <option value = "<c:url value = '/removeItem?genre'/>">Удалить жанр</option>
             <option value = "<c:url value = '/removeItem?publisher'/>">Удалить издательство</option>
             <option value = "<c:url value = '/removeItem?coverType'/>">Удалить обложку</option>
         </select>

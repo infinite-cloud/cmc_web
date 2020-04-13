@@ -52,7 +52,11 @@
                 <tr>
                     <td>${author.authorName}</td>
                     <td>
-                        <a href = "<c:url value = '/removeItem/author/${author.authorId}'/>">Удалить</a>
+                        <a href = "<c:url value = '/removeItem/author/${author.authorId}'/>"
+                           onclick = "return confirm('Вы уверены, что хотите удалить автора?')">
+                            Удалить
+                        </a>
+
                     </td>
                 </tr>
             </c:forEach>
@@ -62,7 +66,11 @@
                 <tr>
                     <td>${publisher.publisherName}</td>
                     <td>
-                        <a href = "<c:url value = '/removeItem/publisher/${publisher.publisherId}'/>">Удалить</a>
+                        <a href = "<c:url value = '/removeItem/publisher/${publisher.publisherId}'/>"
+                           onclick = "return confirm('Вы уверены, что хотите удалить издательство?')">
+                            Удалить
+                        </a>
+
                     </td>
                 </tr>
             </c:forEach>
@@ -72,7 +80,11 @@
                 <tr>
                     <td>${genre.genreName}</td>
                     <td>
-                        <a href = "<c:url value = '/removeItem/genre/${genre.genreId}'/>">Удалить</a>
+                        <a href = "<c:url value = '/removeItem/genre/${genre.genreId}'/>"
+                           onclick = "return confirm('Вы уверены, что хотите удалить жанр?')">
+                            Удалить
+                        </a>
+
                     </td>
                 </tr>
             </c:forEach>
@@ -82,7 +94,10 @@
                 <tr>
                     <td>${cover.coverTypeName}</td>
                     <td>
-                        <a href = "<c:url value = '/removeItem/coverType/${cover.coverTypeId}'/>">Удалить</a>
+                        <a href = "<c:url value = '/removeItem/coverType/${cover.coverTypeId}'/>"
+                           onclick = "return confirm('Вы уверены, что хотите удалить обложку?')">
+                            Удалить
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
