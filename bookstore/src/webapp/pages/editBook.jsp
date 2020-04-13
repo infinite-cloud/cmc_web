@@ -16,13 +16,6 @@
             $('#selector0').val('');
         });
     </script>
-
-    <script type = "text/javascript">
-        $('#submit').live('click', function() {
-            sessionStorage.clear();
-            $('#selector0').val('');
-        });
-    </script>
 </head>
 <body>
 
