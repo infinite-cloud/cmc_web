@@ -40,10 +40,15 @@
 </c:if>
 
 <c:if test = "${param.itemAdded == true}">
-    <div style = "text-align: center;">Элемент добавлен</div>
+    <div style = "text-align: center;">Элемент добавлен в каталог</div>
 </c:if>
 
-<a id = "displayText" href = "javascript:toggle('Фильтр');">Фильтр</a>
+<div class = "filter-button">
+    <a id = "displayText" href = "javascript:toggle('Фильтр');">
+        Фильтр
+    </a>
+</div>
+
 <div id = "toggleText" style = "display: none">
     <form:form modelAttribute = "bookFilterForm" method = "POST"
                name = "filterForm" id = "filterForm">

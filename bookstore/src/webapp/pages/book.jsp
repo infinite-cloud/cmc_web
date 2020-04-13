@@ -16,7 +16,9 @@
 
 <div class = "page-title" style = "text-align: center;"><b>${bookEntity.bookName}</b></div>
 
-<img src = "${pageContext.request.contextPath}/resources/images/${bookEntity.imageName}" alt = ""/>
+<div class = "product-image">
+    <img src = "${pageContext.request.contextPath}/resources/images/${bookEntity.imageName}" alt = ""/>
+</div>
 
 <table style = "text-align: left" align = "center" border = "1">
     <tr>
@@ -75,7 +77,7 @@
     </tr>
 </table>
 
-<div style = "text-align: center;">
+<div class = "product-actions">
     <security:authorize access = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
         <a href = "<c:url value = '/addToCart/${bookEntity.bookId}'/>">В корзину</a>
 

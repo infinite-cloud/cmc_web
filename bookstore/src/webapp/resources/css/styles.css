@@ -18,8 +18,10 @@ body {
 
 .page-title {
     font-size: 120%;
-    text-align: left;
-    margin: 10px 0px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 10px;
 }
 
 .header-container {
@@ -28,4 +30,86 @@ body {
     position: relative;
     background: #5f5f5f;
     color: #f8f8f8
+}
+
+.header-container .header-bar {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.header-container .header-bar a {
+    color: #cccccc;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.site-name a {
+    font-size: 200%;
+    margin: 10px 10px 10px 0px;
+    padding: 5px;
+    text-decoration: none;
+    color: #cccccc;
+}
+
+.footer-container {
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px 0px 0px 0px;
+    border-top: 1px solid #ccc;
+}
+
+.menu-container {
+    text-align: right;
+    margin: 10px 5px;
+}
+
+.menu-container a {
+    margin: 5px 5px 5px 10px;
+    color: #004d99;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.product-image {
+    overflow: hidden;
+    margin: auto;
+    padding-top: 0px;
+    padding-bottom: 10px;
+}
+
+.product-image img {
+    max-height: 340px;
+    border: 1px #004d99;
+    background-color: #5f5f5f;
+    padding: 2px;
+}
+
+.error-message {
+    font-size: 90%;
+    color: #ff0000;
+    font-style: italic;
+}
+
+.product-actions {
+    padding: 10px;
+    text-align: center;
+}
+
+.product-actions a {
+    margin: 5px 5px 5px 10px;
+    color: #004d99;
+    text-decoration: none;
+}
+
+.filter-button {
+    padding-top: 0px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    text-align: right;
+}
+
+.filter-button a {
+    text-decoration: none;
+    color: #666666;
 }
