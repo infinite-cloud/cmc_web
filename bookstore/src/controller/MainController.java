@@ -136,7 +136,7 @@ public class MainController {
         BookEntity bookEntity;
 
         if (id == null || (bookEntity = bookDAO.getById(id)) == null) {
-            return "404";
+            return "redirect:/";
         }
 
         modelMap.addAttribute("bookEntity", bookEntity);
