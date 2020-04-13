@@ -29,7 +29,7 @@ import java.util.Properties;
 @ComponentScan("authentication")
 @ComponentScan("validator")
 @EnableTransactionManagement
-@PropertySource("classpath:/webapp/WEB-INF/database.properties")
+@PropertySource("/WEB-INF/database.properties")
 public class ApplicationContextConfig {
     @Autowired
     private Environment env;
@@ -47,7 +47,7 @@ public class ApplicationContextConfig {
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 
-        resourceBundleMessageSource.setBasename("/webapp/resources/messages/validator");
+        resourceBundleMessageSource.setBasename("/resources/messages/validator");
         resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         resourceBundleMessageSource.setCacheSeconds(0);
 

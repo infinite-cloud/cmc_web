@@ -28,8 +28,8 @@ public class WebMVCConfig implements WebMvcConfigurer {
     }
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/webapp/resources/**")
-                .addResourceLocations("/webapp/resources/")
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
                 .setCachePeriod(31556916);
     }
 

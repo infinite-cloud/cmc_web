@@ -4,7 +4,7 @@
 
     <path id = "classpath.master">
         <fileset dir = "${lib.dir}">
-            <include name = "*.jar"/>
+            <include name = "**/*.jar"/>
         </fileset>
 
         <pathelement path = "${build.dir}"/>
