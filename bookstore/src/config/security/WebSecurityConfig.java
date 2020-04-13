@@ -36,10 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests().antMatchers("/", "/login", "/logout", "/register", "/book")
                 .permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/account", "/cart", "/placeOrder")
+        httpSecurity.authorizeRequests().antMatchers("/account", "/cart", "/placeOrder",
+                "/deleteAccount", "/cancelOrder", "/cancelOrder/*", "/addToCart", "/addToCart/*",
+                "/deleteFromCart", "/deleteFromCart/*", "/clearCart")
                 .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
         httpSecurity.authorizeRequests().antMatchers("/addBook", "/addItem", "/editBook",
-                "/orderList", "/order", "/removeItem")
+                "/orderList", "/order", "/removeItem", "/deleteBook",
+                "/deleteBook/*")
                 .access("hasRole('ROLE_ADMIN')");
         httpSecurity.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
