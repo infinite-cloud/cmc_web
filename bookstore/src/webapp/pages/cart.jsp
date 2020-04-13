@@ -1,5 +1,6 @@
 ﻿<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
     Ваша корзина пуста<br/><br/>
 </c:if>
 
-<table border = "1" align = "center">
+<table border = "1" align = "center" style = "empty-cells: hide;">
     <tr>
         <th>№</th>
         <th>Название</th>
