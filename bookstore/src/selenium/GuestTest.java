@@ -78,6 +78,10 @@ public class GuestTest extends GenericTest {
 
         webElement = webDriver.findElement(By.xpath("//*[@id=\"displayText\"]"));
         webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"removeButton\"]"));
+        webElement.click();
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@id=\"textBox1\"]")).size(), 0);
+
         webElement = webDriver.findElement(By.xpath("//*[@id=\"reset\"]"));
         webElement.click();
         rows = webDriver.findElements(By.xpath("/html/body/table/tbody/tr"));
