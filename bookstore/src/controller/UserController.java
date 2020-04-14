@@ -314,6 +314,7 @@ public class UserController {
         accountDAO.setSession();
         purchaseDAO.setSession();
         orderedBookDAO.setSession();
+        bookDAO.setSession();
 
         PurchaseEntity purchaseEntity = new PurchaseEntity();
         CartInfo cartInfo = getSessionCart(request);
@@ -336,7 +337,9 @@ public class UserController {
             orderedBookEntity.setId(new OrderedBookId(purchaseEntity.getOrderId(),
                     item.getBook().getBookId()));
             orderedBookDAO.save(orderedBookEntity);
-            item.getBook().setAvailableCount(item.getBook().getAvailableCount() - item.getQuantity());
+            BookEntity bookEntity = bookDAO.getById(item.getBook().getBookId());
+            bookEntity.setAvailableCount(item.getBook().getAvailableCount() - item.getQuantity());
+            bookDAO.save(bookEntity);
         }
 
         cartInfo.clearCart();
