@@ -6,7 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 abstract public class GenericTest {
-    private final String chromeDriver = "";
+    private final String chromeDriver = ""; // chromeDriver path
     protected final String appURL = "http://localhost:8080/bookstore/";
     protected WebDriver webDriver;
 

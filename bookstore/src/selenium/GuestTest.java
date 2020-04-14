@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class GuestTest extends GenericTest {
-    @Test(priority = 0, groups = "guest")
+    @Test(groups = "guest")
     public void browse() {
         webDriver.get(appURL);
 
@@ -95,7 +95,7 @@ public class GuestTest extends GenericTest {
         Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/editBook?id=1\"]")).size(), 0);
     }
 
-    @Test(priority = 1, groups = "guest")
+    @Test(groups = "guest", dependsOnMethods = "browse")
     public void register() {
         webDriver.get(appURL);
 
@@ -162,7 +162,7 @@ public class GuestTest extends GenericTest {
         Assert.assertEquals(webElement.getText(), "Регистрация успешна");
     }
 
-    @Test(priority = 2, groups = "guest")
+    @Test(groups = "guest", dependsOnMethods = "register")
     public void login() {
         webDriver.get(appURL);
 

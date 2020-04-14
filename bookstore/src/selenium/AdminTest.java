@@ -3,7 +3,6 @@ package selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,7 +11,7 @@ import java.io.File;
 import java.util.List;
 
 public class AdminTest extends GenericTest {
-    @BeforeClass
+    @BeforeClass(dependsOnMethods = "setUpDriver", dependsOnGroups = "user")
     private void login() {
         webDriver.get(appURL + "login");
         WebElement webElement = webDriver.findElement(By.xpath("/html/body/form/table/tbody/tr[1]/td[2]/label/input"));
@@ -23,7 +22,7 @@ public class AdminTest extends GenericTest {
         webElement.click();
     }
 
-    @Test(priority = 0, groups = "admin")
+    @Test(groups = "admin")
     public void editCatalog() {
         webDriver.get(appURL);
 
@@ -183,7 +182,7 @@ public class AdminTest extends GenericTest {
                 "//*[@href=\"/bookstore/removeItem/author/7\"]")).size(), 0);
     }
 
-    @Test(priority = 1, groups = "admin")
+    @Test(groups = "admin", dependsOnMethods = "editCatalog")
     public void editBook() {
         webDriver.get(appURL + "book?id=1");
 
@@ -216,7 +215,7 @@ public class AdminTest extends GenericTest {
         Assert.assertEquals(webElement.getText(), "12 шт.");
     }
 
-    @Test(priority = 2, groups = "admin")
+    @Test(groups = "admin", dependsOnMethods = "editBook")
     public void viewOrders() {
         webDriver.get(appURL);
 

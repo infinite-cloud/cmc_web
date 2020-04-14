@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class UserTest extends GenericTest {
-    @BeforeClass(dependsOnGroups = "guest")
+    @BeforeClass(dependsOnMethods = "setUpDriver", dependsOnGroups = "guest")
     private void login() {
         webDriver.get(appURL + "login");
         WebElement webElement = webDriver.findElement(By.xpath("/html/body/form/table/tbody/tr[1]/td[2]/label/input"));
@@ -21,7 +21,7 @@ public class UserTest extends GenericTest {
         webElement.click();
     }
 
-    @Test(priority = 0, groups = "user")
+    @Test(groups = "user")
     public void purchase() {
         webDriver.get(appURL + "book?id=1");
 
@@ -164,7 +164,7 @@ public class UserTest extends GenericTest {
         Assert.assertEquals(webElement.getText(), "11 шт.");
     }
 
-    @Test(priority = 1, groups = "user")
+    @Test(groups = "user", dependsOnMethods = "purchase")
     public void viewAccount() {
         webDriver.get(appURL + "account");
 
@@ -237,7 +237,7 @@ public class UserTest extends GenericTest {
         Assert.assertEquals(webElement.getText(), "");
     }
 
-    @Test(priority = 2, groups = "user")
+    @Test(groups = "user", dependsOnMethods = "viewAccount")
     public void viewOrders() {
         webDriver.get(appURL + "account");
 
@@ -261,7 +261,7 @@ public class UserTest extends GenericTest {
                 By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[8]/a")).size(), 0);
     }
 
-    @Test(priority = 3, groups = "user")
+    @Test(groups = "user", dependsOnMethods = "viewOrders")
     public void logout() {
         webDriver.get(appURL);
 
@@ -275,7 +275,7 @@ public class UserTest extends GenericTest {
         Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/cart\"]")).size(), 0);
     }
 
-    @Test(priority = 4, groups = "user")
+    @Test(groups = "user", dependsOnMethods = "logout")
     public void deleteAccount() {
         login();
         webDriver.get(appURL + "account");
