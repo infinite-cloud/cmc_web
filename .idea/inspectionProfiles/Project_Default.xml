@@ -21,7 +21,7 @@
     <inspection_tool class="groupsTestNG" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="groups">
         <value>
-          <list size="7">
+          <list size="9">
             <item index="0" class="java.lang.String" itemvalue="account" />
             <item index="1" class="java.lang.String" itemvalue="author" />
             <item index="2" class="java.lang.String" itemvalue="book" />
@@ -29,6 +29,8 @@
             <item index="4" class="java.lang.String" itemvalue="publisher" />
             <item index="5" class="java.lang.String" itemvalue="purchase" />
             <item index="6" class="java.lang.String" itemvalue="guest" />
+            <item index="7" class="java.lang.String" itemvalue="user" />
+            <item index="8" class="java.lang.String" itemvalue="admin" />
           </list>
         </value>
       </option>

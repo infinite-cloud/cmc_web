@@ -3,11 +3,13 @@ package selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.List;
 
 public class AdminTest extends GenericTest {
     @BeforeClass
@@ -183,11 +185,67 @@ public class AdminTest extends GenericTest {
 
     @Test(priority = 1, groups = "admin")
     public void editBook() {
+        webDriver.get(appURL + "book?id=1");
 
+        WebElement webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[8]/td"));
+        Assert.assertEquals(webElement.getText(), "0 шт.");
+        webElement = webDriver.findElement(By.xpath("/html/body/div[5]/a[3]"));
+        webElement.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "editBook?id=1");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"availableCount\"]"));
+        webElement.clear();
+        webElement.sendKeys("12");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"reset\"]"));
+        webElement.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "book?id=1");
+
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[8]/td"));
+        Assert.assertEquals(webElement.getText(), "0 шт.");
+        webElement = webDriver.findElement(By.xpath("/html/body/div[5]/a[3]"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"availableCount\"]"));
+        webElement.clear();
+        webElement.sendKeys("12");
+
+        webElement = webElement.findElement(By.xpath("//*[@id=\"bookForm\"]/table/tbody/tr[12]/td[2]/label/input"));
+        webElement.click();
+
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "book?id=1");
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[8]/td"));
+        Assert.assertEquals(webElement.getText(), "12 шт.");
     }
 
     @Test(priority = 2, groups = "admin")
     public void viewOrders() {
+        webDriver.get(appURL);
 
+        WebElement webElement = webDriver.findElement(By.xpath("/html/body/div[2]/a[3]"));
+        webElement.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "orderList");
+        List<WebElement> rows = webDriver.findElements(By.xpath("/html/body/table/tbody/tr"));
+        Assert.assertEquals(rows.size(), 4);
+        Select select = new Select(webDriver.findElement(By.xpath("/html/body/table/tbody/tr[4]/td[4]/select")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText().trim(), "Отменён");
+        select.selectByIndex(0);
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td[5]"));
+        webElement.click();
+        select = new Select(webDriver.findElement(By.xpath("/html/body/table/tbody/tr[4]/td[4]/select")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText().trim(), "Отменён");
+        select.selectByIndex(0);
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[4]/td[5]"));
+        webElement.click();
+        select = new Select(webDriver.findElement(By.xpath("/html/body/table/tbody/tr[4]/td[4]/select")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText().trim(), "В обработке");
+
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[4]/td[1]/a"));
+        webElement.click();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "order?id=4");
+        select = new Select(webDriver.findElement(By.xpath("/html/body/table/tbody/tr[9]/td[1]/select")));
+        select.selectByIndex(3);
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[9]/td[2]"));
+        webElement.click();
+        select = new Select(webDriver.findElement(By.xpath("/html/body/table/tbody/tr[9]/td[1]/select")));
+        Assert.assertEquals(select.getFirstSelectedOption().getText().trim(), "Отменён");
     }
 }

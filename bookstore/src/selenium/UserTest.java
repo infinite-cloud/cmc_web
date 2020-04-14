@@ -29,7 +29,7 @@ public class UserTest extends GenericTest {
         Assert.assertEquals(webDriver.findElements(By.xpath(
                 "//*[@href=\"/html/body/div[2]/select\"]")).size(), 0);
         Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/deleteBook/1\"]")).size(), 0);
-        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/editBook?id=5\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/editBook?id=1\"]")).size(), 0);
 
         Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/cart\"]")).size(), 1);
         WebElement webElement = webDriver.findElement(By.xpath("/html/body/div[5]/a"));
