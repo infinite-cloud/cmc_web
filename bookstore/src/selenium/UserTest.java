@@ -24,6 +24,13 @@ public class UserTest extends GenericTest {
     @Test(priority = 0, groups = "user")
     public void purchase() {
         webDriver.get(appURL + "book?id=1");
+
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/orderList\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath(
+                "//*[@href=\"/html/body/div[2]/select\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/deleteBook/1\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/editBook?id=5\"]")).size(), 0);
+
         Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/cart\"]")).size(), 1);
         WebElement webElement = webDriver.findElement(By.xpath("/html/body/div[5]/a"));
         webElement.click();
@@ -151,16 +158,107 @@ public class UserTest extends GenericTest {
                 "Заказ оформлен\n" +
                 "Номер вашего заказа: 5\n" +
                 "© infinite-cloud");
+
+        webDriver.get(appURL + "book?id=5");
+        webElement = webDriver.findElement(By.xpath("/html/body/table/tbody/tr[8]/td"));
+        Assert.assertEquals(webElement.getText(), "11 шт.");
     }
 
     @Test(priority = 1, groups = "user")
     public void viewAccount() {
+        webDriver.get(appURL + "account");
 
+        WebElement webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[1]/td"));
+        Assert.assertEquals(webElement.getText(), "test@test.com");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[2]/td"));
+        Assert.assertEquals(webElement.getText(), "test");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[3]/td"));
+        Assert.assertEquals(webElement.getText(), "test");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[4]/td"));
+        Assert.assertEquals(webElement.getText(), "+74951234567");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[5]/td[2]/a"));
+        webElement.click();
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"userAccountForm\"]/table/tbody/tr[1]/td"));
+        Assert.assertEquals(webElement.getText(), "test@test.com");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"userName\"]"));
+        Assert.assertEquals(webElement.getAttribute("value"), "test");
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[3]/td[1]/label/textarea"));
+        Assert.assertEquals(webElement.getAttribute("value"), "test");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"phoneNumber\"]"));
+        Assert.assertEquals(webElement.getAttribute("value"), "+74951234567");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"userName\"]"));
+        webElement.clear();
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[7]/td[2]/label/input"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"userName.errors\"]"));
+        Assert.assertEquals(webElement.getText(), "Поле не должно быть пустым");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"phoneNumber\"]"));
+        webElement.sendKeys(Keys.BACK_SPACE);
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[7]/td[2]/label/input"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"phoneNumber.errors\"]"));
+        Assert.assertEquals(webElement.getText(), "Ввод должен иметь формат +71234567890");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"password\"]"));
+        webElement.sendKeys("a");
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[7]/td[2]/label/input"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"repeatedPassword.errors\"]"));
+        Assert.assertEquals(webElement.getText(), "Пароли не совпадают");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"password\"]"));
+        webElement.clear();
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[3]/td[1]/label/textarea"));
+        webElement.clear();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"userAccountForm\"]/table/tbody/tr[7]/td[2]/label/a"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[3]/td"));
+        Assert.assertEquals(webElement.getText(), "test");
+
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[5]/td[2]/a"));
+        webElement.click();
+
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[3]/td[1]/label/textarea"));
+        webElement.clear();
+        webElement = webDriver.findElement(By.xpath(
+                "//*[@id=\"userAccountForm\"]/table/tbody/tr[7]/td[2]/label/input"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[3]/td"));
+        Assert.assertEquals(webElement.getText(), "");
     }
 
     @Test(priority = 2, groups = "user")
     public void viewOrders() {
+        webDriver.get(appURL + "account");
 
+        WebElement webElement = webDriver.findElement(By.xpath("//*[@id=\"ui-id-2\"]"));
+        webElement.click();
+        List<WebElement> rows = webDriver.findElements(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr"));
+        Assert.assertEquals(rows.size(), 2);
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[3]"));
+        Assert.assertEquals(webElement.getText(), "В обработке");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[8]/a"));
+        webElement.click();
+        webDriver.switchTo().alert().dismiss();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[3]"));
+        Assert.assertEquals(webElement.getText(), "В обработке");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[8]/a"));
+        webElement.click();
+        webDriver.switchTo().alert().accept();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[3]"));
+        Assert.assertEquals(webElement.getText(), "Отменён");
+        Assert.assertEquals(webDriver.findElements(
+                By.xpath("//*[@id=\"ordersInfo\"]/table/tbody/tr[2]/td[8]/a")).size(), 0);
     }
 
     @Test(priority = 3, groups = "user")
@@ -179,6 +277,24 @@ public class UserTest extends GenericTest {
 
     @Test(priority = 4, groups = "user")
     public void deleteAccount() {
-
+        login();
+        webDriver.get(appURL + "account");
+        WebElement webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/table/tbody/tr[5]/td[2]/a"));
+        webElement.click();
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/a"));
+        webElement.click();
+        webDriver.switchTo().alert().dismiss();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "account?edit=true");
+        webElement = webDriver.findElement(By.xpath("//*[@id=\"accountInfo\"]/a"));
+        webElement.click();
+        webDriver.switchTo().alert().accept();
+        Assert.assertEquals(webDriver.getCurrentUrl(), appURL + "?accountDeleted=true");
+        webElement = webDriver.findElement(By.xpath("/html/body/div[3]"));
+        Assert.assertEquals(webElement.getText(), "Учётная запись удалена");
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/account\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/logout\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/cart\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/login\"]")).size(), 1);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/register\"]")).size(), 1);
     }
 }
