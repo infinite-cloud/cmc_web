@@ -182,5 +182,10 @@ public class GuestTest extends GenericTest {
         webElement = webDriver.findElement(By.xpath("/html/body/form/table/tbody/tr[3]/td[2]/label/input"));
         webElement.click();
         Assert.assertEquals(webDriver.getCurrentUrl(), appURL);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/login\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/register\"]")).size(), 0);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/account\"]")).size(), 1);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/logout\"]")).size(), 1);
+        Assert.assertEquals(webDriver.findElements(By.xpath("//*[@href=\"/bookstore/cart\"]")).size(), 1);
     }
 }
