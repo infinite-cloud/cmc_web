@@ -63,5 +63,6 @@
     <orderEntry type="library" name="Spring MVC-5.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="jquery-1.7.1" level="application" />
     <orderEntry type="library" name="Spring Security-5.2.1" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
